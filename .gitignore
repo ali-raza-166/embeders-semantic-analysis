@@ -1,1 +1,6 @@
 .idea/
+SemanticSimilarityAnalysis.Proj/bin/
+SemanticSimilarityAnalysis.Proj/obj/
+
+SemanticSimilarityAnalysis.Test/bin/
+SemanticSimilarityAnalysis.Test/obj/
