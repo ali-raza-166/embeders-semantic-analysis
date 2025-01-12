@@ -16,17 +16,17 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 var embeddingsList = new List<Embedding>();
                 foreach (OpenAIEmbedding embedding in collection)
                 {
-                    Console.WriteLine($"Found embedding: {embedding}"); //Found embedding: OpenAI.Embeddings.OpenAIEmbedding
-                    Console.WriteLine(embedding.Index); //0..
-                    Console.WriteLine(embedding.ToString()); //OpenAI.Embeddings.OpenAIEmbedding
+                    Console.WriteLine($"Found embedding: {embedding}"); 
+                    Console.WriteLine(embedding.Index); 
+                    Console.WriteLine(embedding.ToString()); 
                     
                     ReadOnlyMemory<float> vector = embedding.ToFloats(); 
                     var vectorList = vector.Span.ToArray().ToList();
                     
-                    Console.WriteLine($"Embedding vector (first 10 values): {string.Join(", ", vectorList.Take(10))}"); //Embedding vector (first 10 values): -0,016087161, -0,00031383053, 0,012905086, -0,02740121, -0,011613217, 0,012653512, 0,0060649826, -0,025905363, -0,0032381704, -0,028094739
-                    Console.WriteLine($"Embedding vector: {vectorList}"); //Embedding vector: System.Collections.Generic.List`1[System.Single]
+                    Console.WriteLine($"Embedding vector (first 10 values): {string.Join(", ", vectorList.Take(10))}"); 
+                    Console.WriteLine($"Embedding vector: {vectorList}"); 
                     
-                    var text = inputs[embedding.Index]; // Get the text from the original inputs
+                    var text = inputs[embedding.Index];
                     var newEmbedding = new Embedding(embedding.Index, text, vectorList);
                     embeddingsList.Add(newEmbedding);
                 }

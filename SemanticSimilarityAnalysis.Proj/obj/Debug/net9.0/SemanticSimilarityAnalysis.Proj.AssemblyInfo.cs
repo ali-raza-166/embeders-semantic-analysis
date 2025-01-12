@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SemanticSimilarityAnalysis.Proj")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f7735a64fa9e1eb80435541bfb2b361466f8721")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d07a1c83e2814ffe640eeab632b9c29b7ac273b")]
 [assembly: System.Reflection.AssemblyProductAttribute("SemanticSimilarityAnalysis.Proj")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SemanticSimilarityAnalysis.Proj")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -19,7 +19,7 @@ public class CosineSimilarity
         }
 
         if (magnitudeA == 0f || magnitudeB == 0f)
-            return 0f; //if any of the vectory is zero
+            return 0f; //if any of the vectors is zero
 
         return dotProduct / (Math.Sqrt(magnitudeA) * Math.Sqrt(magnitudeB));
     }
