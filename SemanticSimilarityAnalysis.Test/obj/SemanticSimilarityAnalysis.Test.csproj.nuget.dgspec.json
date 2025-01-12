@@ -1,27 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Test/SemanticSimilarityAnalysis.Test.csproj": {}
+    "D:\\Github\\embeders-semantic-analysis\\SemanticSimilarityAnalysis.Test\\SemanticSimilarityAnalysis.Test.csproj": {}
   },
   "projects": {
-    "/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Test/SemanticSimilarityAnalysis.Test.csproj": {
+    "D:\\Github\\embeders-semantic-analysis\\SemanticSimilarityAnalysis.Test\\SemanticSimilarityAnalysis.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Test/SemanticSimilarityAnalysis.Test.csproj",
+        "projectUniqueName": "D:\\Github\\embeders-semantic-analysis\\SemanticSimilarityAnalysis.Test\\SemanticSimilarityAnalysis.Test.csproj",
         "projectName": "SemanticSimilarityAnalysis.Test",
-        "projectPath": "/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Test/SemanticSimilarityAnalysis.Test.csproj",
-        "packagesPath": "/Users/macbookpro/RiderProjects/GlobalNugetPackages/TestPackages",
-        "outputPath": "/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Test/obj/",
+        "projectPath": "D:\\Github\\embeders-semantic-analysis\\SemanticSimilarityAnalysis.Test\\SemanticSimilarityAnalysis.Test.csproj",
+        "packagesPath": "C:\\Users\\khonh\\.nuget\\packages\\",
+        "outputPath": "D:\\Github\\embeders-semantic-analysis\\SemanticSimilarityAnalysis.Test\\obj\\",
         "projectStyle": "PackageReference",
-        "UsingMicrosoftNETSdk": false,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/macbookpro/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\khonh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/Users/macbookpro/RiderProjects/GlobalNugetPackages/TestPackages": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\temp\\TestPackages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,7 +44,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "all"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -74,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
