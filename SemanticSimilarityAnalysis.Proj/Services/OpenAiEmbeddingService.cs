@@ -9,7 +9,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                                           ?? throw new ArgumentNullException(nameof(_apiKey), "API key not found in environment variables.");
         public async Task<List<Embedding>> CreateEmbeddingsAsync(List<string> inputs)
         {
-            var embeddingClient = new EmbeddingClient("text-embedding-3-large", _apiKey);
+            var embeddingClient = new EmbeddingClient("text-embedding-ada-002", _apiKey);
             try
             {
                 OpenAIEmbeddingCollection collection = await embeddingClient.GenerateEmbeddingsAsync(inputs);
