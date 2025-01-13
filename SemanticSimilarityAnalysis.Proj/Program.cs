@@ -8,6 +8,7 @@ namespace SemanticSimilarityAnalysis.Proj
         {
             var embeddingService = new OpenAiEmbeddingService();
             var similarityCalculator = new CosineSimilarity();
+            var euclideanDistCalc = new EuclideanDistance();
             
             var inputs = new List<string>
             {
@@ -25,6 +26,9 @@ namespace SemanticSimilarityAnalysis.Proj
                 
                 var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
                 Console.WriteLine($"Cosine Similarity between '{inputs[0]}' and '{inputs[1]}': {cosineSimilarity}");
+                
+                var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
+                Console.WriteLine($"Euclidean Distance between '{inputs[0]}' and '{inputs[1]}': {euclideanDistance}");
                 
             }
             Console.WriteLine(embeddings);
