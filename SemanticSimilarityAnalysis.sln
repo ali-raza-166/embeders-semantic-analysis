@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticSimilarityAnalysis.Proj", "SemanticSimilarityAnalysis.Proj\SemanticSimilarityAnalysis.Proj.csproj", "{89B7140C-3CF7-4836-91E0-5BE3908C79E8}"
 EndProject
