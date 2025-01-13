@@ -3,5 +3,6 @@
 # SemanticSimilarityAnalysis.Proj/obj/
 **/bin
 **/obj
+/obj
 # SemanticSimilarityAnalysis.Test/bin/
 # SemanticSimilarityAnalysis.Test/obj/
