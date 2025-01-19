@@ -7,6 +7,22 @@ namespace SemanticSimilarityAnalysis.Tests
     [TestClass] 
     public class CosineSimilarityTests
     {
-        
+        [TestMethod] 
+        public void ComputeCosineSimilarity_ValidInputs_ReturnsCorrectResult()
+        {
+            
+            var cosineSimilarity = new CosineSimilarity();
+            var vectorA = new List<float> { 1, 2, 3 };
+            var vectorB = new List<float> { 4, 5, 6 };
+
+            
+            var expected = 0.974631846;
+
+            
+            var result = cosineSimilarity.ComputeCosineSimilarity(vectorA, vectorB);
+
+            
+            Assert.AreEqual(expected, result, 0.000001, "Cosine similarity calculation is incorrect.");
+        }
     }
 }
