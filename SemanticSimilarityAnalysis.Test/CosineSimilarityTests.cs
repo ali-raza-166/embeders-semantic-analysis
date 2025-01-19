@@ -39,5 +39,18 @@ namespace SemanticSimilarityAnalysis.Tests
             // Assert
             Assert.AreEqual(0, result, "Method should return 0 for vectors of different lengths.");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
+        public void ComputeCosineSimilarity_ZeroMagnitude_ThrowsException()
+        {
+            
+            var cosineSimilarity = new CosineSimilarity();
+            var vectorA = new List<float> { 0, 0, 0 };
+            var vectorB = new List<float> { 4, 5, 6 };
+
+            
+            cosineSimilarity.ComputeCosineSimilarity(vectorA, vectorB);
+        }
     }
 }
