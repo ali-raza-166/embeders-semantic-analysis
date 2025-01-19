@@ -9,7 +9,7 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
         {
             Paragraph,
             Sentence,
-            Token
+            //Token
         }
 
         // Function to extract text chunks from the PDF file with different chunking options
@@ -45,7 +45,7 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
                             {
                                 ChunkType.Paragraph => SplitByParagraphs(pageText),
                                 ChunkType.Sentence => SplitBySentences(pageText),
-                                ChunkType.Token => SplitByTokens(pageText),
+                                //ChunkType.Token => SplitByTokens(pageText),
                                 _ => SplitByParagraphs(pageText)
                             };
 
@@ -102,21 +102,24 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             return sentences;
         }
 
+        ///
+        /// Comment out this function because the model internally handles tokenization
+        ///
         // Split text into chunks by tokens
-        public List<string> SplitByTokens(string text)
-        {
-            var tokens = new List<string>();
+        //public List<string> SplitByTokens(string text)
+        //{
+        //    var tokens = new List<string>();
 
-            // Use regex to match words and punctuation
-            var pattern = @"[\w'-]+|[.,!?;]";
-            var matches = Regex.Matches(text, pattern);
+        //    // Use regex to match words and punctuation
+        //    var pattern = @"[\w'-]+|[.,!?;]";
+        //    var matches = Regex.Matches(text, pattern);
 
-            foreach (Match match in matches)
-            {
-                tokens.Add(match.Value);
-            }
+        //    foreach (Match match in matches)
+        //    {
+        //        tokens.Add(match.Value);
+        //    }
 
-            return tokens;
-        }
+        //    return tokens;
+        //}
     }
 }

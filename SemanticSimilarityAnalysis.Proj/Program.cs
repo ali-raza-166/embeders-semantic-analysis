@@ -12,14 +12,14 @@ namespace SemanticSimilarityAnalysis.Proj
             var euclideanDistCalc = new EuclideanDistance();
 
             string pdfPath1 = @"..\..\..\PDFs\Gundam.pdf"; // Gundam
-            string pdfPath2 = @"..\..\..\PDFs\StarWarss.pdf"; // Star Wars
+            string pdfPath2 = @"..\..\..\PDFs\StarWars.pdf"; // Star Wars
             //string pdfPath2 = @"..\..\..\PDFs\badminton.pdf"; // Badminton
             //string pdfPath1 = @"..\..\..\PDFs\text.pdf"; // 2-paragraph Comparison between Gundam and Starwars
             //string pdfPath2 = @"..\..\..\PDFs\text2.pdf"; // Another 2-paragraph Comparison between Gundam and Starwars
 
             var textExtractor = new TextExtractor();
-            var inputsDoc1 = textExtractor.ExtractTextChunks(pdfPath1, TextExtractor.ChunkType.Sentence);
-            var inputsDoc2 = textExtractor.ExtractTextChunks(pdfPath2, TextExtractor.ChunkType.Sentence);
+            var inputsDoc1 = textExtractor.ExtractTextChunks(pdfPath1, TextExtractor.ChunkType.Paragraph);
+            var inputsDoc2 = textExtractor.ExtractTextChunks(pdfPath2, TextExtractor.ChunkType.Paragraph);
 
             //var inputs = new List<string>
             //{
