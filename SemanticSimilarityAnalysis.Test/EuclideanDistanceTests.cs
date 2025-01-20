@@ -24,5 +24,18 @@ namespace SemanticSimilarityAnalysis.Tests
             
             Assert.AreEqual(expected, result, 0.000001, "Euclidean distance calculation is incorrect.");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.ArgumentException))]
+        public void ComputeEuclideanDistance_DifferentLengths_ThrowsException()
+        {
+            
+            var euclideanDistance = new EuclideanDistance();
+            var vectorA = new List<float> { 1, 2, 3 };
+            var vectorB = new List<float> { 4, 5 };
+
+            
+            euclideanDistance.ComputeEuclideanDistance(vectorA, vectorB);
+        }
     }
 }
