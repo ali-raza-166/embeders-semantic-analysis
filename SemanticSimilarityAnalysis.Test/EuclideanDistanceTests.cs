@@ -37,5 +37,21 @@ namespace SemanticSimilarityAnalysis.Tests
             
             euclideanDistance.ComputeEuclideanDistance(vectorA, vectorB);
         }
+
+
+        [TestMethod]
+        public void ComputeEuclideanDistance_IdenticalVectors_ReturnsZero()
+        {
+            // Arrange
+            var euclideanDistance = new EuclideanDistance();
+            var vectorA = new List<float> { 1, 2, 3 };
+            var vectorB = new List<float> { 1, 2, 3 };
+
+            // Act
+            var result = euclideanDistance.ComputeEuclideanDistance(vectorA, vectorB);
+
+            // Assert
+            Assert.AreEqual(0, result, "Euclidean distance between identical vectors should be zero.");
+        }
     }
 }
