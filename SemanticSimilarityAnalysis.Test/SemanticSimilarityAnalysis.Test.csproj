@@ -10,15 +10,20 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
         <PackageReference Include="MSTest" Version="3.6.1" />
+
         <PackageReference Include="MSTest.TestFramework" Version="3.6.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SemanticSimilarityAnalysis.Proj\SemanticSimilarityAnalysis.Proj.csproj" />
+        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+      <Folder Include="PDFs\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SemanticSimilarityAnalysis.Proj\SemanticSimilarityAnalysis.Proj.csproj" />
     </ItemGroup>
 
 </Project>
