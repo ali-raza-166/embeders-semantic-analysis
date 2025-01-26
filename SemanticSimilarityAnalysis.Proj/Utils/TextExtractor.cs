@@ -13,41 +13,31 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             //Token
         }
 
-        // Function to extract text chunks from the PDF file with different chunking options
+        
         public List<string> ExtractTextChunks(string pdfFilePath, ChunkType chunkType = ChunkType.None)
         {
-            // Initialize the SDK library
             PdfCommon.Initialize();
-
             var textChunks = new List<string>();
 
             try
             {
-                // Open and load the PDF document
                 using (var doc = PdfDocument.Load(pdfFilePath))
                 {
-                    // Flag to track if the PDF is empty
                     bool isEmpty = true;
 
                     foreach (var page in doc.Pages)
                     {
-                        // Get the total number of characters on the page
                         int totalCharCount = page.Text.CountChars;
-
-                        // Extract text from the page
                         string pageText = page.Text.GetText(0, totalCharCount);
 
                         if (!string.IsNullOrWhiteSpace(pageText))
                         {
                             isEmpty = false;
-
-                            // Call the appropriate chunking method based on the user's choice
                             var chunks = chunkType switch
                             {
                                 ChunkType.Paragraph => SplitByParagraphs(pageText),
                                 ChunkType.Sentence => SplitBySentences(pageText),
-                                ChunkType.None => new List<string> { pageText }, // No chunking
-                                //ChunkType.Token => SplitByTokens(pageText),
+                                ChunkType.None => new List<string> { pageText }, 
                                 _ => SplitByParagraphs(pageText)
                             };
 
