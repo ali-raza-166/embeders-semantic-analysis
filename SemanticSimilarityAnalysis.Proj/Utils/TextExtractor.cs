@@ -9,11 +9,12 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
         {
             Paragraph,
             Sentence,
+            None,
             //Token
         }
 
         // Function to extract text chunks from the PDF file with different chunking options
-        public List<string> ExtractTextChunks(string pdfFilePath, ChunkType chunkType = ChunkType.Paragraph)
+        public List<string> ExtractTextChunks(string pdfFilePath, ChunkType chunkType = ChunkType.None)
         {
             // Initialize the SDK library
             PdfCommon.Initialize();
@@ -45,6 +46,7 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
                             {
                                 ChunkType.Paragraph => SplitByParagraphs(pageText),
                                 ChunkType.Sentence => SplitBySentences(pageText),
+                                ChunkType.None => new List<string> { pageText }, // No chunking
                                 //ChunkType.Token => SplitByTokens(pageText),
                                 _ => SplitByParagraphs(pageText)
                             };

@@ -18,8 +18,8 @@ namespace SemanticSimilarityAnalysis.Proj
             //string pdfPath2 = @"..\..\..\PDFs\text2.pdf"; // Another 2-paragraph Comparison between Gundam and Starwars
 
             var textExtractor = new TextExtractor();
-            var inputsDoc1 = textExtractor.ExtractTextChunks(pdfPath1, TextExtractor.ChunkType.Paragraph);
-            var inputsDoc2 = textExtractor.ExtractTextChunks(pdfPath2, TextExtractor.ChunkType.Paragraph);
+            var inputsDoc1 = textExtractor.ExtractTextChunks(pdfPath1);
+            var inputsDoc2 = textExtractor.ExtractTextChunks(pdfPath2);
 
             //var inputs = new List<string>
             //{
