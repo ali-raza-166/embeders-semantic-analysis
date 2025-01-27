@@ -1,5 +1,5 @@
 using OpenAI.Embeddings;
-using SemanticSimilarityAnalysis.Proj.Model;
+using SemanticSimilarityAnalysis.Proj.Models;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 {

@@ -1,4 +1,4 @@
-﻿using SemanticSimilarityAnalysis.Proj.Model;
+﻿using SemanticSimilarityAnalysis.Proj.Models;
 
 namespace SemanticSimilarityAnalysis.Proj.Utils
 {
@@ -12,14 +12,14 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             }
 
             int numOfEmbeddings = embeddings.Count;
-            int vectorLength = embeddings[0].EmbeddingVector.Count;
+            int vectorLength = embeddings[0].Vector.Count;
             var avgEmbedding = new List<float>(new float[vectorLength]);
             
             foreach (var embedding in embeddings)
             {
                 for (int i = 0; i < vectorLength; i++)
                 {
-                    avgEmbedding[i] += embedding.EmbeddingVector[i];
+                    avgEmbedding[i] += embedding.Vector[i];
                 }
             }
 
