@@ -1,8 +1,13 @@
-namespace SemanticSimilarityAnalysis.Proj.Models;
+using SemanticSimilarityAnalysis.Proj.Interfaces;
 
-public class PineconeModel(string id, List<float> values, Dictionary<string, string> metadata)
+namespace SemanticSimilarityAnalysis.Proj.Models
 {
-    public string Id { get; set; } = id;
-    public List<float> Vector { get; set; } = values;
-    public Dictionary<string, string> Metadata { get; set; } = metadata;
+    public class PineconeModel(string id, List<float> values, Dictionary<string, object> metadata)
+        : IVectorData
+    {
+        public string Id { get; set; } = id;
+        private List<float> Values { get; set; } = values;
+        public Dictionary<string, object> Metadata { get; set; } = metadata;
+        public List<float> Vector => Values;
+    }
 }
