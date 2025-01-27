@@ -9,11 +9,14 @@
 
     <ItemGroup>
       <Folder Include="Data\" />
+      <Folder Include="PDFs\" />
       <Folder Include="Output\" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="OpenAI" Version="2.1.0" />
+      <PackageReference Include="Pdfium.Net.SDK" Version="4.94.2704" />
+      <PackageReference Include="Pinecone.NET" Version="3.0.0" />
     </ItemGroup>
 
 </Project>

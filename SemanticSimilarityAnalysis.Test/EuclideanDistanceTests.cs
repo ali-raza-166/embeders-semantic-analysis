@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SemanticSimilarityAnalysis.Proj.Utils; // Reference to the main project
+using SemanticSimilarityAnalysis.Proj.Utils; // Namespace of the CosineSimilarity class
 using System.Collections.Generic;
 
 namespace SemanticSimilarityAnalysis.Tests
