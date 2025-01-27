@@ -7,7 +7,6 @@ public class CosineSimilarity
         if (vectorA.Count != vectorB.Count)
         {
             return 0;
-            //throw new ArgumentException("embeddings must have the same length.");
         }
         var dotProduct = 0.0;
         var magnitudeA = 0.0;
