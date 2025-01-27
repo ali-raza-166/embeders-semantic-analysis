@@ -48,16 +48,15 @@ namespace SemanticSimilarityAnalysis.Proj
                 var embeddingsDoc1 = await embeddingService.CreateEmbeddingsAsync(inputsDoc1);
                 Console.WriteLine("\nGenerating embeddings... PDF2");
                 var embeddingsDoc2 = await embeddingService.CreateEmbeddingsAsync(inputsDoc2);
-
-                // Calculate average embeddings
+                
                 var vectorA = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc1);
                 var vectorB = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc2);
 
-                // Compute similarity metrics
+    
                 var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
                 var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
 
-                // Output the results
+       
                 Console.WriteLine($"Cosine Similarity: {cosineSimilarity}");
                 Console.WriteLine($"Euclidean Distance: {euclideanDistance}");
                 //Console.WriteLine(embeddingsDoc1);
