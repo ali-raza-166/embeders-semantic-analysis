@@ -11,21 +11,21 @@ namespace SemanticSimilarityAnalysis.Proj
             var similarityCalculator = new CosineSimilarity();
             var euclideanDistCalc = new EuclideanDistance();
 
-            string pdfPath1 = @"..\..\..\PDFs\Gundam.pdf"; // Gundam
-            string pdfPath2 = @"..\..\..\PDFs\StarWars.pdf"; // Star Wars
+            // string pdfPath1 = @"..\..\..\PDFs\Gundam.pdf"; // Gundam
+            // string pdfPath2 = @"..\..\..\PDFs\StarWars.pdf"; // Star Wars
             //string pdfPath2 = @"..\..\..\PDFs\badminton.pdf"; // Badminton
             //string pdfPath1 = @"..\..\..\PDFs\text.pdf"; // 2-paragraph Comparison between Gundam and Starwars
             //string pdfPath2 = @"..\..\..\PDFs\text2.pdf"; // Another 2-paragraph Comparison between Gundam and Starwars
 
-            var textExtractor = new TextExtractor();
-            var inputsDoc1 = textExtractor.ExtractTextChunks(pdfPath1);
-            var inputsDoc2 = textExtractor.ExtractTextChunks(pdfPath2);
+            // var textExtractor = new TextExtractor();
+            // var inputsDoc1 = textExtractor.ExtractTextChunks(pdfPath1);
+            // var inputsDoc2 = textExtractor.ExtractTextChunks(pdfPath2);
 
-            //var inputs = new List<string>
-            //{
-            //    "Cat",
-            //    "Kitten"
-            //};
+            var inputs = new List<string>
+            {
+                "Cat",
+                "Kitten"
+            };
 
             try
             {
@@ -36,13 +36,13 @@ namespace SemanticSimilarityAnalysis.Proj
                 //    var vectorA = embeddings[0].EmbeddingVector;
                 //    var vectorB = embeddings[1].EmbeddingVector;
 
-                //    var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
-                //    Console.WriteLine($"Cosine Similarity between '{inputs[0]}' and '{inputs[1]}': {cosineSimilarity}");
+                    var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
+                    Console.WriteLine($"Cosine Similarity between '{inputs[0]}' and '{inputs[1]}': {cosineSimilarity}");
 
-                //    var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
-                //    Console.WriteLine($"Euclidean Distance between '{inputs[0]}' and '{inputs[1]}': {euclideanDistance}");
+                    var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
+                    Console.WriteLine($"Euclidean Distance between '{inputs[0]}' and '{inputs[1]}': {euclideanDistance}");
 
-                //}
+                }
 
                 /// PDF Text Comparison
                 //Console.WriteLine("Generating embeddings... PDF1");
