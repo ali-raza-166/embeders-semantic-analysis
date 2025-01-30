@@ -13,7 +13,6 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             //Token
         }
 
-        
         public List<string> ExtractTextChunks(string pdfFilePath, ChunkType chunkType = ChunkType.None)
         {
             PdfCommon.Initialize();
@@ -37,7 +36,7 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
                             {
                                 ChunkType.Paragraph => SplitByParagraphs(pageText),
                                 ChunkType.Sentence => SplitBySentences(pageText),
-                                ChunkType.None => new List<string> { pageText }, 
+                                ChunkType.None => new List<string> { pageText },
                                 _ => SplitByParagraphs(pageText)
                             };
 
