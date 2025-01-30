@@ -29,6 +29,7 @@ namespace SemanticSimilarityAnalysis.Proj
 
             try
             {
+                /// Word Comparison
                 //var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
                 //if (embeddings.Count >= 2)
                 //{
@@ -43,24 +44,28 @@ namespace SemanticSimilarityAnalysis.Proj
 
                 //}
 
-                // Generate embeddings
-                Console.WriteLine("Generating embeddings... PDF1");
-                var embeddingsDoc1 = await embeddingService.CreateEmbeddingsAsync(inputsDoc1);
-                Console.WriteLine("\nGenerating embeddings... PDF2");
-                var embeddingsDoc2 = await embeddingService.CreateEmbeddingsAsync(inputsDoc2);
-                
-                var vectorA = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc1);
-                var vectorB = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc2);
+                /// PDF Text Comparison
+                //Console.WriteLine("Generating embeddings... PDF1");
+                //var embeddingsDoc1 = await embeddingService.CreateEmbeddingsAsync(inputsDoc1);
+                //Console.WriteLine("\nGenerating embeddings... PDF2");
+                //var embeddingsDoc2 = await embeddingService.CreateEmbeddingsAsync(inputsDoc2);
 
-    
-                var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
-                var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
+                //var vectorA = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc1);
+                //var vectorB = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc2);
 
-       
-                Console.WriteLine($"Cosine Similarity: {cosineSimilarity}");
-                Console.WriteLine($"Euclidean Distance: {euclideanDistance}");
+
+                //var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
+                //var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
+
+
+                //Console.WriteLine($"Cosine Similarity: {cosineSimilarity}");
+                //Console.WriteLine($"Euclidean Distance: {euclideanDistance}");
                 //Console.WriteLine(embeddingsDoc1);
                 //Console.WriteLine(embeddingsDoc2);
+
+                CsvExtractor csvExtractor = new CsvExtractor();
+                var movies = csvExtractor.ExtractMoviesFromCsv(@"..\..\..\Datasets\imdb_1000.csv");
+                Console.WriteLine(movies.Count);
 
             }
             catch (Exception ex)

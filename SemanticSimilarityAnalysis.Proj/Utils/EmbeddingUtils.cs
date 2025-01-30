@@ -14,7 +14,7 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             int numOfEmbeddings = embeddings.Count;
             int vectorLength = embeddings[0].Vector.Count;
             var avgEmbedding = new List<float>(new float[vectorLength]);
-            
+
             foreach (var embedding in embeddings)
             {
                 for (int i = 0; i < vectorLength; i++)
