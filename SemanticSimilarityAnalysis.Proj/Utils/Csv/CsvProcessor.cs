@@ -12,5 +12,11 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
         {
             _embeddingService = embeddingService ?? throw new ArgumentNullException(nameof(embeddingService));
         }
+        public async Task ProcessAndGenerateEmbeddingsAsync(List<MovieData> movies)
+        {
+            var titles = movies.ConvertAll(m => m.Title);
+            var overviews = movies.ConvertAll(m => m.Overview);
+        }
+
     }
 }
