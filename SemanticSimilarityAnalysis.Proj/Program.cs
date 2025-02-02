@@ -92,6 +92,13 @@ namespace SemanticSimilarityAnalysis.Proj
 
                 CsvExtractor csvExtractor = new CsvExtractor();
                 var movies = csvExtractor.ExtractMoviesFromCsv(@"..\..\..\Datasets\imdb_1000.csv");
+
+                var jsonFilePath = @"..\..\..\Output\embeddings.json";
+
+                var csvProcessor = new CsvProcessor(embeddingService, jsonFilePath);
+                await csvProcessor.ProcessAndGenerateEmbeddingsAsync(movies);
+
+                Console.WriteLine("Embeddings successfully generated and saved to JSON.");
                 Console.WriteLine(movies.Count);
 
             }
