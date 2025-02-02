@@ -16,7 +16,11 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
         {
             var titles = movies.ConvertAll(m => m.Title);
             var overviews = movies.ConvertAll(m => m.Overview);
+            var titleEmbeddings = await _embeddingService.CreateEmbeddingsAsync(titles);
+            var overviewEmbeddings = await _embeddingService.CreateEmbeddingsAsync(overviews);
+
         }
+
 
     }
 }
