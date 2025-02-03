@@ -51,7 +51,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 //    var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
                 //    Console.WriteLine($"Euclidean Distance between '{inputs[0]}' and '{inputs[1]}': {euclideanDistance}");
 
-                }
+                //}
 
 
                 /// PDF Text Comparison
@@ -76,14 +76,14 @@ namespace SemanticSimilarityAnalysis.Proj
                 // var embeddingsDoc1 = await embeddingService.CreateEmbeddingsAsync(inputsDoc1);
                 // Console.WriteLine("\nGenerating embeddings... PDF2");
                 // var embeddingsDoc2 = await embeddingService.CreateEmbeddingsAsync(inputsDoc2);
-                
+
                 // var vectorA = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc1);
                 // var vectorB = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc2);
-                
+
                 // var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
                 // var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
 
-       
+
                 // Console.WriteLine($"Cosine Similarity: {cosineSimilarity}");
                 // Console.WriteLine($"Euclidean Distance: {euclideanDistance}");
 
@@ -92,6 +92,13 @@ namespace SemanticSimilarityAnalysis.Proj
 
                 CsvExtractor csvExtractor = new CsvExtractor();
                 var movies = csvExtractor.ExtractMoviesFromCsv(@"..\..\..\Datasets\imdb_1000.csv");
+
+                var jsonFilePath = @"..\..\..\Output\embeddings.json";
+
+                var csvProcessor = new CsvProcessor(embeddingService, jsonFilePath);
+                await csvProcessor.ProcessAndGenerateEmbeddingsAsync(movies);
+
+                Console.WriteLine("Embeddings successfully generated and saved to JSON.");
                 Console.WriteLine(movies.Count);
 
             }
