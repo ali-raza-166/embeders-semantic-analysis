@@ -88,10 +88,11 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             CsvExtractor csvExtractor,
             OpenAiEmbeddingService embeddingService,
             string csvFilePath,
-            string outputDirectory = @"..\..\..\Output"
+            string outputDirectory = @"..\..\..\Output",
+            string outputFile = "embeddings.json"
         )
         {
-            string jsonFilePath = Path.Combine(outputDirectory, "embeddings.json");
+            string jsonFilePath = Path.Combine(outputDirectory, outputFile);
 
             var movies = csvExtractor.ExtractMoviesFromCsv(csvFilePath);
 
