@@ -1,3 +1,4 @@
+using Pinecone;
 using SemanticSimilarityAnalysis.Proj.Interfaces;
 
 namespace SemanticSimilarityAnalysis.Proj.Models
@@ -6,12 +7,13 @@ namespace SemanticSimilarityAnalysis.Proj.Models
     {
         private int Index { get; set; } = index;
         private string Text { get; set; } = text;
-        public List<float> Vector { get; set; } = vector;
+        public List<float> Values { get; set; } = vector;
 
         public string Id => Index.ToString();
-        public Dictionary<string, object> Metadata => new Dictionary<string, object>
-        {
-            { "Text", Text }
-        };
+        public IEnumerable<KeyValuePair<string, MetadataValue?>> Metadata =>
+            new Dictionary<string, MetadataValue?>
+            {
+                { "Text", new MetadataValue(Text) }
+            };
     }
 }
