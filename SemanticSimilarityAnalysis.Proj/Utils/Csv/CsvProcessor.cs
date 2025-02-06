@@ -28,9 +28,9 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
 
             for (int i = 0; i < movies.Count; i++)
             {
-                movies[i].TitleEmbedding = titleEmbeddings[i].Vector;
-                movies[i].OverviewEmbedding = overviewEmbeddings[i].Vector;
-            }
+                movies[i].TitleEmbedding = titleEmbeddings[i].Values;
+                movies[i].OverviewEmbedding = overviewEmbeddings[i].Values;
+            } 
 
             var jsonData = JsonSerializer.Serialize(movies, new JsonSerializerOptions { WriteIndented = true });
 

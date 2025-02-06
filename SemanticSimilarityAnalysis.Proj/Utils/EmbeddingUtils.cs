@@ -10,19 +10,19 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             {
                 throw new ArgumentException("The embeddings list cannot be null or empty.");
             }
-            int numOfEmbeddings = embeddings.Count;
-            int vectorLength = embeddings[0].Vector.Count;
+            var numOfEmbeddings = embeddings.Count;
+            var vectorLength = embeddings[0].Values.Count;
             var avgEmbedding = new List<float>(new float[vectorLength]);
 
             foreach (var embedding in embeddings)
             {
-                for (int i = 0; i < vectorLength; i++)
+                for (var i = 0; i < vectorLength; i++)
                 {
-                    avgEmbedding[i] += embedding.Vector[i];
+                    avgEmbedding[i] += embedding.Values[i];
                 }
             }
 
-            for (int i = 0; i < vectorLength; i++)
+            for (var i = 0; i < vectorLength; i++)
             {
                 avgEmbedding[i] /= numOfEmbeddings;
             }
