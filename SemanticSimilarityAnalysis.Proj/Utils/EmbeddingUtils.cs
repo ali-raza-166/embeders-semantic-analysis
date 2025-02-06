@@ -94,7 +94,7 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
         {
             string jsonFilePath = Path.Combine(outputDirectory, outputFile);
 
-            var movies = csvExtractor.ExtractMoviesFromCsv(csvFilePath);
+            var movies = csvExtractor.ExtractRecordsFromCsv(csvFilePath);
 
             var csvProcessor = new CsvProcessor(embeddingService, jsonFilePath);
             await csvProcessor.ProcessAndGenerateEmbeddingsAsync(movies);
