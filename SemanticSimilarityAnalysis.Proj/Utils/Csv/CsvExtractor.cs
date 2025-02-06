@@ -5,9 +5,9 @@ using System.Globalization;
 
 public class CsvExtractor
 {
-    public List<MovieModel> ExtractMoviesFromCsv(string csvFilePath)
+    public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(string csvFilePath, List<string> fields)
     {
-        var movies = new List<MovieModel>();
+        var record = new List<MultiEmbeddingRecord>();
 
         using var reader = new StreamReader(csvFilePath);
         using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -26,10 +26,10 @@ public class CsvExtractor
 
             if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(genre) && !string.IsNullOrWhiteSpace(overview))
             {
-                movies.Add(new MovieModel { Title = title, Genre = genre, Overview = overview });
+                record.Add(new MultiEmbeddingRecord { Title = title, Genre = genre, Overview = overview });
             }
         }
 
-        return movies;
+        return record;
     }
 }
