@@ -15,27 +15,39 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             _jsonFilePath = jsonFilePath ?? throw new ArgumentNullException(nameof(jsonFilePath));
         }
 
-        public async Task ProcessAndGenerateEmbeddingsAsync(List<MovieModel> movies)
+        public async Task ProcessAndGenerateEmbeddingsAsync(List<MultiEmbeddingRecord> records)
         {
-            if (movies == null || movies.Count == 0)
-                throw new ArgumentException("Movie list cannot be null or empty.", nameof(movies));
+            if (records == null || records.Count == 0)
+                throw new ArgumentException("Record list cannot be null or empty.", nameof(records));
 
-            var titles = movies.ConvertAll(m => m.Title);
-            var overviews = movies.ConvertAll(m => m.Overview);
-
-            var titleEmbeddings = await _embeddingService.CreateEmbeddingsAsync(titles);
-            var overviewEmbeddings = await _embeddingService.CreateEmbeddingsAsync(overviews);
-
-            for (int i = 0; i < movies.Count; i++)
+            foreach (var record in records)
             {
-                movies[i].TitleEmbedding = titleEmbeddings[i].Values;
-                movies[i].OverviewEmbedding = overviewEmbeddings[i].Values;
-            } 
+                foreach (var attribute in record.Attributes)
+                {
+                    var attributeName = attribute.Key;
+                    var attributeValue = attribute.Value;
 
-            var jsonData = JsonSerializer.Serialize(movies, new JsonSerializerOptions { WriteIndented = true });
+                    // Ignore empty attibutes
+                    if (string.IsNullOrWhiteSpace(attributeValue)) continue;
 
+                    // Generate embedding for the attribute value
+                    var attributeEmbedding = await _embeddingService.CreateEmbeddingsAsync(new List<string> { attributeValue });
+
+                    // Add the embedding to the record for the respective attribute
+                    record.AddEmbedding(attributeName, new VectorData(attributeEmbedding[0].Values));
+                }
+            }
+
+            var jsonData = JsonSerializer.Serialize(records, new JsonSerializerOptions { WriteIndented = true });
+
+            await SaveJsonToFile(jsonData);
+        }
+
+        // Ensure the directory exists and save the JSON
+        private async Task SaveJsonToFile(string jsonData)
+        {
             var outputDirectory = Path.GetDirectoryName(_jsonFilePath);
-            if (!Directory.Exists(outputDirectory))
+            if (!string.IsNullOrWhiteSpace(outputDirectory) && !Directory.Exists(outputDirectory))
             {
                 Directory.CreateDirectory(outputDirectory);
             }
