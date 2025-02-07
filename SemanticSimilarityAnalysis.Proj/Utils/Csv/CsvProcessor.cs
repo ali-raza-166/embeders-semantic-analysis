@@ -32,10 +32,11 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
                 movies[i].TitleEmbedding = titleEmbeddings[i].Vector;
                 movies[i].OverviewEmbedding = overviewEmbeddings[i].Vector;
             }
-
+            // Serialize the 'movies' list into a formatted JSON string with indentation for readability.
             var jsonData = JsonSerializer.Serialize(movies, new JsonSerializerOptions { WriteIndented = true });
 
             var outputDirectory = Path.GetDirectoryName(_jsonFilePath);
+            // Check if the directory exists; if not, create it to ensure the file can be saved.
             if (!Directory.Exists(outputDirectory))
             {
                 Directory.CreateDirectory(outputDirectory);
