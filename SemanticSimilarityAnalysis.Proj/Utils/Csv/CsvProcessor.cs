@@ -29,10 +29,10 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             // Assigning the generated embeddings to the corresponding movie models.
             for (int i = 0; i < movies.Count; i++)
             {
-                movies[i].TitleEmbedding = titleEmbeddings[i].Vector;
-                movies[i].OverviewEmbedding = overviewEmbeddings[i].Vector;
-            }
-            // Serialize the 'movies' list into a formatted JSON string with indentation for readability.
+                movies[i].TitleEmbedding = titleEmbeddings[i].Values;
+                movies[i].OverviewEmbedding = overviewEmbeddings[i].Values;
+            } 
+
             var jsonData = JsonSerializer.Serialize(movies, new JsonSerializerOptions { WriteIndented = true });
 
             var outputDirectory = Path.GetDirectoryName(_jsonFilePath);

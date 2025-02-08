@@ -6,9 +6,10 @@ using System.Globalization; // Provides culture-specific formatting for reading 
 public class CsvExtractor
 {
     // Method to extract movie details from a CSV file
-    public List<MovieModel> ExtractMoviesFromCsv(string csvFilePath)
+    public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(string csvFilePath, List<string> fields)
     {
-        var movies = new List<MovieModel>(); 
+        var record = new List<MultiEmbeddingRecord>();
+
         using var reader = new StreamReader(csvFilePath);
         using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
         {
@@ -26,10 +27,10 @@ public class CsvExtractor
             // Ensure all required fields are non-empty before adding to the list
             if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(genre) && !string.IsNullOrWhiteSpace(overview))
             {
-                movies.Add(new MovieModel { Title = title, Genre = genre, Overview = overview });
+                record.Add(new MultiEmbeddingRecord { Title = title, Genre = genre, Overview = overview });
             }
         }
 
-        return movies;
+        return record;
     }
 }
