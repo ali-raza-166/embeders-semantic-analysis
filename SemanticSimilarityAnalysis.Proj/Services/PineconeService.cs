@@ -6,11 +6,13 @@ namespace SemanticSimilarityAnalysis.Proj.Services
     public class PineconeService
     {
         private readonly PineconeClient _pineconeClient;
-        private readonly int _dimension = 1536;
-        private readonly string _indexName="example-index-ali";
+        private const int Dimension = 1536;
+        private const string IndexName = "example-index-ali";
+
         public PineconeService()
         {
             var apiKey = Environment.GetEnvironmentVariable("PINECONE_API_KEY");
+            Console.WriteLine("PINECONE API KEY: " + apiKey);
             if (string.IsNullOrEmpty(apiKey))
             {
                 throw new InvalidOperationException("Pinecone API key is not set in environment variables.");
@@ -24,19 +26,18 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             if (indexes?.Indexes == null || !indexes.Indexes.Any())
             {
                 Console.WriteLine("No indexes found.");
-                return;
             }
-            if (indexes.Indexes.Any(index => index?.Name == _indexName)) 
+            if (indexes.Indexes.Any(index => index?.Name == IndexName)) 
             {
-                Console.WriteLine($"Index '{_indexName}' already exists.");
+                Console.WriteLine($"Index '{IndexName}' already exists.");
                 return;
             }
-            Console.WriteLine($"Creating Pinecone index: {_indexName}...");
+            Console.WriteLine($"Creating Pinecone index: {IndexName}...");
 
             var request = new CreateIndexRequest
             {
-                Name = _indexName,
-                Dimension = _dimension,
+                Name = IndexName,
+                Dimension = Dimension,
                 Metric = CreateIndexRequestMetric.Cosine,
                 Spec = new ServerlessIndexSpec
                 {
@@ -50,26 +51,36 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             };
 
             await _pineconeClient.CreateIndexAsync(request);
-            Console.WriteLine($"Index '{_indexName}' created successfully.");
+            Console.WriteLine($"Index '{IndexName}' created successfully.");
         }
+        public IndexClient GetPineconeIndex()
+        {
+            return _pineconeClient.Index(IndexName);
+        }
+        public async Task UpsertEmbeddingAsync(List<PineconeModel> models, string namespaceName)
+        {
+            foreach (var model in models)
+            {
+                Console.WriteLine($"ID: {model.Id}");
+                Console.WriteLine($"Embedding vector (first 10 values) before upserting: {string.Join(", ", model.Values.Take(10))}");
+                Console.WriteLine(); 
+            }
+            var index = _pineconeClient.Index(IndexName); 
+            
+            var upsertRequest = new UpsertRequest
+            {
+                Vectors = models.Select(model => new Vector
+                {
+                    Id = model.Id,
+                    Values =model.Values.ToList(),
+                    Metadata = new Metadata(model.Metadata) 
+                }).ToArray(),
+                Namespace = namespaceName
+            };
+
+            var upsertResponse = await index.UpsertAsync(upsertRequest);
+        }
+        
     }
     
-    // public async Task UpsertEmbeddingAsync(List<PineconeModel> vectors, string namespaceName)
-    // {
-    //     var index = _pineconeClient.Index(_indexName);  // Accessing the index directly
-    //
-    //     var upsertRequest = new UpsertRequest
-    //     {
-    //         Vectors = vectors.Select(v => new Vector
-    //         {
-    //             Id = v.Id,
-    //             Values = v.Values.ToArray(),
-    //             Metadata = v.Metadata
-    //         }).ToArray(),
-    //         Namespace = namespaceName
-    //     };
-    //
-    //     var upsertResponse = await index.UpsertAsync(upsertRequest);
-    //     
-    // }
 }
