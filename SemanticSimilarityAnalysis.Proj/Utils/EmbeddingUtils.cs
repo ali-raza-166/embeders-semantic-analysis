@@ -45,8 +45,8 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             if (embeddings.Count < 2)
                 throw new InvalidOperationException("Insufficient embeddings generated.");
 
-            var vectorA = embeddings[0].Vector;
-            var vectorB = embeddings[1].Vector;
+            var vectorA = embeddings[0].Values;
+            var vectorB = embeddings[1].Values;
 
             double cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
             double euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
@@ -84,20 +84,20 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
 
         }
 
-        public async Task ProcessMovieEmbeddingsAsync(
+        public async Task ProcessDataSetEmbeddingsAsync(
             CsvExtractor csvExtractor,
             OpenAiEmbeddingService embeddingService,
-            string csvFilePath,
+            List<string> fields,
+            string csvFilePath = @"..\..\..\Datasets\imdb_1000.csv",
             string outputDirectory = @"..\..\..\Output",
             string outputFile = "embeddings.json"
         )
         {
             string jsonFilePath = Path.Combine(outputDirectory, outputFile);
-
-            var movies = csvExtractor.ExtractRecordsFromCsv(csvFilePath);
+            var records = csvExtractor.ExtractRecordsFromCsv(csvFilePath, fields);
 
             var csvProcessor = new CsvProcessor(embeddingService, jsonFilePath);
-            await csvProcessor.ProcessAndGenerateEmbeddingsAsync(movies);
+            await csvProcessor.ProcessAndGenerateEmbeddingsAsync(records);
 
             Console.WriteLine("Embeddings successfully generated and saved to JSON.");
         }
