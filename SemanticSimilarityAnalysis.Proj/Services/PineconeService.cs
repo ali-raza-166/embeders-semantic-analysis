@@ -53,10 +53,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             await _pineconeClient.CreateIndexAsync(request);
             Console.WriteLine($"Index '{IndexName}' created successfully.");
         }
-        public IndexClient GetPineconeIndex()
-        {
-            return _pineconeClient.Index(IndexName);
-        }
         public async Task UpsertEmbeddingAsync(List<PineconeModel> models, string namespaceName)
         {
             foreach (var model in models)
@@ -72,7 +68,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 Vectors = models.Select(model => new Vector
                 {
                     Id = model.Id,
-                    Values =model.Values.ToList(),
+                    Values =model.Values.ToArray(),
                     Metadata = new Metadata(model.Metadata) 
                 }).ToArray(),
                 Namespace = namespaceName
