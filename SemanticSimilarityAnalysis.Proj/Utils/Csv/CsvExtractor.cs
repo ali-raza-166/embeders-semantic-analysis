@@ -1,13 +1,14 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using SemanticSimilarityAnalysis.Proj.Interfaces;
 using SemanticSimilarityAnalysis.Proj.Models;
 using System.Globalization;
 
 public class CsvExtractor
 {
-    public List<MovieModel> ExtractMoviesFromCsv(string csvFilePath)
+    public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(string csvFilePath, List<string> fields)
     {
-        var movies = new List<MovieModel>();
+        var records = new List<MultiEmbeddingRecord>();
 
         using var reader = new StreamReader(csvFilePath);
         using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -20,16 +21,23 @@ public class CsvExtractor
 
         while (csv.Read())
         {
-            var title = csv.GetField("Title");
-            var genre = csv.GetField("Genre");
-            var overview = csv.GetField("Overview");
+            var attributes = new Dictionary<string, string>();
 
-            if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(genre) && !string.IsNullOrWhiteSpace(overview))
+            // Extract text fields dynamically
+            foreach (var field in fields)
             {
-                movies.Add(new MovieModel { Title = title, Genre = genre, Overview = overview });
+                var value = csv.GetField(field);
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    attributes[field] = value;
+                }
+            }
+
+            if (attributes.Count > 0)
+            {
+                records.Add(new MultiEmbeddingRecord(attributes, new Dictionary<string, List<IVectorData>>()));
             }
         }
-
-        return movies;
+        return records;
     }
 }
