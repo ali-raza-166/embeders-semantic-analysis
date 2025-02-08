@@ -26,7 +26,7 @@ namespace SemanticSimilarityAnalysis.Proj.Models
 
     public class VectorData : IVectorData
     {
-        public string? Id { get; private set; }
+        public string Id { get; private set; }
         public Dictionary<string, MetadataValue?> Metadata { get; private set; }
         public List<float> Values { get; private set; }
 
