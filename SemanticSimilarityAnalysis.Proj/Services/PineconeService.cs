@@ -107,7 +107,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             {
                 
                 // Ensure that match.Values is an array and can be converted to List<float>
-                var values = match.Values.HasValue ? match.Values.Value.ToArray().ToList() : [];
+                var values = match.Values.HasValue ? match.Values.Value.Span.ToArray().ToList() : [];
                 return new PineconeModel(match.Id, match.Values?.Span.ToArray().ToList()!,  new Dictionary<string, object?>());
             }).ToList();
             
