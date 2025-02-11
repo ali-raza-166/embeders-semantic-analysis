@@ -76,6 +76,24 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
             var upsertResponse = await index.UpsertAsync(upsertRequest);
         }
+        public IndexClient GetPineconeIndex()
+        {
+            return _pineconeClient.Index(IndexName);
+        }
+
+        public async Task<List<PineconeModel>> QueryEmbeddingsAsync(List<float> queryEmbedding, string namespaceName, uint topK)
+        {
+            var index = _pineconeClient.Index(IndexName);
+            var queryRequest = new QueryRequest
+            {
+                Vector = queryEmbedding.ToArray(),
+                TopK = topK,
+                Namespace = namespaceName,
+                IncludeValues = true,
+                IncludeMetadata = true
+            };
+            
+        }
         
     }
     
