@@ -92,6 +92,24 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 IncludeValues = true,
                 IncludeMetadata = true
             };
+
+            var queryResponse = await index.QueryAsync(queryRequest);
+            
+            Console.WriteLine($"Query response in service: {queryResponse}");
+            // Return an empty list if no matches are found
+            if (queryResponse.Matches == null) return [];
+            foreach (var match in queryResponse.Matches)
+            {
+                Console.WriteLine($"Match ID: {match.Id}, Score: {match.Score}");
+            }
+            Console.WriteLine("Going out of pinecone service");
+            return queryResponse.Matches.Select(match =>
+            {
+                
+                // Ensure that match.Values is an array and can be converted to List<float>
+                var values = match.Values.HasValue ? match.Values.Value.ToArray().ToList() : [];
+                return new PineconeModel(match.Id, match.Values?.Span.ToArray().ToList()!,  new Dictionary<string, object?>());
+            }).ToList();
             
         }
         
