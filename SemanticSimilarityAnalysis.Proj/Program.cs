@@ -15,7 +15,7 @@ namespace SemanticSimilarityAnalysis.Proj
             var pineconeService = new PineconeService();
             var textGenerationService = new OpenAiTextGenerationService();
 
-            List<string> inputs = new List<string>
+            var inputs = new List<string>
             {
                 // AI in Healthcare - Paragraph 1
                 "Artificial intelligence (AI) is revolutionizing healthcare by enhancing diagnostic accuracy, streamlining administrative processes, and personalizing treatment plans. AI-powered tools, such as machine learning algorithms, analyze vast amounts of medical data to detect patterns that human doctors might miss. Radiology has particularly benefited from AI applications, where deep learning models can identify anomalies in X-rays, MRIs, and CT scans with remarkable precision. Additionally, AI chatbots and virtual assistants improve patient engagement by answering medical queries, scheduling appointments, and offering preliminary diagnoses. Beyond diagnostics, AI is transforming drug discovery by accelerating research timelines, reducing costs, and enabling pharmaceutical companies to develop targeted therapies.",
@@ -58,13 +58,13 @@ namespace SemanticSimilarityAnalysis.Proj
                 // } 
 
                 
-                var models = embeddings.Select((embedding, index) => new PineconeModel(
-                    embedding.Id,
-                    embedding.Values.ToList(),
-                    new Dictionary<string, object?> { { "Text", inputs[index] } }
-                )).ToList();
-                await pineconeService.UpsertEmbeddingAsync(models, "default");
-                Console.WriteLine("Vector Embeddings successfully upserted into Pinecone.");
+                // var models = embeddings.Select((embedding, index) => new PineconeModel(
+                //     embedding.Id,
+                //     embedding.Values.ToList(),
+                //     new Dictionary<string, object?> { { "Text", inputs[index] } }
+                // )).ToList();
+                // await pineconeService.UpsertEmbeddingAsync(models, "default");
+                // Console.WriteLine("Vector Embeddings successfully upserted into Pinecone.");
 
                 //create embedding for Query item to test 
                 var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([
@@ -84,29 +84,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 }
 
                 Console.WriteLine("Results computed by Manual TopK Method");
-                var topKResults =
-                    similarityCalculator.GetTopKCosineSimilarities(queryEmbeddings[0].Values, models, topK: 1);
-                var topKParagraphs = new List<string>();
-                foreach (KeyValuePair<string, double> kvp in topKResults)
-                {
-                    int modelIndex = int.Parse(kvp.Key);
-                    topKParagraphs.Add(inputs[modelIndex]);
-                    Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
-                }
-
-
-                // //Testin the Text Generation pipeline
-                // List<string> paragraphs =
-                // [
-                //     "The Eiffel Tower is one of the most famous landmarks in the world, located in Paris, France.",
-                //     "Paris is the capital city of France and is known for its rich history, culture, and cuisine.",
-                //     "France is a European country that has a strong influence in art, fashion, and diplomacy.",
-                //     "The French Revolution was a major event that changed the course of history in France and beyond.",
-                //     "Tourists visiting France often explore the Louvre Museum, which houses the Mona Lisa."
-                // ];
-                const string query = "What regulatory bodies should do with growth of AI in healthcare?";
-                var answer = await textGenerationService.GenerateTextAsync(query, topKParagraphs);
-                Console.WriteLine(answer);
+                
             }
             catch (Exception ex)
             {
