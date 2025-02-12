@@ -10,7 +10,7 @@
     <ItemGroup>
       <Folder Include="Data\" />
       <Folder Include="PDFs\" />
-      <Folder Include="Utils\Plot\" />
+      <Folder Include="Helpers\PlotHelper\" />
     </ItemGroup>
 
     <ItemGroup>

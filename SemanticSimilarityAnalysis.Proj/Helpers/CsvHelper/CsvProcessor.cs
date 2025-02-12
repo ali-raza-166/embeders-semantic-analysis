@@ -2,7 +2,7 @@
 using SemanticSimilarityAnalysis.Proj.Services;
 using System.Text.Json;
 
-namespace SemanticSimilarityAnalysis.Proj.Utils
+namespace SemanticSimilarityAnalysis.Proj.Helpers.CsvHelper
 {
     public class CsvProcessor
     {

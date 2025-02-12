@@ -1,11 +1,10 @@
 ﻿using SemanticSimilarityAnalysis.Proj.Interfaces;
-using SemanticSimilarityAnalysis.Proj.Models;
 using SemanticSimilarityAnalysis.Proj.Services;
 namespace SemanticSimilarityAnalysis.Proj.Utils
 {
     internal class EmbeddingUtils
     {
-        public static List<float> GetAverageEmbedding(List<Embedding> embeddings)
+        public static List<float> GetAverageEmbedding(List<IVectorData> embeddings)
         {
             if (embeddings == null || embeddings.Count == 0)
             {
@@ -71,8 +70,8 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             Console.WriteLine("\nGenerating embeddings... Document 2");
             var embeddingsDoc2 = await embeddingService.CreateEmbeddingsAsync(doc2Texts);
 
-            var vectorA = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc1);
-            var vectorB = EmbeddingUtils.GetAverageEmbedding(embeddingsDoc2);
+            var vectorA = GetAverageEmbedding(embeddingsDoc1);
+            var vectorB = GetAverageEmbedding(embeddingsDoc2);
 
             double cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
             double euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
