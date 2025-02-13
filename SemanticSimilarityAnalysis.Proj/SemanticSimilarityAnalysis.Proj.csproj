@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <PackageReference Include="CsvHelper" Version="33.0.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="OpenAI" Version="2.1.0" />
       <PackageReference Include="Pdfium.Net.SDK" Version="4.94.2704" />
       <PackageReference Include="Pinecone.Client" Version="2.1.0" />
