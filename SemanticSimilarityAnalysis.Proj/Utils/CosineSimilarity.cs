@@ -1,3 +1,6 @@
+using SemanticSimilarityAnalysis.Proj.Interfaces;
+using SemanticSimilarityAnalysis.Proj.Models;
+
 namespace SemanticSimilarityAnalysis.Proj.Utils;
 
 public class CosineSimilarity
@@ -23,5 +26,17 @@ public class CosineSimilarity
             throw new ArgumentException("Embeddings must not have zero magnitude.");
 
         return dotProduct / (Math.Sqrt(magnitudeA) * Math.Sqrt(magnitudeB));
+    }
+    public List<KeyValuePair<string, double>> GetTopKCosineSimilarities(List<float> queryEmbedding, List<PineconeModel> models, int topK)
+    {
+        var results = new List<KeyValuePair<string, double>>();
+
+        foreach (var model in models)
+        {
+            var similarity = ComputeCosineSimilarity(queryEmbedding, model.Values);
+            results.Add(new KeyValuePair<string, double>(model.Id, similarity));
+        }
+
+        return results;
     }
 }
