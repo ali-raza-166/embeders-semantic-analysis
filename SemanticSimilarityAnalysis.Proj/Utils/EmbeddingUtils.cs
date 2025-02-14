@@ -1,4 +1,5 @@
-﻿using SemanticSimilarityAnalysis.Proj.Helpers.CsvHelper;
+﻿using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
+using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Interfaces;
 using SemanticSimilarityAnalysis.Proj.Services;
 namespace SemanticSimilarityAnalysis.Proj.Utils
@@ -86,7 +87,6 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
         }
 
         public async Task ProcessDataSetEmbeddingsAsync(
-            CsvExtractor csvExtractor,
             OpenAiEmbeddingService embeddingService,
             List<string> fields,
             string csvFilePath = @"..\..\..\Datasets\imdb_1000.csv",
@@ -94,11 +94,16 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             string outputFile = "embeddings.json"
         )
         {
-            string jsonFilePath = Path.Combine(outputDirectory, outputFile);
-            var records = csvExtractor.ExtractRecordsFromCsv(csvFilePath, fields);
+            var csvHelper = new CSVHelper(embeddingService);
+            var jsonHelper = new JsonHelper();
 
-            var csvProcessor = new CsvProcessor(embeddingService, jsonFilePath);
-            await csvProcessor.ProcessAndGenerateEmbeddingsAsync(records);
+            // Generate embeddings
+            var records = csvHelper.ExtractRecordsFromCsv(csvFilePath, fields);
+            var embeddings = await csvHelper.GenerateTextEmbeddingsAsync(records);
+
+            // Save embeddings to JSON
+            string jsonOutputPath = Path.Combine(outputDirectory, outputFile);
+            await jsonHelper.SaveRecordToJson(embeddings, jsonOutputPath);
 
             Console.WriteLine("Embeddings successfully generated and saved to JSON.");
         }

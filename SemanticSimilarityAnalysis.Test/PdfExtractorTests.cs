@@ -1,4 +1,4 @@
-using SemanticSimilarityAnalysis.Proj.Helpers.PdfHelper;
+using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
 
 namespace TextExtractorTests
 {
@@ -10,10 +10,10 @@ namespace TextExtractorTests
         public void TestEmptyPdf()
         {
             string emptyPdfPath = @"..\..\..\PDFs\empty.pdf";
-            var extractor = new PdfExtractor();
+            var extractor = new PdfHelper();
             var stringWriter = new StringWriter();
             var consoleOutput = stringWriter.ToString();
-            extractor.ExtractTextChunks(emptyPdfPath, PdfExtractor.ChunkType.Paragraph);
+            extractor.ExtractTextChunks(emptyPdfPath, PdfHelper.ChunkType.Paragraph);
             StringAssert.Contains(consoleOutput, "The PDF file is empty.");
         }
 
@@ -22,10 +22,10 @@ namespace TextExtractorTests
         public void TestFileNotFound()
         {
             string notFoundPath = @"..\..\..\PDFs\notFound.pdf";
-            var extractor = new PdfExtractor();
+            var extractor = new PdfHelper();
             var stringWriter = new StringWriter();
             var consoleOutput = stringWriter.ToString();
-            extractor.ExtractTextChunks(notFoundPath, PdfExtractor.ChunkType.Paragraph);
+            extractor.ExtractTextChunks(notFoundPath, PdfHelper.ChunkType.Paragraph);
 
             StringAssert.Contains(consoleOutput, "The PDF file was not found:");
         }
@@ -33,7 +33,7 @@ namespace TextExtractorTests
         [TestMethod]
         public void TestSplitByParagraphs()
         {
-            var extractor = new PdfExtractor();
+            var extractor = new PdfHelper();
             string text = "Paragraph 1.\n\nParagraph 2.\n\nParagraph 3.";
             List<string> paragraphs = extractor.SplitByParagraphs(text);
 
@@ -43,7 +43,7 @@ namespace TextExtractorTests
         [TestMethod]
         public void TestSplitBySentences()
         {
-            var extractor = new PdfExtractor();
+            var extractor = new PdfHelper();
             string text = "This is sentence 1. This is sentence 2! Is this sentence 3?";
             List<string> sentences = extractor.SplitBySentences(text);
 
