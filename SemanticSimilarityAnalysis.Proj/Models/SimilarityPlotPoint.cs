@@ -9,15 +9,15 @@ namespace SemanticSimilarityAnalysis.Proj.Models
     public class SimilarityPlotPoint
     {
         public string Label { get; set; }
-        public float SimilarityWithInput1 { get; set; }
-        public float SimilarityWithInput2 { get; set; }
-        public float SimilarityWithInput3 { get; set; }
+        public double SimilarityWithInput1 { get; set; }
+        public double SimilarityWithInput2 { get; set; }
+        public double SimilarityWithInput3 { get; set; }
 
-        public float X => SimilarityWithInput1;
-        public float Y => SimilarityWithInput2;
-        public float Z => SimilarityWithInput3;
+        public double X => SimilarityWithInput1;
+        public double Y => SimilarityWithInput2;
+        public double Z => SimilarityWithInput3;
 
-        public SimilarityPlotPoint(string label, float similarity1, float similarity2, float similarity3)
+        public SimilarityPlotPoint(string label, double similarity1, double similarity2, double similarity3)
         {
             Label = label;
             SimilarityWithInput1 = similarity1;

@@ -6,19 +6,13 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Json
     public class JsonHelper
     {
         // Method to read and deserialize JSON from a file
-        public MultiEmbeddingRecord GetRecordFromJson(string filePath)
+        public List<MultiEmbeddingRecord> GetRecordFromJson(string filePath)
         {
-            string jsonString = File.ReadAllText(filePath);
+            string jsonData = File.ReadAllText(filePath);
 
-            // Deserialize the JSON string into a MultiEmbeddingRecord object
-            var record = Newtonsoft.Json.JsonConvert.DeserializeObject<MultiEmbeddingRecord>(jsonString);
-
-            if (record == null)
-            {
-                throw new InvalidOperationException("Failed to deserialize JSON into MultiEmbeddingRecord.");
-            }
-
-            return record;
+            // Deserialize the JSON string into a List of MultiEmbeddingRecord objects
+            return JsonSerializer.Deserialize<List<MultiEmbeddingRecord>>(jsonData)
+              ?? throw new InvalidOperationException("Failed to load embeddings.");
         }
 
         // Ensure the directory exists and save the JSON

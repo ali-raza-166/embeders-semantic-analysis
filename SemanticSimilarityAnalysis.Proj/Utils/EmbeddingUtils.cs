@@ -1,12 +1,9 @@
-﻿using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
-using SemanticSimilarityAnalysis.Proj.Helpers.Json;
-using SemanticSimilarityAnalysis.Proj.Interfaces;
-using SemanticSimilarityAnalysis.Proj.Services;
+﻿using SemanticSimilarityAnalysis.Proj.Interfaces;
 namespace SemanticSimilarityAnalysis.Proj.Utils
 {
-    internal class EmbeddingUtils
+    public class EmbeddingUtils
     {
-        public static List<float> GetAverageEmbedding(List<IVectorData> embeddings)
+        public List<float> GetAverageEmbedding(List<IVectorData> embeddings)
         {
             if (embeddings == null || embeddings.Count == 0)
             {
@@ -31,82 +28,5 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
 
             return avgEmbedding;
         }
-
-
-        public async Task CompareTextEmbeddings(
-            OpenAiEmbeddingService embeddingService,
-            CosineSimilarity similarityCalculator,
-            EuclideanDistance euclideanDistCalc,
-            string text1,
-            string text2
-        )
-        {
-            var inputs = new List<string> { text1, text2 };
-            var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
-
-            if (embeddings.Count < 2)
-                throw new InvalidOperationException("Insufficient embeddings generated.");
-
-            var vectorA = embeddings[0].Values;
-            var vectorB = embeddings[1].Values;
-
-            double cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
-            double euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
-
-            Console.WriteLine($"Cosine Similarity between '{text1}' and '{text2}': {cosineSimilarity}");
-            Console.WriteLine($"Euclidean Distance between '{text1}' and '{text2}': {euclideanDistance}");
-        }
-
-
-        public async Task CompareDocumentEmbeddings(
-            OpenAiEmbeddingService embeddingService,
-            CosineSimilarity similarityCalculator,
-            EuclideanDistance euclideanDistCalc,
-            List<string> doc1Texts,
-            List<string> doc2Texts
-        )
-        {
-            Console.WriteLine("Generating embeddings... Document 1");
-            var embeddingsDoc1 = await embeddingService.CreateEmbeddingsAsync(doc1Texts);
-
-            Console.WriteLine("\nGenerating embeddings... Document 2");
-            var embeddingsDoc2 = await embeddingService.CreateEmbeddingsAsync(doc2Texts);
-
-            var vectorA = GetAverageEmbedding(embeddingsDoc1);
-            var vectorB = GetAverageEmbedding(embeddingsDoc2);
-
-            double cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
-            double euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
-
-            Console.WriteLine(embeddingsDoc1);
-            Console.WriteLine(embeddingsDoc2);
-
-            Console.WriteLine($"Cosine Similarity: {cosineSimilarity}");
-            Console.WriteLine($"Euclidean Distance: {euclideanDistance}");
-
-        }
-
-        public async Task ProcessDataSetEmbeddingsAsync(
-            OpenAiEmbeddingService embeddingService,
-            List<string> fields,
-            string csvFilePath = @"..\..\..\Datasets\imdb_1000.csv",
-            string outputDirectory = @"..\..\..\Output",
-            string outputFile = "embeddings.json"
-        )
-        {
-            var csvHelper = new CSVHelper(embeddingService);
-            var jsonHelper = new JsonHelper();
-
-            // Generate embeddings
-            var records = csvHelper.ExtractRecordsFromCsv(csvFilePath, fields);
-            var embeddings = await csvHelper.GenerateTextEmbeddingsAsync(records);
-
-            // Save embeddings to JSON
-            string jsonOutputPath = Path.Combine(outputDirectory, outputFile);
-            await jsonHelper.SaveRecordToJson(embeddings, jsonOutputPath);
-
-            Console.WriteLine("Embeddings successfully generated and saved to JSON.");
-        }
-
     }
 }
