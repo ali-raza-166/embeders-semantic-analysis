@@ -37,6 +37,12 @@ public class CosineSimilarity
             results.Add(new KeyValuePair<string, double>(model.Id, similarity));
         }
 
-        return results;
+        // Sort the results by similarity score in descending order and take the top K
+        var topKResults = results
+            .OrderByDescending(x => x.Value)
+            .Take(topK)
+            .ToList();
+
+        return topKResults;
     }
 }
