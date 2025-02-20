@@ -13,6 +13,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Pdf
             //Token
         }
 
+        // Extract text chunks from a PDF file
         public List<string> ExtractTextChunks(string pdfFilePath, ChunkType chunkType = ChunkType.None)
         {
             PdfCommon.Initialize();

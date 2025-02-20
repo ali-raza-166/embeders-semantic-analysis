@@ -7,13 +7,13 @@ public class ProcessorAli
 {
     public static async Task RunAsync()
     {
-         var embeddingService = new OpenAiEmbeddingService();
-            var similarityCalculator = new CosineSimilarity();
-            var euclideanDistCalc = new EuclideanDistance();
-            var pineconeService = new PineconeService();
-            var textGenerationService = new OpenAiTextGenerationService();
+        var embeddingService = new OpenAiEmbeddingService();
+        var similarityCalculator = new CosineSimilarity();
+        var euclideanDistCalc = new EuclideanDistance();
+        var pineconeService = new PineconeService();
+        var textGenerationService = new OpenAiTextGenerationService();
 
-            var inputs = new List<string>
+        var inputs = new List<string>
             {
                 // AI in Healthcare - Paragraph 1
                 "Artificial intelligence (AI) is revolutionizing healthcare by enhancing diagnostic accuracy, streamlining administrative processes, and personalizing treatment plans. AI-powered tools, such as machine learning algorithms, analyze vast amounts of medical data to detect patterns that human doctors might miss. Radiology has particularly benefited from AI applications, where deep learning models can identify anomalies in X-rays, MRIs, and CT scans with remarkable precision. Additionally, AI chatbots and virtual assistants improve patient engagement by answering medical queries, scheduling appointments, and offering preliminary diagnoses. Beyond diagnostics, AI is transforming drug discovery by accelerating research timelines, reducing costs, and enabling pharmaceutical companies to develop targeted therapies.",
@@ -34,82 +34,82 @@ public class ProcessorAli
                 "Despite progress, transitioning to sustainable energy faces challenges such as infrastructure limitations, energy storage constraints, and economic barriers. The intermittency of solar and wind energy necessitates better grid management and large-scale battery solutions. Additionally, transitioning from traditional energy sources requires significant investments in new technologies and policy frameworks to incentivize adoption. Nuclear power, often debated, offers a low-carbon energy alternative but raises concerns about waste disposal and safety. To achieve a sustainable future, governments, businesses, and individuals must work together to develop and implement innovative energy solutions that balance environmental impact, affordability, and efficiency."
             };
 
-            try
+        try
+        {
+            await pineconeService.InitializeIndexAsync();
+            var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
+
+            // if (embeddings.Count >= 2)
+            // {
+            //     for (var i = 0; i < embeddings.Count - 1; i++)
+            //     {
+            //         var vectorA = embeddings[i].Values;
+            //         var vectorB = embeddings[i + 1].Values;
+            //         
+            //         var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
+            //         Console.WriteLine($"Cosine Similarity between '{inputs[i]}' and '{inputs[i + 1]}': {cosineSimilarity}");
+            //         
+            //         var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
+            //         Console.WriteLine($"Euclidean Distance between '{inputs[i]}' and '{inputs[i + 1]}': {euclideanDistance}");
+            //     }
+            //
+            // } 
+
+
+            var models = embeddings.Select((embedding, index) => new PineconeModel(
+                embedding.Id,
+                embedding.Values.ToList(),
+                new Dictionary<string, object?> { { "Text", inputs[index] } }
+            )).ToList();
+            await pineconeService.UpsertEmbeddingAsync(models, "default");
+            Console.WriteLine("Vector Embeddings successfully upserted into Pinecone.");
+
+            //create embedding for Query item to test 
+            var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([
+                "What regulatory bodies should do with growth of AI in healthcare?"
+            ]);
+            var queryResponse =
+                await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 1);
+
+            Console.WriteLine($"Count of matched vectors from pinecone: {queryResponse.Count}");
+            foreach (var model in queryResponse)
             {
-                await pineconeService.InitializeIndexAsync();
-                var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
-
-                // if (embeddings.Count >= 2)
-                // {
-                //     for (var i = 0; i < embeddings.Count - 1; i++)
-                //     {
-                //         var vectorA = embeddings[i].Values;
-                //         var vectorB = embeddings[i + 1].Values;
-                //         
-                //         var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
-                //         Console.WriteLine($"Cosine Similarity between '{inputs[i]}' and '{inputs[i + 1]}': {cosineSimilarity}");
-                //         
-                //         var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
-                //         Console.WriteLine($"Euclidean Distance between '{inputs[i]}' and '{inputs[i + 1]}': {euclideanDistance}");
-                //     }
-                //
-                // } 
-
-                
-                var models = embeddings.Select((embedding, index) => new PineconeModel(
-                    embedding.Id,
-                    embedding.Values.ToList(),
-                    new Dictionary<string, object?> { { "Text", inputs[index] } }
-                )).ToList();
-                await pineconeService.UpsertEmbeddingAsync(models, "default");
-                Console.WriteLine("Vector Embeddings successfully upserted into Pinecone.");
-
-                //create embedding for Query item to test 
-                var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([
-                    "What regulatory bodies should do with growth of AI in healthcare?"
-                ]);
-                var queryResponse =
-                    await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 1);
-                
-                Console.WriteLine($"Count of matched vectors from pinecone: {queryResponse.Count}");
-                foreach (var model in queryResponse)
-                {
-                    Console.WriteLine($"ID: {model.Id}");
-                    Console.WriteLine($"Score: {model.Score}");
-                    Console.WriteLine(
-                        $"Embedding vector (first 10 values): {string.Join(", ", model.Values.Take(10))}");
-                    Console.WriteLine(); 
-                }
-
-                Console.WriteLine("Results computed by Manual TopK Method");
-                var topKResults =
-                    similarityCalculator.GetTopKCosineSimilarities(queryEmbeddings[0].Values, models, topK: 1);
-                var topKParagraphs = new List<string>();
-                foreach (KeyValuePair<string, double> kvp in topKResults)
-                {
-                    int modelIndex = int.Parse(kvp.Key);
-                    topKParagraphs.Add(inputs[modelIndex]);
-                    Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
-                }
-
-
-                // //Testin the Text Generation pipeline
-                // List<string> paragraphs =
-                // [
-                //     "The Eiffel Tower is one of the most famous landmarks in the world, located in Paris, France.",
-                //     "Paris is the capital city of France and is known for its rich history, culture, and cuisine.",
-                //     "France is a European country that has a strong influence in art, fashion, and diplomacy.",
-                //     "The French Revolution was a major event that changed the course of history in France and beyond.",
-                //     "Tourists visiting France often explore the Louvre Museum, which houses the Mona Lisa."
-                // ];
-                const string query = "What regulatory bodies should do with growth of AI in healthcare?";
-                var answer = await textGenerationService.GenerateTextAsync(query, topKParagraphs);
-                Console.WriteLine(answer);
+                Console.WriteLine($"ID: {model.Id}");
+                Console.WriteLine($"Score: {model.Score}");
+                Console.WriteLine(
+                    $"Embedding vector (first 10 values): {string.Join(", ", model.Values.Take(10))}");
+                Console.WriteLine();
             }
-            catch (Exception ex)
+
+            Console.WriteLine("Results computed by Manual TopK Method");
+            var topKResults =
+                similarityCalculator.GetTopKCosineSimilarities(queryEmbeddings[0].Values, models, topK: 1);
+            var topKParagraphs = new List<string>();
+            foreach (KeyValuePair<string, double> kvp in topKResults)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                int modelIndex = int.Parse(kvp.Key);
+                topKParagraphs.Add(inputs[modelIndex]);
+                Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
             }
+
+
+            // //Testin the Text Generation pipeline
+            // List<string> paragraphs =
+            // [
+            //     "The Eiffel Tower is one of the most famous landmarks in the world, located in Paris, France.",
+            //     "Paris is the capital city of France and is known for its rich history, culture, and cuisine.",
+            //     "France is a European country that has a strong influence in art, fashion, and diplomacy.",
+            //     "The French Revolution was a major event that changed the course of history in France and beyond.",
+            //     "Tourists visiting France often explore the Louvre Museum, which houses the Mona Lisa."
+            // ];
+            const string query = "What regulatory bodies should do with growth of AI in healthcare?";
+            var answer = await textGenerationService.GenerateTextAsync(query, topKParagraphs);
+            Console.WriteLine(answer);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
 
     }
 }

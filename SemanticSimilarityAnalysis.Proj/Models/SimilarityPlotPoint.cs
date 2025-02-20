@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SemanticSimilarityAnalysis.Proj.Models
+﻿namespace SemanticSimilarityAnalysis.Proj.Models
 {
+    /// <summary>
+    /// Represents a data point for plotting similarity values in a 3D coordinate system.
+    /// </summary>
     public class SimilarityPlotPoint
     {
         public string Label { get; set; }
@@ -13,6 +10,7 @@ namespace SemanticSimilarityAnalysis.Proj.Models
         public double SimilarityWithInput2 { get; set; }
         public double SimilarityWithInput3 { get; set; }
 
+        // Map the similarity values to a 3D coordinate system.
         public double X => SimilarityWithInput1;
         public double Y => SimilarityWithInput2;
         public double Z => SimilarityWithInput3;

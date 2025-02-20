@@ -16,6 +16,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             _embeddingService = embeddingService ?? throw new ArgumentNullException(nameof(embeddingService));
         }
 
+        // Extract records from a CSV file
         public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(string csvFilePath, List<string> fields)
         {
             var records = new List<MultiEmbeddingRecord>();
@@ -51,6 +52,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             return records;
         }
 
+        // Generate embeddings for text attributes from a list of records
         public async Task<List<MultiEmbeddingRecord>> GenerateTextEmbeddingsAsync(List<MultiEmbeddingRecord> records)
         {
             if (records == null || records.Count == 0)

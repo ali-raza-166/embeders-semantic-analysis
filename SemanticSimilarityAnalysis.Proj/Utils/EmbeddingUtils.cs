@@ -1,6 +1,9 @@
 ﻿using SemanticSimilarityAnalysis.Proj.Interfaces;
 namespace SemanticSimilarityAnalysis.Proj.Utils
 {
+    /// <summary>
+    /// Provides utility methods for working with embeddings (vector data).
+    /// </summary>
     public class EmbeddingUtils
     {
         public List<float> GetAverageEmbedding(List<IVectorData> embeddings)

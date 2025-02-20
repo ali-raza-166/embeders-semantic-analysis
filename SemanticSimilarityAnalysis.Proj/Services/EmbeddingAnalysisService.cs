@@ -5,6 +5,11 @@ using SemanticSimilarityAnalysis.Proj.Utils;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 {
+    /// <summary>
+    /// Provides services for analyzing and comparing text embeddings using cosine similarity and Euclidean distance.
+    /// This class supports tasks such as comparing text/document embeddings, processing dataset embeddings from CSV files,
+    /// and analyzing similarity between input texts and precomputed embeddings stored in JSON files.
+    /// </summary>
     public class EmbeddingAnalysisService
     {
         private readonly OpenAiEmbeddingService _embeddingService;
