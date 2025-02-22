@@ -124,3 +124,14 @@ public void plot3D(List<RecordSimilarityData> similarityResults, List<string> in
 
     plot.Show();
 }
+public async Task generateAndPlotData()
+{
+    List<string> records = new List<string> { "The Shawshank Redemption", "The Godfather", "The Dark Knight", "Inception", "Pulp Fiction" };
+    List<string> inputs = new List<string> { "redemption", "justice", "family" };
+    List<string> inputDescriptions = new List<string> { "Drama", "Action", "Thriller" };
+    string attribute = "Overview";
+    string recordsJsonFilePath = "path/to/your/records.json";
+
+    var similarityResults = await prepareDataForPlotting(records, inputs, inputDescriptions, attribute, recordsJsonFilePath);
+    plot3D(similarityResults, inputDescriptions);
+}
