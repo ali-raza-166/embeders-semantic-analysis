@@ -1,4 +1,6 @@
-﻿public class RecordSimilarityData
+﻿using System.Diagnostics;
+
+public class RecordSimilarityData
 {
     public string RecordId { get; set; }
     public float X { get; set; }
@@ -68,4 +70,57 @@ public async Task<List<RecordSimilarityData>> prepareDataForPlotting(
     }
 
     return similarityResults;
+}
+public void plot3D(List<RecordSimilarityData> similarityResults, List<string> inputDescriptions)
+{
+    var xValues = new List<float>();
+    var yValues = new List<float>();
+    var zValues = new List<float>();
+    var hoverInfo = new List<string>();
+
+    foreach (var recordData in similarityResults)
+    {
+        xValues.Add(recordData.X);
+        yValues.Add(recordData.Y);
+        zValues.Add(recordData.Z);
+
+        hoverInfo.Add($"{recordData.RecordId}<br>{inputDescriptions[0]}: {recordData.Similarity1:F2}<br>" +
+                      $"{inputDescriptions[1]}: {recordData.Similarity2:F2}<br>" +
+                      $"{inputDescriptions[2]}: {recordData.Similarity3:F2}");
+    }
+
+    var scatter3D = new Scatter3d
+    {
+        Mode = "markers",
+        X = xValues,
+        Y = yValues,
+        Z = zValues,
+        Text = hoverInfo,
+        Marker = new Marker
+        {
+            Size = 6,
+            Color = xValues,
+            Colorscale = "Viridis",
+            Showscale = true
+        }
+    };
+
+    var layout = new Layout
+    {
+        Title = "3D Similarity Plot",
+        Scene = new Scene
+        {
+            Xaxis = new Xaxis { Title = inputDescriptions[0] },
+            Yaxis = new Yaxis { Title = inputDescriptions[1] },
+            Zaxis = new Zaxis { Title = inputDescriptions[2] }
+        }
+    };
+
+    var plot = new PlotlyChart
+    {
+        Data = new List<Trace> { scatter3D },
+        Layout = layout
+    };
+
+    plot.Show();
 }
