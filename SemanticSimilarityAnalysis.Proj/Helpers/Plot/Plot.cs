@@ -32,3 +32,40 @@ public float computeCosineSimilarity(float[] vectorA, float[] vectorB)
 
     return magnitudeA == 0 || magnitudeB == 0 ? 0 : dotProduct / (magnitudeA * magnitudeB);
 }
+public async Task<List<RecordSimilarityData>> prepareDataForPlotting(
+    List<string> records,
+    List<string> inputs,
+    List<string> inputDescriptions,
+    string attribute,
+    string recordsJsonFilePath)
+{
+    var recordEmbeddings = await loadRecordEmbeddingsFromFile(recordsJsonFilePath, attribute);
+    var inputEmbeddings = await embeddingService.createEmbeddingsAsync(inputs);
+    var similarityResults = new List<RecordSimilarityData>();
+
+    foreach (var recordEmbedding in recordEmbeddings)
+    {
+        var similarities = new List<float>();
+
+        foreach (var inputEmbedding in inputEmbeddings)
+        {
+            var similarity = computeCosineSimilarity(recordEmbedding.Values, inputEmbedding.Values);
+            similarities.Add(similarity);
+        }
+
+        var recordData = new RecordSimilarityData
+        {
+            RecordId = recordEmbedding.Id,
+            X = similarities[0],
+            Y = similarities[1],
+            Z = similarities[2],
+            Similarity1 = similarities[0],
+            Similarity2 = similarities[1],
+            Similarity3 = similarities[2]
+        };
+
+        similarityResults.Add(recordData);
+    }
+
+    return similarityResults;
+}
