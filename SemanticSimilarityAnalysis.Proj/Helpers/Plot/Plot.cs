@@ -11,12 +11,15 @@ public class RecordSimilarityData
     public float Similarity2 { get; set; }
     public float Similarity3 { get; set; }
 }
+
+// Function to load record embeddings from a JSON file
 public async Task<List<RecordEmbedding>> loadRecordEmbeddingsFromFile(string filePath, string attribute)
 {
     using var reader = new StreamReader(filePath);
     var json = await reader.ReadToEndAsync();
-    var records = JsonConvert.DeserializeObject<List<RecordEmbedding>>(json);
+    var records = JsonConvert.DeserializeObject<List<RecordEmbedding>>(json); // Deserialize JSON into objects
 
+    // Filter records to return only those matching the requested attribute (e.g., "Overview")
     return records.Where(r => r.Attribute == attribute).ToList();
 }
 public float computeCosineSimilarity(float[] vectorA, float[] vectorB)
