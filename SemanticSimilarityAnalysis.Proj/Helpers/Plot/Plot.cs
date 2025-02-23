@@ -1,12 +1,13 @@
 ﻿using System.Diagnostics;
 
+// Class to store similarity data for each record
 public class RecordSimilarityData
 {
-    public string RecordId { get; set; }
-    public float X { get; set; }
+    public string RecordId { get; set; } // Unique identifier of the record
+    public float X { get; set; } // Similarity score with input 1 (used for X-axis)
     public float Y { get; set; }
     public float Z { get; set; }
-    public float Similarity1 { get; set; }
+    public float Similarity1 { get; set; } // Actual similarity with input 1
     public float Similarity2 { get; set; }
     public float Similarity3 { get; set; }
 }
