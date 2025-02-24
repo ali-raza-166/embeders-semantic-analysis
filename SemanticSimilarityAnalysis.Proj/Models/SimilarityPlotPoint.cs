@@ -15,6 +15,7 @@
         public double Y => SimilarityWithInput2;
         public double Z => SimilarityWithInput3;
 
+        // Constructor
         public SimilarityPlotPoint(string label, double similarity1, double similarity2, double similarity3)
         {
             Label = label;

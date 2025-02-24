@@ -18,6 +18,7 @@ namespace SemanticSimilarityAnalysis.Proj.Models
             Vectors = vectors ?? new Dictionary<string, List<IVectorData>>();
         }
 
+        // Add an embedding for a specific field after extracting the dataset
         public void AddEmbedding(string field, IVectorData embedding)
         {
             if (!Vectors.ContainsKey(field))
