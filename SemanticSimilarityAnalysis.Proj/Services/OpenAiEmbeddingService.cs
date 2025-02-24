@@ -7,14 +7,14 @@ namespace SemanticSimilarityAnalysis.Proj.Services
     public class OpenAiEmbeddingService
     {
         private readonly string _apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
-                                          ?? throw new ArgumentNullException(nameof(_apiKey), "API key not found in environment variables.");
-        public async Task<List<IVectorData>> CreateEmbeddingsAsync(List<string> inputs)
+                                          ?? throw new ArgumentNullException(nameof(_apiKey), "API key not found ");
+        public async Task<List<Embedding>> CreateEmbeddingsAsync(List<string> inputs)
         {
             var embeddingClient = new EmbeddingClient("text-embedding-ada-002", _apiKey);
             try
             {
                 OpenAIEmbeddingCollection collection = await embeddingClient.GenerateEmbeddingsAsync(inputs);
-                var embeddingsList = new List<IVectorData>();
+                var embeddingsList = new List<Embedding>();
                 foreach (OpenAIEmbedding embedding in collection)
                 {
                     Console.WriteLine($"Found embedding: {embedding}");
@@ -27,8 +27,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     Console.WriteLine($"Embedding vector: {vectorList}\n");
 
                     var text = inputs[embedding.Index];
-
-                    // Create Embedding as IVectorData
+                    
                     var newEmbedding = new Embedding(embedding.Index, text, vectorList);
                     embeddingsList.Add(newEmbedding);
                 }
