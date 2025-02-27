@@ -4,16 +4,18 @@ using SemanticSimilarityAnalysis.Proj.Models;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 {
-    public class OpenAiEmbeddingService
+    public class OpenAiEmbeddingService()
     {
-        private readonly string _apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
-                                          ?? throw new ArgumentNullException(nameof(_apiKey), "API key not found ");
+        private readonly EmbeddingClient _embeddingClient;
+        public OpenAiEmbeddingService(EmbeddingClient embeddingClient) : this()
+        {
+            _embeddingClient = embeddingClient ?? throw new ArgumentNullException(nameof(embeddingClient));        }
         public async Task<List<Embedding>> CreateEmbeddingsAsync(List<string> inputs)
         {
-            var embeddingClient = new EmbeddingClient("text-embedding-ada-002", _apiKey);
+            
             try
             {
-                OpenAIEmbeddingCollection collection = await embeddingClient.GenerateEmbeddingsAsync(inputs);
+                OpenAIEmbeddingCollection collection = await _embeddingClient.GenerateEmbeddingsAsync(inputs);
                 var embeddingsList = new List<Embedding>();
                 foreach (OpenAIEmbedding embedding in collection)
                 {
