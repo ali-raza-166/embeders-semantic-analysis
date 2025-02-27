@@ -27,5 +27,5 @@ namespace SemanticSimilarityAnalysis.Proj
 
         }
     }
-    
+
 }

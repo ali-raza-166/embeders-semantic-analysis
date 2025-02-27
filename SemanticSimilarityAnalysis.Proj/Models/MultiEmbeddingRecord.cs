@@ -3,6 +3,10 @@ using SemanticSimilarityAnalysis.Proj.Interfaces;
 
 namespace SemanticSimilarityAnalysis.Proj.Models
 {
+    /// <summary>
+    /// Represents a record that stores multiple embeddings (vector data) along with associated attributes.
+    /// This class is designed to manage embeddings for different fields, where each field can have multiple vectors.
+    /// </summary>
     public class MultiEmbeddingRecord
     {
         public Dictionary<string, string> Attributes { get; private set; }
@@ -14,6 +18,7 @@ namespace SemanticSimilarityAnalysis.Proj.Models
             Vectors = vectors ?? new Dictionary<string, List<IVectorData>>();
         }
 
+        // Add an embedding for a specific field after extracting the dataset
         public void AddEmbedding(string field, IVectorData embedding)
         {
             if (!Vectors.ContainsKey(field))
@@ -24,6 +29,10 @@ namespace SemanticSimilarityAnalysis.Proj.Models
         }
     }
 
+    /// <summary>
+    /// Represents a single piece of vector data, including its values, metadata, and a unique identifier.
+    /// This class implements the <see cref="IVectorData"/> interface to provide standardized access to vector data.
+    /// </summary>
     public class VectorData : IVectorData
     {
         public string Id { get; private set; }

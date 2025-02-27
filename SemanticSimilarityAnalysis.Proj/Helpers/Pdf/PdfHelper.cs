@@ -1,9 +1,9 @@
 ﻿using Patagames.Pdf.Net;
 using System.Text.RegularExpressions;
 
-namespace SemanticSimilarityAnalysis.Proj.Utils
+namespace SemanticSimilarityAnalysis.Proj.Helpers.Pdf
 {
-    public class TextExtractor
+    public class PdfHelper
     {
         public enum ChunkType
         {
@@ -13,6 +13,7 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
             //Token
         }
 
+        // Extract text chunks from a PDF file
         public List<string> ExtractTextChunks(string pdfFilePath, ChunkType chunkType = ChunkType.None)
         {
             PdfCommon.Initialize();
