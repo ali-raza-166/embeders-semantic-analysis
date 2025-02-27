@@ -1,7 +1,9 @@
 ﻿using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
+using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
 using SemanticSimilarityAnalysis.Proj.Models;
 using SemanticSimilarityAnalysis.Proj.Utils;
+using System.Data;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 {
@@ -16,24 +18,21 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         private readonly CosineSimilarity _similarityCalculator;
         private readonly EuclideanDistance _euclideanDistCalc;
         private readonly EmbeddingUtils _embeddingUtils;
+        private readonly PdfHelper _pdfHelper;
         private readonly CSVHelper _csvHelper;
         private readonly JsonHelper _jsonHelper;
 
-        public EmbeddingAnalysisService(
-             OpenAiEmbeddingService embeddingService,
-             CosineSimilarity similarityCalculator,
-             EuclideanDistance euclideanDistCalc,
-             EmbeddingUtils embeddingUtils,
-             CSVHelper csvHelper,
-             JsonHelper jsonHelper)
+        public EmbeddingAnalysisService()
         {
-            _embeddingService = embeddingService;
-            _similarityCalculator = similarityCalculator;
-            _euclideanDistCalc = euclideanDistCalc;
-            _embeddingUtils = embeddingUtils;
-            _csvHelper = csvHelper;
-            _jsonHelper = jsonHelper;
+            _embeddingService = new OpenAiEmbeddingService();
+            _similarityCalculator = new CosineSimilarity();
+            _euclideanDistCalc = new EuclideanDistance();
+            _embeddingUtils = new EmbeddingUtils();
+            _pdfHelper = new PdfHelper();
+            _csvHelper = new CSVHelper();
+            _jsonHelper = new JsonHelper();
         }
+
 
         /// <summary>
         /// Compares embeddings for two input texts using cosine similarity and Euclidean distance.
@@ -56,44 +55,109 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             Console.WriteLine($"Euclidean Distance: {euclideanDistance}");
         }
 
+
         /// <summary>
         /// Compares document embeddings by averaging all embeddings in each document.
         /// </summary>
-        public async Task CompareDocumentEmbeddingsAsync(List<string> doc1Texts, List<string> doc2Texts)
+        public async Task ComparePdfDocumentsAsync(string pdf1, string pdf2, PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None)
         {
-            Console.WriteLine("Generating embeddings... Document 1");
-            var embeddingsDoc1 = await _embeddingService.CreateEmbeddingsAsync(doc1Texts);
+            // Default directory for PDF files
+            string defaultPath = @"..\..\..\PDFs";
 
-            Console.WriteLine("Generating embeddings... Document 2");
-            var embeddingsDoc2 = await _embeddingService.CreateEmbeddingsAsync(doc2Texts);
+            // Construct full file paths
+            string pdfFilePath1 = Path.Combine(defaultPath, pdf1);
+            string pdfFilePath2 = Path.Combine(defaultPath, pdf2);
 
+            Console.WriteLine($"Extracting text from: {pdf1} and {pdf2}");
+
+            // Extract text from both PDFs
+            var textChunks1 = _pdfHelper.ExtractTextChunks(pdfFilePath1, chunkType);
+            var textChunks2 = _pdfHelper.ExtractTextChunks(pdfFilePath2, chunkType);
+
+            if (textChunks1.Count == 0 || textChunks2.Count == 0)
+            {
+                throw new InvalidOperationException("One or both PDF files contain no extractable text.");
+            }
+
+            Console.WriteLine("Generating embeddings for both documents...");
+
+            // Generate embeddings for extracted text
+            var embeddingsDoc1 = await _embeddingService.CreateEmbeddingsAsync(textChunks1);
+            var embeddingsDoc2 = await _embeddingService.CreateEmbeddingsAsync(textChunks2);
+
+            // Compute average embeddings for comparison
             var vectorA = _embeddingUtils.GetAverageEmbedding(embeddingsDoc1);
             var vectorB = _embeddingUtils.GetAverageEmbedding(embeddingsDoc2);
 
+            // Compute similarity metrics
             double cosineSimilarity = _similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
             double euclideanDistance = _euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
 
+            // Output results
             Console.WriteLine($"Cosine Similarity: {cosineSimilarity}");
             Console.WriteLine($"Euclidean Distance: {euclideanDistance}");
         }
 
+
         /// <summary>
         /// Processes dataset embeddings from a CSV file and saves them as JSON.
         /// </summary>
-        public async Task ProcessDataSetEmbeddingsAsync(
+        public async Task<List<MultiEmbeddingRecord>> ProcessDataSetEmbeddingsAsync(
             List<string> fields,
-            string csvFilePath = @"..\..\..\Datasets\imdb_1000.csv",
-            string outputDirectory = @"..\..\..\Output",
-            string outputFile = "embeddings.json")
+            string csvFileName
+        )
         {
-            var records = _csvHelper.ExtractRecordsFromCsv(csvFilePath, fields);
-            var embeddings = await _csvHelper.GenerateTextEmbeddingsAsync(records);
+            // Validate that the fields list is not null or empty
+            if (fields == null || fields.Count == 0)
+            {
+                throw new ArgumentException("The fields list cannot be null or empty.");
+            }
 
-            string jsonOutputPath = Path.Combine(outputDirectory, outputFile);
-            await _jsonHelper.SaveRecordToJson(embeddings, jsonOutputPath);
+            // Construct the dataset file path (assuming 'Datasets' folder is in the project directory)
+            string datasetPath = Path.Combine(@"..\..\..\Datasets", csvFileName);
+            Console.WriteLine($"Extracting records from: {datasetPath}");
 
-            Console.WriteLine("Embeddings successfully generated and saved to JSON.");
+            // Check if the CSV file exists
+            if (!File.Exists(datasetPath))
+            {
+                throw new FileNotFoundException($"CSV file not found: {datasetPath}");
+            }
+
+            // Extract records from the CSV file
+            var records = _csvHelper.ExtractRecordsFromCsv(fields, datasetPath);
+
+            // Process embeddings
+            foreach (var record in records)
+            {
+                foreach (var attribute in record.Attributes)
+                {
+                    var attributeName = attribute.Key;
+                    var attributeValue = attribute.Value;
+
+                    if (string.IsNullOrWhiteSpace(attributeValue)) continue;
+
+                    // Generate embedding for the attribute value
+                    var attributeEmbedding = await _embeddingService.CreateEmbeddingsAsync(new List<string> { attributeValue });
+
+                    // Add the generated attribute embedding to the record
+                    record.AddEmbedding(attributeName, new VectorData(attributeEmbedding[0].Values));
+                }
+            }
+
+            // Ensure the 'Outputs' directory exists
+            string outputDir = @"..\..\..\Outputs";
+            Directory.CreateDirectory(outputDir);
+
+            // Save the embeddings as a JSON file
+            string jsonFilePath = Path.Combine(outputDir, $"{csvFileName}_Embeddings.json");
+            await _jsonHelper.SaveRecordToJson(records, jsonFilePath);
+
+            Console.WriteLine($"Embeddings saved to: {jsonFilePath}");
+
+            return records;
         }
+
+
 
         /// <summary>
         /// Analyzes similarity between input text embeddings and dataset embeddings.

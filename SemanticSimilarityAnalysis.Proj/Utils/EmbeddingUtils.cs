@@ -1,4 +1,4 @@
-﻿using SemanticSimilarityAnalysis.Proj.Interfaces;
+﻿using SemanticSimilarityAnalysis.Proj.Models;
 namespace SemanticSimilarityAnalysis.Proj.Utils
 {
     /// <summary>
@@ -6,7 +6,7 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
     /// </summary>
     public class EmbeddingUtils
     {
-        public List<float> GetAverageEmbedding(List<IVectorData> embeddings)
+        public List<float> GetAverageEmbedding(List<Embedding> embeddings)
         {
             if (embeddings == null || embeddings.Count == 0)
             {

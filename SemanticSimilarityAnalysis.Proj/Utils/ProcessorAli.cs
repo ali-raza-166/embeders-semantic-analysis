@@ -21,16 +21,6 @@ public class ProcessorAli
         {
             // AI in Healthcare - Paragraph 1
             "Artificial intelligence (AI) is revolutionizing healthcare by enhancing diagnostic accuracy, streamlining administrative processes, and personalizing treatment plans. AI-powered tools, such as machine learning algorithms, analyze vast amounts of medical data to detect patterns that human doctors might miss. Radiology has particularly benefited from AI applications, where deep learning models can identify anomalies in X-rays, MRIs, and CT scans with remarkable precision. Additionally, AI chatbots and virtual assistants improve patient engagement by answering medical queries, scheduling appointments, and offering preliminary diagnoses. Beyond diagnostics, AI is transforming drug discovery by accelerating research timelines, reducing costs, and enabling pharmaceutical companies to develop targeted therapies.",
-        var embeddingService = new OpenAiEmbeddingService();
-        var similarityCalculator = new CosineSimilarity();
-        var euclideanDistCalc = new EuclideanDistance();
-        var pineconeService = new PineconeService();
-        var textGenerationService = new OpenAiTextGenerationService();
-
-        var inputs = new List<string>
-            {
-                // AI in Healthcare - Paragraph 1
-                "Artificial intelligence (AI) is revolutionizing healthcare by enhancing diagnostic accuracy, streamlining administrative processes, and personalizing treatment plans. AI-powered tools, such as machine learning algorithms, analyze vast amounts of medical data to detect patterns that human doctors might miss. Radiology has particularly benefited from AI applications, where deep learning models can identify anomalies in X-rays, MRIs, and CT scans with remarkable precision. Additionally, AI chatbots and virtual assistants improve patient engagement by answering medical queries, scheduling appointments, and offering preliminary diagnoses. Beyond diagnostics, AI is transforming drug discovery by accelerating research timelines, reducing costs, and enabling pharmaceutical companies to develop targeted therapies.",
 
             // AI in Healthcare - Paragraph 2
             "Despite its promise, AI in healthcare presents challenges, including data privacy concerns, ethical considerations, and regulatory compliance. AI algorithms require large datasets to train effectively, raising concerns about patient confidentiality and security. Bias in AI models is another critical issue, as algorithms trained on non-representative data can produce skewed results, potentially leading to misdiagnosis. Furthermore, while AI can enhance decision-making, it cannot replace human judgment entirely. Doctors must interpret AI-generated insights within the broader context of a patient’s medical history and symptoms. As AI adoption in healthcare grows, regulatory bodies must establish clear guidelines to ensure safe, fair, and ethical use of AI-driven solutions.",
