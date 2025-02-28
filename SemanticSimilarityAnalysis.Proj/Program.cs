@@ -32,7 +32,7 @@ namespace SemanticSimilarityAnalysis.Proj
             //var processor = serviceProvider.GetRequiredService<ProcessorAli>();
             //await processor.RunAsync();
             var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            //await analysis.ProcessDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv");
+            await analysis.ProcessDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", "");
             await analysis.AnalyzeEmbeddingsAsync("imdb_1000_Embeddings.json", "Title", "Overview", ["romantic comedy", "investigate"]);
         }
     }
