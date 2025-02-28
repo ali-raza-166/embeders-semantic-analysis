@@ -113,7 +113,9 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         /// </summary>
         public async Task<List<MultiEmbeddingRecord>> ProcessDataSetEmbeddingsAsync(
             List<string> fields,
-            string csvFileName
+            string csvFileName,
+            string containingDir = @"..\..\..\Datasets",
+            string outputDir = @"..\..\..\Outputs"
         )
         {
             // Validate that the fields list is not null or empty
@@ -123,7 +125,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             }
 
             // Construct the dataset file path (assuming 'Datasets' folder is in the project directory)
-            string datasetPath = Path.Combine(@"..\..\..\Datasets", csvFileName);
+
+            string datasetPath = Path.Combine(containingDir, csvFileName);
             Console.WriteLine($"Extracting records from: {datasetPath}");
 
             // Check if the CSV file exists
@@ -154,7 +157,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             }
 
             // Ensure the 'Outputs' directory exists
-            string outputDir = @"..\..\..\Outputs";
             Directory.CreateDirectory(outputDir);
 
             // Remove .csv extension from the file name
@@ -179,11 +181,11 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             string jsonFileName,
             string attributeKeyForLabel,
             string attributeKeyForEmbedding,
-            List<string> inputStrings
+            List<string> inputStrings,
+            string containingDir = @"..\..\..\Outputs"
         )
         {
-            var outputDir = @"..\..\..\Outputs";
-            var jsonFilePath = Path.Combine(outputDir, jsonFileName);
+            var jsonFilePath = Path.Combine(containingDir, jsonFileName);
 
             // Check if JSON file exists
             if (!File.Exists(jsonFilePath))
