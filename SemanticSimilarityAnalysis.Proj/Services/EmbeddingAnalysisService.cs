@@ -22,15 +22,23 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         private readonly CSVHelper _csvHelper;
         private readonly JsonHelper _jsonHelper;
 
-        public EmbeddingAnalysisService()
+        public EmbeddingAnalysisService(
+            OpenAiEmbeddingService embeddingService,
+            CosineSimilarity similarityCalculator,
+            EuclideanDistance euclideanDistCalc,
+            EmbeddingUtils embeddingUtils,
+            PdfHelper pdfHelper,
+            CSVHelper csvHelper,
+            JsonHelper jsonHelper
+        )
         {
-            _embeddingService = new OpenAiEmbeddingService();
-            _similarityCalculator = new CosineSimilarity();
-            _euclideanDistCalc = new EuclideanDistance();
-            _embeddingUtils = new EmbeddingUtils();
-            _pdfHelper = new PdfHelper();
-            _csvHelper = new CSVHelper();
-            _jsonHelper = new JsonHelper();
+            _embeddingService = embeddingService;
+            _similarityCalculator = similarityCalculator;
+            _euclideanDistCalc = euclideanDistCalc;
+            _embeddingUtils = embeddingUtils;
+            _pdfHelper = pdfHelper;
+            _csvHelper = csvHelper;
+            _jsonHelper = jsonHelper;
         }
 
 
@@ -39,6 +47,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         /// </summary>
         public async Task CompareTextEmbeddingsAsync(string text1, string text2)
         {
+
             var inputs = new List<string> { text1, text2 };
             var embeddings = await _embeddingService.CreateEmbeddingsAsync(inputs);
 
@@ -148,8 +157,12 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             string outputDir = @"..\..\..\Outputs";
             Directory.CreateDirectory(outputDir);
 
+            // Remove .csv extension from the file name
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(csvFileName);
+
             // Save the embeddings as a JSON file
-            string jsonFilePath = Path.Combine(outputDir, $"{csvFileName}_Embeddings.json");
+            string jsonFilePath = Path.Combine(outputDir, $"{fileNameWithoutExtension}_Embeddings.json");
+
             await _jsonHelper.SaveRecordToJson(records, jsonFilePath);
 
             Console.WriteLine($"Embeddings saved to: {jsonFilePath}");
@@ -157,14 +170,21 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             return records;
         }
 
-
+        //CSV -> multiembeddingrecord -> json -> multSiembeddingrecord -> CALCULATE THE SIMILARITY (Embedding AND USER INPUTS )-> POINTS FOR PLOTTING -> PLOTTING
 
         /// <summary>
         /// Analyzes similarity between input text embeddings and dataset embeddings.
         /// </summary>
         public async Task<List<SimilarityPlotPoint>> AnalyzeEmbeddingsAsync(
-            string jsonFilePath, string label, string attribute, List<string> inputStrings)
+            string jsonFileName,
+            string attributeKeyForLabel,
+            string attributeKeyForEmbedding,
+            List<string> inputStrings
+        )
         {
+            var outputDir = @"..\..\..\Outputs";
+            var jsonFilePath = Path.Combine(outputDir, jsonFileName);
+
             // Check if JSON file exists
             if (!File.Exists(jsonFilePath))
                 throw new FileNotFoundException($"JSON file not found: {jsonFilePath}");
@@ -180,19 +200,35 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
             foreach (var record in records)
             {
-                if (record.Vectors.TryGetValue(attribute, out var vectorList) && vectorList.Count > 0)
+                // Ensure the attribute key exists in the record
+                // If so, extract the label using the attribute key (e.g., "Title" → Movie title)
+                if (!record.Attributes.TryGetValue(attributeKeyForLabel, out var recordLabel))
                 {
-                    var attributeEmbedding = vectorList.First().Values;
-
-                    var similarity1 = inputVectors.Count > 0 ? _similarityCalculator.ComputeCosineSimilarity(attributeEmbedding, inputVectors[0]) : 0f;
-                    var similarity2 = inputVectors.Count > 1 ? _similarityCalculator.ComputeCosineSimilarity(attributeEmbedding, inputVectors[1]) : 0f;
-                    var similarity3 = inputVectors.Count > 2 ? _similarityCalculator.ComputeCosineSimilarity(attributeEmbedding, inputVectors[2]) : 0f;
-
-                    similarityResults.Add(new SimilarityPlotPoint(label, similarity1, similarity2, similarity3));
+                    throw new KeyNotFoundException($"Attribute key '{attributeKeyForLabel}' not found in record attributes.");
                 }
+
+                // Ensure the record has embeddings for the specified attribute key
+                if (!record.Vectors.TryGetValue(attributeKeyForEmbedding, out var vectorList) || vectorList.Count == 0)
+                {
+                    throw new KeyNotFoundException($"No vector data found for attribute key '{attributeKeyForEmbedding}' in record.");
+                }
+
+                var attributeEmbedding = vectorList.First().Values;
+
+                // Calculate similarities dynamically for all input vectors
+                var similarities = new List<double>();
+                for (int i = 0; i < inputVectors.Count; i++)
+                {
+                    var similarity = _similarityCalculator.ComputeCosineSimilarity(attributeEmbedding, inputVectors[i]);
+                    Console.WriteLine($"Similarity with input {i + 1}: {similarity}");
+                    similarities.Add(similarity);
+                }
+
+                //similarityResults.Add(new SimilarityPlotPoint(recordLabel, similarities));
             }
 
             return similarityResults.OrderByDescending(p => p.SimilarityWithInput1).ToList();
         }
+
     }
 }

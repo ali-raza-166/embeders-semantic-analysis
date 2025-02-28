@@ -1,8 +1,15 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticSimilarityAnalysis.Proj", "SemanticSimilarityAnalysis.Proj\SemanticSimilarityAnalysis.Proj.csproj", "{89B7140C-3CF7-4836-91E0-5BE3908C79E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticSimilarityAnalysis.Test", "SemanticSimilarityAnalysis.Test\SemanticSimilarityAnalysis.Test.csproj", "{9222D922-D06D-4F7A-98CA-F657179380A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{139363E0-1A45-4D1E-8EB5-3317C222579F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +25,8 @@ Global
 		{9222D922-D06D-4F7A-98CA-F657179380A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9222D922-D06D-4F7A-98CA-F657179380A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9222D922-D06D-4F7A-98CA-F657179380A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

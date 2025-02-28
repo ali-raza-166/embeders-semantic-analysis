@@ -1,6 +1,5 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using SemanticSimilarityAnalysis.Proj.Interfaces;
 using SemanticSimilarityAnalysis.Proj.Models;
 using System.Globalization;
 
@@ -46,7 +45,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
 
                     if (attributes.Count > 0)
                     {
-                        records.Add(new MultiEmbeddingRecord(attributes, new Dictionary<string, List<IVectorData>>()));
+                        records.Add(new MultiEmbeddingRecord(attributes, new Dictionary<string, List<VectorData>>()));
                     }
                 }
             }

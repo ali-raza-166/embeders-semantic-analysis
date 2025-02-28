@@ -10,20 +10,20 @@ namespace SemanticSimilarityAnalysis.Proj.Models
     public class MultiEmbeddingRecord
     {
         public Dictionary<string, string> Attributes { get; private set; }
-        public Dictionary<string, List<IVectorData>> Vectors { get; private set; }
+        public Dictionary<string, List<VectorData>> Vectors { get; private set; }
 
-        public MultiEmbeddingRecord(Dictionary<string, string> attributes, Dictionary<string, List<IVectorData>>? vectors)
+        public MultiEmbeddingRecord(Dictionary<string, string> attributes, Dictionary<string, List<VectorData>>? vectors)
         {
             Attributes = attributes;
-            Vectors = vectors ?? new Dictionary<string, List<IVectorData>>();
+            Vectors = vectors ?? new Dictionary<string, List<VectorData>>();
         }
 
         // Add an embedding for a specific field after extracting the dataset
-        public void AddEmbedding(string field, IVectorData embedding)
+        public void AddEmbedding(string field, VectorData embedding)
         {
             if (!Vectors.ContainsKey(field))
             {
-                Vectors[field] = new List<IVectorData>();
+                Vectors[field] = new List<VectorData>();
             }
             Vectors[field].Add(embedding);
         }
@@ -36,17 +36,18 @@ namespace SemanticSimilarityAnalysis.Proj.Models
     public class VectorData : IVectorData
     {
         public string Id { get; private set; }
-        public Dictionary<string, MetadataValue?> Metadata { get; private set; }
         public List<float> Values { get; private set; }
+        public Dictionary<string, string?>? Metadata { get; private set; }
 
-        public VectorData(List<float> values, string? id = null, Dictionary<string, MetadataValue?>? metadata = null)
+        IEnumerable<KeyValuePair<string, MetadataValue?>> IVectorData.Metadata => throw new NotImplementedException();
+
+        public VectorData(List<float> values, string? id = null, Dictionary<string, string?>? metadata = null)
         {
             Values = values;
             Id = id ?? Guid.NewGuid().ToString();
-            Metadata = metadata ?? new Dictionary<string, MetadataValue?>();
+            Metadata = metadata ?? new Dictionary<string, string?>();
         }
 
-        IEnumerable<KeyValuePair<string, MetadataValue?>> IVectorData.Metadata => Metadata;
-    }
 
+    }
 }

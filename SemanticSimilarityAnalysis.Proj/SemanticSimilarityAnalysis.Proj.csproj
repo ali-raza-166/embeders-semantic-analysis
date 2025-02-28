@@ -8,6 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Datasets\new dataset 1.xlsx" />
+      <None Remove="Datasets\new dataset 2.xlsx" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Folder Include="Data\" />
       <Folder Include="PDFs\" />
     </ItemGroup>
