@@ -59,7 +59,7 @@ public class ProcessorAli
             //
             // } 
 
-            
+
             var models = embeddings.Select((embedding, index) => new PineconeModel(
                 embedding.Id,
                 embedding.Values.ToList(),
@@ -74,7 +74,7 @@ public class ProcessorAli
             ]);
             var queryResponse =
                 await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 1);
-            
+
             Console.WriteLine($"Count of matched vectors from pinecone: {queryResponse.Count}");
             foreach (var model in queryResponse)
             {
@@ -82,7 +82,7 @@ public class ProcessorAli
                 Console.WriteLine($"Score: {model.Score}");
                 Console.WriteLine(
                     $"Embedding vector (first 10 values): {string.Join(", ", model.Values.Take(10))}");
-                Console.WriteLine(); 
+                Console.WriteLine();
             }
 
             Console.WriteLine("Results computed by Manual TopK Method");

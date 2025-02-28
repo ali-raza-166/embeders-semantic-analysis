@@ -3,7 +3,7 @@
 .env
 **/bin
 **/obj
-
+**/Outputs
 # SemanticSimilarityAnalysis.Proj/bin/
 # SemanticSimilarityAnalysis.Proj/obj/
 # SemanticSimilarityAnalysis.Test/bin/
