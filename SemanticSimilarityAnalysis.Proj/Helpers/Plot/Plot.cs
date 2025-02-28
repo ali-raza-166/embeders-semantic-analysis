@@ -18,4 +18,12 @@ namespace SemanticSimilarityAnalysis.Proj.Models
         public double Y => SimilarityWithInput2;
         public double Z => SimilarityWithInput3;
     }
+    public SimilarityPlotPoint(string label, double similarity1, double similarity2 = 0, double similarity3 = 0)
+        {
+            Label = label;
+            SimilarityWithInput1 = similarity1;
+            SimilarityWithInput2 = similarity2;
+            SimilarityWithInput3 = similarity3;
+        }
+    }
 }
