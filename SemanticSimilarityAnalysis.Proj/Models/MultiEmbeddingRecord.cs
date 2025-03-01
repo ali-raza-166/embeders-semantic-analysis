@@ -37,17 +37,15 @@ namespace SemanticSimilarityAnalysis.Proj.Models
     {
         public string Id { get; private set; }
         public List<float> Values { get; private set; }
-        public Dictionary<string, string?>? Metadata { get; private set; }
+        public Dictionary<string, MetadataValue?>? Metadata { get; private set; }
 
         IEnumerable<KeyValuePair<string, MetadataValue?>> IVectorData.Metadata => throw new NotImplementedException();
 
-        public VectorData(List<float> values, string? id = null, Dictionary<string, string?>? metadata = null)
+        public VectorData(List<float> values, string? id = null, Dictionary<string, MetadataValue?>? metadata = null)
         {
             Values = values;
             Id = id ?? Guid.NewGuid().ToString();
-            Metadata = metadata ?? new Dictionary<string, string?>();
+            Metadata = metadata ?? new Dictionary<string, MetadataValue?>();
         }
-
-
     }
 }
