@@ -8,20 +8,16 @@ namespace SemanticSimilarityAnalysis.Proj.Services
     {
         private readonly ChatClient _openAiClient;
 
-        public OpenAiTextGenerationService()
+        public OpenAiTextGenerationService(ChatClient openAiClient)
         {
-            var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
-                         ?? throw new ArgumentNullException($"OPENAI_API_KEY", "API key is missing.");
-
-            _openAiClient = new ChatClient(model: "gpt-4o", apiKey);
+            _openAiClient = openAiClient ?? throw new ArgumentNullException(nameof(openAiClient));;
         }
-
         public async Task<string> GenerateTextAsync( string query, List<string> paragraphs)
         {
             var contextText = string.Join("\n\n", paragraphs);
 
             var prompt =
-                $"Here are five paragraphs:\n\n{contextText}\n\nBased on the above information, answer the following question:\n{query}";
+                $"Here are paragraphs:\n\n{contextText}\n\nBased on the above information, answer the following question:\n{query}";
 
             ChatCompletion completion = await _openAiClient.CompleteChatAsync(prompt);
             return completion.Content[0].Text;

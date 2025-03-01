@@ -1,14 +1,13 @@
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 using OpenAI.Embeddings;
 using SemanticSimilarityAnalysis.Proj.Models;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 {
-    public class OpenAiEmbeddingService()
+    public class OpenAiEmbeddingService
     {
         private readonly EmbeddingClient _embeddingClient;
 
-        public OpenAiEmbeddingService(EmbeddingClient embeddingClient) : this()
+        public OpenAiEmbeddingService(EmbeddingClient embeddingClient) 
         {
             _embeddingClient = embeddingClient ?? throw new ArgumentNullException(nameof(embeddingClient));
         }

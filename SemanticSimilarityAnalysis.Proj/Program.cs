@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI.Embeddings;
+using OpenAI.Chat;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
@@ -16,24 +17,25 @@ namespace SemanticSimilarityAnalysis.Proj
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-ada-002", apiKey))
+                .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey)) 
                 .AddSingleton<OpenAiEmbeddingService>()
-                //.AddSingleton<PineconeService>()
                 .AddSingleton<EmbeddingAnalysisService>()
+                .AddSingleton<OpenAiTextGenerationService>()
                 .AddSingleton<CosineSimilarity>()
                 .AddSingleton<EuclideanDistance>()
                 .AddSingleton<EmbeddingUtils>()
                 .AddSingleton<PdfHelper>()
                 .AddSingleton<CSVHelper>()
                 .AddSingleton<JsonHelper>()
-                .AddSingleton<OpenAiTextGenerationService>()
+                .AddSingleton<PineconeService>()
                 .AddSingleton<ProcessorAli>()  // Register ProcessorAli to be used in Main()
                 .BuildServiceProvider();
 
-            //var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-            //await processor.RunAsync();
-            var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            await analysis.ProcessDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", "");
-            await analysis.AnalyzeEmbeddingsAsync("imdb_1000_Embeddings.json", "Title", "Overview", ["romantic comedy", "investigate"]);
+            var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+            await processor.RunAsync();
+            // var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+            // await analysis.ProcessDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", "");
+            // await analysis.AnalyzeEmbeddingsAsync("/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Proj/Outputs/imdb_1000_Embeddings.json", "Title", "Overview", ["romantic comedy", "investigate"]);
         }
     }
 }
