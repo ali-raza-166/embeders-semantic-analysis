@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using OxyPlot;
 using OxyPlot.Series;
 using SemanticSimilarityAnalysis.Proj.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SemanticSimilarityAnalysis.Proj.Models
 {
@@ -74,3 +75,21 @@ public class SimilarityPlotter
         DisplayPlot(model);
     }
 }
+
+public class SimilarityPlotter
+{
+    public void Plot3D(List<SimilarityPlotPoint> points)
+    {
+        Console.WriteLine("3D plotting requires additional library support.");
+    }
+}
+
+private void DisplayPlot(PlotModel model)
+{
+    Application.EnableVisualStyles();
+    Form form = new Form { Width = 800, Height = 600 };
+    var plotView = new OxyPlot.WindowsForms.PlotView { Model = model, Dock = DockStyle.Fill };
+    form.Controls.Add();
+    Application.Run(form);
+}
+
