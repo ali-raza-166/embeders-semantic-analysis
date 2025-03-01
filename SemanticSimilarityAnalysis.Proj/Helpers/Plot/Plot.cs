@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using OxyPlot;
 using OxyPlot.Series;
+using SemanticSimilarityAnalysis.Proj.Models;
 
 namespace SemanticSimilarityAnalysis.Proj.Models
 {
@@ -25,5 +26,21 @@ namespace SemanticSimilarityAnalysis.Proj.Models
             SimilarityWithInput2 = similarity2;
             SimilarityWithInput3 = similarity3;
         }
+    }
+}
+
+public class SimilarityPlotter
+{
+    public void Plot1D(List<SimilarityPlotPoint> points)
+    {
+        var model = new PlotModel { Title = "1D Cosine Similarity" };
+        var scatterSeries = new ScatterSeries();
+
+        foreach (var point in points)
+        {
+            scatterSeries.Points.Add(new ScatterPoint(point.X, 0));
+        }
+        model.Series.Add(scatterSeries);
+        DisplayPlot(model);
     }
 }
