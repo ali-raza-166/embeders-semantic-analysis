@@ -38,7 +38,23 @@ public class SimilarityPlotter
 
         foreach (var point in points)
         {
-            scatterSeries.Points.Add(new ScatterPoint(point.X, 0));
+            scatterSeries.Points.Add(new ScatterPoint(point.X, Y));
+        }
+        model.Series.Add(scatterSeries);
+        DisplayPlot(model);
+    }
+}
+
+public class SimilarityPlotter
+{
+    public void Plot2D(List<SimilarityPlotPoint> points)
+    {
+        var model = new PlotModel { Title = "2D Cosine Similarity" };
+        var scatterSeries = new ScatterSeries();
+
+        foreach (var point in points)
+        {
+            scatterSeries.Points.Add(new ScatterPoint(point.X, point.Z));
         }
         model.Series.Add(scatterSeries);
         DisplayPlot(model);
