@@ -3,13 +3,14 @@ using SemanticSimilarityAnalysis.Proj.Interfaces;
 
 namespace SemanticSimilarityAnalysis.Proj.Models
 {
-    public class PineconeModel(string id, List<float> values, Dictionary<string, object?> metadata)
+    public class PineconeModel(string id, float score, List<float> values, Dictionary<string, object?> metadata)
         : IVectorData
     {
         public string Id { get; set; } = id;
         public List<float> Values { get; set; } = values;
         private Dictionary<string, object?> RawMetadata { get; set; } = metadata;
-        public float Score { get; set; }
+
+        public float Score { get; set; } = score;
         // Implement the Metadata property from IVectorData interface
         public IEnumerable<KeyValuePair<string, MetadataValue?>> Metadata =>
             RawMetadata.Select(kvp => new KeyValuePair<string, MetadataValue?>(

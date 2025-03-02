@@ -28,14 +28,14 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<CSVHelper>()
                 .AddSingleton<JsonHelper>()
                 .AddSingleton<PineconeService>()
-                .AddSingleton<ProcessorAli>()  // Register ProcessorAli to be used in Main()
+                .AddSingleton<ProcessorAli>()  
                 .BuildServiceProvider();
 
-            var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-            await processor.RunAsync();
-            // var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            // await analysis.ProcessDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", "");
-            // await analysis.AnalyzeEmbeddingsAsync("/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Proj/Outputs/imdb_1000_Embeddings.json", "Title", "Overview", ["romantic comedy", "investigate"]);
+            // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+            // await processor.RunAsync();
+            var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+            await analysis.ProcessDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", "");
+            await analysis.AnalyzeEmbeddingsAsync("/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Proj/Outputs/imdb_1000_Embeddings.json", "Title", "Overview", ["romantic comedy", "investigate"]);
         }
     }
 }
