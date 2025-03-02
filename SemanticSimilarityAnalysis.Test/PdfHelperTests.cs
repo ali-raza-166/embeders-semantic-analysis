@@ -1,9 +1,9 @@
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
 
-namespace TextExtractorTests
+namespace Helper.Tests
 {
     [TestClass]
-    public class PdfExtractorTests
+    public class PdfHelperTests
     {
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
@@ -18,16 +18,19 @@ namespace TextExtractorTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
         public void TestFileNotFound()
         {
-            string notFoundPath = @"..\..\..\PDFs\notFound.pdf";
+            // Arrange
+            string notFoundPath = @"..\..\..\PDFs\notFound.pdf"; // Path to a non-existent file
             var extractor = new PdfHelper();
-            var stringWriter = new StringWriter();
-            var consoleOutput = stringWriter.ToString();
-            extractor.ExtractTextChunks(notFoundPath, PdfHelper.ChunkType.Paragraph);
 
-            StringAssert.Contains(consoleOutput, "The PDF file was not found:");
+            // Act & Assert
+            var exception = Assert.ThrowsException<InvalidOperationException>(() =>
+                extractor.ExtractTextChunks(notFoundPath)
+            );
+
+            // Assert that the exception message contains the expected text
+            StringAssert.Contains(exception.Message, "No file exists at");
         }
 
         [TestMethod]
