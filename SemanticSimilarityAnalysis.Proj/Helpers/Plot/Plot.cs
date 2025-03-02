@@ -29,10 +29,10 @@ namespace SemanticSimilarityAnalysis.Proj.Models
 
     /// Initializes a new instance of the SimilarityPlotPoint class. 
     /// Parameter Names
-    /// "label">The label or name of the data point.
-    /// "similarity1">Similarity score with the first input.
-    /// "similarity2">Similarity score with the second input (default is 0).
-    /// "similarity3">Similarity score with the third input (default is 0).
+    /// "label"The label or name of the data point.
+    /// "similarity1"Similarity score with the first input.
+    /// "similarity2"Similarity score with the second input (default is 0).
+    /// "similarity3"Similarity score with the third input (default is 0).
     
     public SimilarityPlotPoint(string label, double similarity1, double similarity2 = 0, double similarity3 = 0)
         {
@@ -46,15 +46,20 @@ namespace SemanticSimilarityAnalysis.Proj.Models
 
 public class SimilarityPlotter
 {
+    /// Plots a 1D cosine similarity graph. 
+    /// Parameter Names
+    /// "points" A list of similarity plot points.
     public void Plot1D(List<SimilarityPlotPoint> points)
     {
+        // Create a new plot model with a title.
         var model = new PlotModel { Title = "1D Cosine Similarity" };
         var scatterSeries = new ScatterSeries();
-
+        // Add each data point to the scatter series.
         foreach (var point in points)
         {
             scatterSeries.Points.Add(new ScatterPoint(point.X, Y));
         }
+        // Add the series to the model and display the plot.
         model.Series.Add(scatterSeries);
         DisplayPlot(model);
     }
@@ -62,15 +67,21 @@ public class SimilarityPlotter
 
 public class SimilarityPlotter
 {
+    /// Plots a 2D cosine similarity graph. 
+    /// Parameter Names
+    /// "points" A list of similarity plot points.
     public void Plot2D(List<SimilarityPlotPoint> points)
     {
+        // Create a new plot model with a title.
         var model = new PlotModel { Title = "2D Cosine Similarity" };
         var scatterSeries = new ScatterSeries();
+        // Add each data point using X and Y values.
 
         foreach (var point in points)
         {
             scatterSeries.Points.Add(new ScatterPoint(point.X, point.Z));
         }
+        // Add the series to the model and display the plot.
         model.Series.Add(scatterSeries);
         DisplayPlot(model);
     }
@@ -78,11 +89,18 @@ public class SimilarityPlotter
 
 public class SimilarityPlotter
 {
+    /// Plots a 3D cosine similarity graph (Placeholder implementation). 
+    /// Parameter Names
+    /// "points" A list of similarity plot points. 
+
     public void Plot3D(List<SimilarityPlotPoint> points)
     {
+        // 3D plotting is not implemented due to library constraints.
         Console.WriteLine("3D plotting requires additional library support.");
     }
 }
+
+
 
 private void DisplayPlot(PlotModel model)
 {
