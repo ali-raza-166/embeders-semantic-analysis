@@ -1,3 +1,4 @@
+using LanguageDetection;
 using Microsoft.Extensions.DependencyInjection;
 using SemanticSimilarityAnalysis.Proj.Models;
 using SemanticSimilarityAnalysis.Proj.Services;
@@ -17,29 +18,12 @@ public class ProcessorAli
         var euclideanDistCalc = _serviceProvider.GetRequiredService<EuclideanDistance>();
         var pineconeService = _serviceProvider.GetRequiredService<PineconeService>();
         var textGenerationService = _serviceProvider.GetRequiredService<OpenAiTextGenerationService>();
-        var inputs = new List<string>
-        {
-            // iPhone 15
-            "The iPhone 15, released in 2023, boasts an advanced A16 Bionic chip, offering significant improvements in processing speed and energy efficiency. With a 6.1-inch Super Retina XDR display, it supports HDR10 and Dolby Vision for a vibrant visual experience. The iPhone 15 features a dual-camera system with a 48 MP primary lens and a 12 MP ultra-wide lens, ensuring high-quality photos and videos. It has 128GB of base storage and offers 5G connectivity for faster internet speeds. The battery life is impressive, providing up to 20 hours of video playback. The iPhone 15 is available in multiple colors, including black, white, and blue, and runs on iOS 17, with improvements in security and multitasking.",
 
-            // iPhone 15 Pro
-            "The iPhone 15 Pro, introduced alongside the iPhone 15, is a premium variant with a 6.1-inch OLED display, which delivers brighter images and more accurate colors, with a maximum brightness of 2000 nits. It is powered by the new A17 Pro chip, providing enhanced performance in gaming and multitasking. The iPhone 15 Pro’s triple-camera system includes a 48 MP wide-angle lens, a 12 MP telephoto lens with 3x optical zoom, and a 12 MP ultra-wide lens. The 5G capability ensures faster download speeds. Its battery supports up to 22 hours of video playback, and it also offers USB-C charging, making it compatible with various devices. The iPhone 15 Pro is available in titanium and other premium finishes.",
-
-            // iPhone 15 Plus
-            "The iPhone 15 Plus features a 6.7-inch Super Retina XDR display, making it the largest model in the iPhone 15 series. The display is designed for an immersive viewing experience with HDR10 support. Powered by the A16 Bionic chip, the iPhone 15 Plus is highly efficient and fast, providing an excellent performance for both everyday tasks and more demanding applications. The dual-camera setup consists of a 48 MP primary camera and a 12 MP ultra-wide lens. The iPhone 15 Plus also supports 5G and offers up to 26 hours of video playback on a single charge, making it an ideal choice for users who need a larger screen and long-lasting battery life. It comes in a variety of colors, including pink, blue, and black.",
-
-            // MacBook Air M2 (2023)
-            "The MacBook Air M2, released in 2023, is equipped with Apple’s new M2 chip, which delivers up to 18% faster CPU performance compared to the previous generation. The 13.6-inch Retina display offers vibrant colors and sharp details, making it ideal for creative professionals. With a fanless design, the MacBook Air M2 is both quiet and powerful. It features a 256GB base storage option and can be configured with up to 2TB of storage. The battery life is exceptional, offering up to 18 hours of wireless web browsing. The MacBook Air M2 also supports Wi-Fi 6 and comes in space gray, starlight, and midnight colors.",
-
-            // MacBook Pro 14-inch (2023)
-            "The MacBook Pro 14-inch (2023) is designed for power users, featuring the Apple M2 Pro chip with up to 10-core CPU performance. Its Liquid Retina XDR display, 14.2 inches in size, supports ProMotion for a smoother experience and has a brightness of up to 1600 nits. The MacBook Pro comes with 512GB of storage, which can be expanded to 8TB, and offers up to 32GB of unified memory. The battery life of up to 17 hours makes it suitable for extended use, even during intense workloads. This model also includes more ports than the MacBook Air, with HDMI, Thunderbolt 4, and an SDXC card slot, and it supports 5G for fast data speeds.",
-
-            // MacBook Pro 16-inch (2023)
-            "The MacBook Pro 16-inch (2023) is a powerhouse designed for creative professionals and developers. With the M2 Max chip, it provides up to 38-core GPU performance, making it ideal for video editing, 3D rendering, and other graphics-intensive tasks. The 16.2-inch Retina display provides an immersive visual experience with stunning details, offering up to 1600 nits of peak brightness. It supports up to 64GB of unified memory and up to 8TB of SSD storage. The battery life is impressive, offering up to 21 hours of video playback. Additionally, it includes a full-sized HDMI port, three Thunderbolt 4 ports, and an SD card slot, making it perfect for professionals who need the best performance and connectivity."
-        };
-        
+        LanguageDetector detector=new LanguageDetector();
+        detector.AddAllLanguages();
         try
         {
+            var inputs = GetMultilingualParagraphs();
             // await pineconeService.InitializeIndexAsync();
             // var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
 
@@ -59,21 +43,23 @@ public class ProcessorAli
             //
             // } 
 
-
             // var models = embeddings.Select((embedding, index) => new PineconeModel(
             //     embedding.Id,
             //     embedding.Values.ToList(),
-            //     new Dictionary<string, object?> { { "Text", inputs[index] } }
+            //     new Dictionary<string, object?>
+            //     {
+            //         { "Text", inputs[index] }, 
+            //         {"Language", detector.Detect(inputs[index])}
+            //     }
             // )).ToList();
             // await pineconeService.UpsertEmbeddingAsync(models, "default");
             // Console.WriteLine("Vector Embeddings successfully upserted into Pinecone.");
 
             //create embedding for Query item to test 
-            var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([
-                "What is the camera resolution of the iPhone 15?"
-            ]);
+            const string query =  "苹果手机 15 的摄像头规格是什么？";
+            var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([query]);
             var queryResponse =
-                await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 1);
+                await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 4, detector.Detect(query));
             var pineconeTopKparagraphs = new List<string>();
             Console.WriteLine($"Count of matched vectors from pinecone: {queryResponse.Count}");
             foreach (var retrievedVector in queryResponse)
@@ -106,7 +92,6 @@ public class ProcessorAli
             //     Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
             // }
             
-            const string query =  "What is the camera resolution of the iPhone 15?";
             var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
             Console.WriteLine(answer);
         }
@@ -116,4 +101,33 @@ public class ProcessorAli
         }
 
     }
+    public List<string> GetMultilingualParagraphs()
+        {
+            return new List<string>
+            {
+                // English Paragraphs
+                "The iPhone 15 is equipped with the latest A17 chip, providing faster performance and improved power efficiency. With the new chip, users can expect faster app launches, smoother multitasking, and a more responsive overall experience. It also features better graphics performance, making gaming and multimedia applications more immersive. Additionally, the A17 chip supports advanced machine learning capabilities, which enhances AI-driven features like facial recognition and voice assistants.",
+                "The iPhone 15 boasts a 48MP primary camera, offering incredibly sharp and detailed images. The new camera system features a larger sensor that allows more light to be captured, resulting in better low-light performance. Additionally, the ultra-wide camera and telephoto lenses have been upgraded to provide even more versatility in capturing wide-angle shots and telephoto zoom. The phone also supports ProRAW and ProRes video recording, offering content creators professional-grade features.",
+                "Apple's MacBook Pro models, now powered by the M2 chip, bring a significant performance upgrade compared to their predecessors. The M2 chip is designed to handle even the most demanding tasks with ease, providing an enhanced experience for video editing, gaming, and software development. With a higher GPU core count, the MacBook Pro also delivers better graphics performance, allowing for smoother rendering and better handling of 3D applications.",
+                "The MacBook Pro comes with a stunning Retina display, offering vibrant colors and deep contrasts for an immersive viewing experience. The True Tone technology adjusts the display's white balance to match the surrounding light, ensuring that images appear natural regardless of the environment. The display also supports P3 wide color and 500 nits of brightness, making it ideal for both professional creatives and casual users who enjoy high-quality visuals.",
+                "One of the key highlights of the iPhone 15 is its impressive battery life. Thanks to the energy-efficient A17 chip and an optimized power management system, the iPhone 15 can last up to 20 hours of video playback and up to 75 hours of audio playback. Fast charging is also available, with the device able to charge up to 50% in just 30 minutes with a compatible charger. This makes the iPhone 15 perfect for users who need a device that can keep up with their busy day-to-day activities.",
+                "The new MacBook Pro models offer an ultra-thin design that is both lightweight and powerful. Despite its slim profile, the MacBook Pro is built to handle intensive tasks without compromising on performance. The keyboard has also been redesigned for a quieter and more comfortable typing experience. With a larger trackpad and improved speakers, the MacBook Pro provides an exceptional user experience for both work and entertainment.",
+                
+                // German Translations
+                "Das iPhone 15 ist mit dem neuesten A17-Chip ausgestattet, der eine schnellere Leistung und eine verbesserte Energieeffizienz bietet. Mit dem neuen Chip können Benutzer schnellere App-Starts, flüssigeres Multitasking und eine insgesamt reaktionsschnellere Erfahrung erwarten. Es bietet auch eine bessere Grafikleistung, die Spiele- und Multimedia-Anwendungen noch fesselnder macht. Darüber hinaus unterstützt der A17-Chip fortschrittliche Funktionen für maschinelles Lernen, die KI-gesteuerte Funktionen wie Gesichtserkennung und Sprachassistenten verbessern.",
+                "Das iPhone 15 verfügt über eine 48-MP-Hauptkamera, die unglaublich scharfe und detailreiche Bilder bietet. Das neue Kamerasystem verfügt über einen größeren Sensor, der mehr Licht einfängt, was zu einer besseren Leistung bei schwachem Licht führt. Darüber hinaus wurden das Ultraweitwinkel- und das Teleobjektiv verbessert, um noch mehr Vielseitigkeit bei der Aufnahme von Weitwinkelaufnahmen und Telezoom zu bieten. Das iPhone 15 unterstützt auch ProRAW und ProRes Videoaufnahmen, die professionelle Funktionen für Content-Ersteller bieten.",
+                "Die MacBook Pro-Modelle von Apple, die jetzt mit dem M2-Chip ausgestattet sind, bieten einen erheblichen Leistungszuwachs im Vergleich zu ihren Vorgängern. Der M2-Chip wurde entwickelt, um selbst die anspruchsvollsten Aufgaben mühelos zu bewältigen und bietet eine verbesserte Erfahrung für Video-Bearbeitung, Gaming und Software-Entwicklung. Mit einer höheren GPU-Kernanzahl bietet das MacBook Pro auch eine bessere Grafikleistung, was für flüssigeres Rendering und bessere Handhabung von 3D-Anwendungen sorgt.",
+                "Das MacBook Pro verfügt über ein atemberaubendes Retina-Display, das lebendige Farben und tiefe Kontraste für ein intensives Seherlebnis bietet. Die True Tone-Technologie passt die Weißabgleich des Displays an das umgebende Licht an, sodass Bilder unabhängig von der Umgebung natürlich erscheinen. Das Display unterstützt auch P3-Weißfarbe und 500 Nits Helligkeit, was es ideal für sowohl professionelle Kreative als auch für Benutzer macht, die hochwertige visuelle Darstellungen genießen.",
+                "Ein Höhepunkt des iPhone 15 ist die beeindruckende Akkulaufzeit. Dank des energieeffizienten A17-Chips und eines optimierten Energiemanagementsystems kann das iPhone 15 bis zu 20 Stunden Videowiedergabe und bis zu 75 Stunden Audiowiedergabe bieten. Auch schnelles Laden ist verfügbar, mit dem Gerät, das in nur 30 Minuten bis zu 50 % aufgeladen werden kann. Dies macht das iPhone 15 ideal für Benutzer, die ein Gerät benötigen, das mit ihrem hektischen Alltag mithalten kann.",
+                "Die neuen MacBook Pro-Modelle bieten ein ultradünnes Design, das sowohl leicht als auch leistungsstark ist. Trotz seines schlanken Profils ist das MacBook Pro so konzipiert, dass es intensive Aufgaben problemlos bewältigen kann, ohne die Leistung zu beeinträchtigen. Die Tastatur wurde ebenfalls neu gestaltet, um eine ruhigere und komfortablere Tipp-Erfahrung zu bieten. Mit einem größeren Trackpad und verbesserten Lautsprechern bietet das MacBook Pro ein außergewöhnliches Benutzererlebnis für Arbeit und Unterhaltung.",
+                
+                // Chinese Translations
+                "iPhone 15 配备了最新的 A17 芯片，提供更快的性能和更高的能效。凭借这款新芯片，用户可以期待更快的应用启动，更流畅的多任务处理以及更加响应迅速的整体体验。它还具有更强的图形性能，使得游戏和多媒体应用更加沉浸式。此外，A17 芯片还支持先进的机器学习能力，增强了面部识别和语音助手等 AI 驱动的功能。",
+                "iPhone 15 配备了一颗 48MP 的主摄像头，提供令人惊叹的锐利和细致图像。新的摄像头系统具有更大的传感器，可以捕捉更多的光线，从而提高低光环境下的表现。此外，超广角摄像头和长焦镜头也经过升级，提供更大的拍摄视角和更强的远摄变焦功能。该设备还支持 ProRAW 和 ProRes 视频录制，为内容创作者提供专业级功能。",
+                "Apple 的新款 MacBook Pro 配备了 M2 芯片，相较于前代产品带来了显著的性能提升。M2 芯片旨在轻松处理最繁重的任务，为视频编辑、游戏和软件开发提供更强的支持。凭借更高的 GPU 核心数，MacBook Pro 还提供更强的图形性能，使渲染更加流畅，3D 应用程序的处理能力更强。",
+                "MacBook Pro 配备了令人惊叹的 Retina 显示屏，提供鲜艳的色彩和深邃的对比度，带来身临其境的视觉体验。True Tone 技术会根据周围的光线调整显示屏的白平衡，确保图像在任何环境下都显得自然。该显示屏还支持 P3 广色域和 500 尼特的亮度，非常适合专业创作者以及喜欢高质量视觉体验的普通用户。",
+                "iPhone 15 的一个亮点是其出色的电池续航。得益于高效能的 A17 芯片和优化的电源管理系统，iPhone 15 可支持最长 20 小时的视频播放和 75 小时的音频播放。还支持快速充电，使用兼容充电器时可在 30 分钟内充电至 50%。这使得 iPhone 15 非常适合那些需要全天候设备支持的用户。",
+                "新款 MacBook Pro 提供了超薄的设计，兼具轻巧和强大的性能。尽管其外形纤薄，MacBook Pro 依然能应对高负荷任务，性能毫不妥协。键盘也经过重新设计，带来更加安静和舒适的打字体验。凭借更大的触控板和更强的扬声器，MacBook Pro 提供了卓越的工作和娱乐体验。",
+            };
+        }
 }

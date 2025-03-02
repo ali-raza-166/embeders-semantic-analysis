@@ -23,11 +23,10 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     ReadOnlyMemory<float> vector = embedding.ToFloats();
                     var vectorList = vector.Span.ToArray().ToList();
 
+                    Console.WriteLine($"Embedding vector index: {embedding.Index}");
                     Console.WriteLine($"Embedding vector (first 10 values): {string.Join(", ", vectorList.Take(10))}");
                     Console.WriteLine($"Embedding vector: {vectorList}\n");
-                    Console.WriteLine($"Embedding vector index: {embedding.Index}");
-
-
+                    
                     var text = inputs[embedding.Index];
 
                     var newEmbedding = new Embedding(embedding.Index, text, vectorList);
