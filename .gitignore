@@ -1,6 +1,7 @@
 .idea/
 .vs/
 .env
+Solution Items
 **/bin
 **/obj
 **/Outputs

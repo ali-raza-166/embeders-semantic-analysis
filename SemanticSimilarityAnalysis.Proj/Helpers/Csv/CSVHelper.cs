@@ -17,9 +17,6 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
 
             try
             {
-                if (!File.Exists(csvFilePath))
-                    throw new FileNotFoundException($"CSV file not found: {csvFilePath}");
-
                 using var reader = new StreamReader(csvFilePath);
                 using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
@@ -51,15 +48,17 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             }
             catch (FileNotFoundException ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                throw new FileNotFoundException($"CSV file not found: {csvFilePath}", ex);
             }
-            catch (CsvHelperException ex)
+            catch (CsvHelper.MissingFieldException ex)
             {
-                Console.WriteLine($"CSV parsing error: {ex.Message}");
+                Console.WriteLine($"Missing field in CSV: {ex.Message}");
+                throw; // Rethrow the exception
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                throw;
             }
 
             return records;
