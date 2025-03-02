@@ -57,16 +57,14 @@ public class SimilarityPlotter
         // Add each data point to the scatter series.
         foreach (var point in points)
         {
-            scatterSeries.Points.Add(new ScatterPoint(point.X, Y));
+            scatterSeries.Points.Add(new ScatterPoint(point.X, 0));
         }
         // Add the series to the model and display the plot.
         model.Series.Add(scatterSeries);
         DisplayPlot(model);
     }
-}
 
-public class SimilarityPlotter
-{
+
     /// Plots a 2D cosine similarity graph. 
     /// Parameter Names
     /// "points" A list of similarity plot points.
@@ -79,16 +77,14 @@ public class SimilarityPlotter
 
         foreach (var point in points)
         {
-            scatterSeries.Points.Add(new ScatterPoint(point.X, point.Z));
+            scatterSeries.Points.Add(new ScatterPoint(point.X, point.Y));
         }
         // Add the series to the model and display the plot.
         model.Series.Add(scatterSeries);
         DisplayPlot(model);
     }
-}
 
-public class SimilarityPlotter
-{
+
     /// Plots a 3D cosine similarity graph (Placeholder implementation). 
     /// Parameter Names
     /// "points" A list of similarity plot points. 
@@ -100,14 +96,12 @@ public class SimilarityPlotter
     }
 }
 
-
-
 private void DisplayPlot(PlotModel model)
 {
     Application.EnableVisualStyles();
     Form form = new Form { Width = 800, Height = 600 };
     var plotView = new OxyPlot.WindowsForms.PlotView { Model = model, Dock = DockStyle.Fill };
-    form.Controls.Add();
+    form.Controls.Add(plotView);
     Application.Run(form);
 }
 
