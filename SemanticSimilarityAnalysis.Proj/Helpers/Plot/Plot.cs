@@ -95,13 +95,20 @@ public class SimilarityPlotter
         Console.WriteLine("3D plotting requires additional library support.");
     }
 }
-
+/// Displays the given plot using a Windows Forms window.
+/// Parameter Names
+/// "model" The plot model to be displayed.
 private void DisplayPlot(PlotModel model)
 {
+    // Enable Windows Forms visual styles for better UI rendering.
     Application.EnableVisualStyles();
+    // Create a new form window.
     Form form = new Form { Width = 800, Height = 600 };
+    // Create a plot view and set its model.
     var plotView = new OxyPlot.WindowsForms.PlotView { Model = model, Dock = DockStyle.Fill };
+    // Add the plot view to the form.
     form.Controls.Add(plotView);
+    // Display the form with the plot.
     Application.Run(form);
 }
 
