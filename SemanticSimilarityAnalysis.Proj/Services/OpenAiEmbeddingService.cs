@@ -1,14 +1,13 @@
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 using OpenAI.Embeddings;
 using SemanticSimilarityAnalysis.Proj.Models;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 {
-    public class OpenAiEmbeddingService()
+    public class OpenAiEmbeddingService
     {
         private readonly EmbeddingClient _embeddingClient;
 
-        public OpenAiEmbeddingService(EmbeddingClient embeddingClient) : this()
+        public OpenAiEmbeddingService(EmbeddingClient embeddingClient) 
         {
             _embeddingClient = embeddingClient ?? throw new ArgumentNullException(nameof(embeddingClient));
         }
@@ -21,15 +20,13 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 var embeddingsList = new List<Embedding>();
                 foreach (OpenAIEmbedding embedding in collection)
                 {
-                    Console.WriteLine($"Found embedding: {embedding}");
-                    Console.WriteLine(embedding.Index);
-
                     ReadOnlyMemory<float> vector = embedding.ToFloats();
                     var vectorList = vector.Span.ToArray().ToList();
 
+                    Console.WriteLine($"Embedding vector index: {embedding.Index}");
                     Console.WriteLine($"Embedding vector (first 10 values): {string.Join(", ", vectorList.Take(10))}");
                     Console.WriteLine($"Embedding vector: {vectorList}\n");
-
+                    
                     var text = inputs[embedding.Index];
 
                     var newEmbedding = new Embedding(embedding.Index, text, vectorList);
