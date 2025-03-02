@@ -105,17 +105,7 @@ public class ProcessorAli
             //     topKParagraphs.Add(inputs[modelIndex]);
             //     Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
             // }
-
-
-            // //Testin the Text Generation pipeline
-            // List<string> paragraphs =
-            // [
-            //     "The Eiffel Tower is one of the most famous landmarks in the world, located in Paris, France.",
-            //     "Paris is the capital city of France and is known for its rich history, culture, and cuisine.",
-            //     "France is a European country that has a strong influence in art, fashion, and diplomacy.",
-            //     "The French Revolution was a major event that changed the course of history in France and beyond.",
-            //     "Tourists visiting France often explore the Louvre Museum, which houses the Mona Lisa."
-            // ];
+            
             const string query =  "What is the camera resolution of the iPhone 15?";
             var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
             Console.WriteLine(answer);
