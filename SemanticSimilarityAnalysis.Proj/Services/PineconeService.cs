@@ -95,24 +95,22 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
             var queryResponse = await index.QueryAsync(queryRequest);
             
-            Console.WriteLine($"Query response in service: {queryResponse}");
-            // Return an empty list if no matches are found
             if (queryResponse.Matches == null) return [];
+            var retrievedVectors=new List<PineconeModel>();
             foreach (var match in queryResponse.Matches)
             {
-                Console.WriteLine($"Match ID: {match.Id}, Score: {match.Score}");
-            }
-            Console.WriteLine("Going out of pinecone service");
-            return queryResponse.Matches.Select(match =>
-            {
                 
-                // Ensure that match.Values is an array and can be converted to List<float>
+                var score = match.Score ?? 0f;  // Provide a default value (e.g., 0f) if Score is null
                 var values = match.Values.HasValue ? match.Values.Value.Span.ToArray().ToList() : [];
-                return new PineconeModel(match.Id, match.Values?.Span.ToArray().ToList()!,  new Dictionary<string, object?>());
-            }).ToList();
-            
+                var metadata = match.Metadata?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.Value) 
+                               ?? new Dictionary<string, object?>();
+               
+                // Create a new PineconeModel object and add it to the list
+                var pineconeModel = new PineconeModel(match.Id, score, values, metadata);
+                retrievedVectors.Add(pineconeModel);
+            }
+            return retrievedVectors;
         }
-        
     }
     
 }

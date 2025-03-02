@@ -19,7 +19,6 @@ namespace SemanticSimilarityAnalysis.Test
             // Set up the service with the mocked EmbeddingClient
             _embeddingService = new OpenAiEmbeddingService(_mockEmbeddingClient.Object);
         }
-
-       
+        
     }
 }
