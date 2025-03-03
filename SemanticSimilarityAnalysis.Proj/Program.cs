@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI.Embeddings;
 using OpenAI.Chat;
+using OpenAI.Embeddings;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
@@ -17,7 +17,7 @@ namespace SemanticSimilarityAnalysis.Proj
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-ada-002", apiKey))
-                .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey)) 
+                .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
                 .AddSingleton<OpenAiEmbeddingService>()
                 .AddSingleton<EmbeddingAnalysisService>()
                 .AddSingleton<OpenAiTextGenerationService>()
@@ -28,14 +28,50 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<CSVHelper>()
                 .AddSingleton<JsonHelper>()
                 .AddSingleton<PineconeService>()
-                .AddSingleton<ProcessorAli>()  
+                .AddSingleton<ProcessorAli>()
                 .BuildServiceProvider();
 
             // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
             // await processor.RunAsync();
             var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            await analysis.ProcessDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", "");
-            await analysis.AnalyzeEmbeddingsAsync("/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Proj/Outputs/imdb_1000_Embeddings.json", "Title", "Overview", ["romantic comedy", "investigate"]);
+            var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
+
+            var list1 = new List<string>
+            {
+                "racket",
+                "footstep",
+                "happy",
+                "software",
+                "playground",
+                "AI",
+                "robotics",
+                "cinema",
+                "physics",
+                "grip",
+                "assination"
+            };
+
+            var list2 = new List<string>
+            {
+                "technology",
+                "badminton",
+                "violence",
+                "mecha",
+                "children"
+            };
+
+            // Words vs Words
+            var wordsResult = await analysis.CompareWordsVsWordsAsync(list1, list2);
+            csvHelper.ExportToCsv(wordsResult, "words.csv");
+
+            // Words vs PDFs
+            var pdfResult = await analysis.ComparePdfsvsWordsAsync(list2);
+            csvHelper.ExportToCsv(pdfResult, "pdfs.csv");
+
+            // Words vs Dataset
+            await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);
+            var datasetResults = await analysis.compareDataSetVsWords("imdb_1000_Embeddings.json", "Title", "Overview", list2);
+            csvHelper.ExportToCsv(datasetResults, "imdb_1000_Similarity.csv");
         }
     }
 }

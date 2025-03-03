@@ -1,50 +1,7 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Windows.Forms;
-//using OxyPlot;
-//using OxyPlot.Series;
-//using SemanticSimilarityAnalysis.Proj.Models;
+﻿//using SemanticSimilarityAnalysis.Proj.Models;
 //using static System.Net.Mime.MediaTypeNames;
 
-//namespace SemanticSimilarityAnalysis.Proj.Models
-//{
-//    /// Represents a data point for plotting similarity values.
-//    public class SimilarityPlotPoint
-//    {
-//        /// Label representing the movie or item being compared.
-//        public string Label { get; set; }
-//        /// Cosine similarity score with the first input parameter.
-//        public double SimilarityWithInput1 { get; set; }
-//        /// Cosine similarity score with the second input parameter.
-//        public double SimilarityWithInput2 { get; set; }
-//        /// Cosine similarity score with the third input parameter.
-//        public double SimilarityWithInput3 { get; set; }
-
-//        // Map the similarity values to coordinate system.
-//        public double X => SimilarityWithInput1;
-//        public double Y => SimilarityWithInput2;
-//        public double Z => SimilarityWithInput3;
-//    }
-
-//    /// Initializes a new instance of the SimilarityPlotPoint class. 
-//    /// Parameter Names
-//    /// "label"The label or name of the data point.
-//    /// "similarity1"Similarity score with the first input.
-//    /// "similarity2"Similarity score with the second input (default is 0).
-//    /// "similarity3"Similarity score with the third input (default is 0).
-
-//    public SimilarityPlotPoint(string label, double similarity1, double similarity2 = 0, double similarity3 = 0)
-//        {
-//            Label = label;
-//            SimilarityWithInput1 = similarity1;
-//            SimilarityWithInput2 = similarity2;
-//            SimilarityWithInput3 = similarity3;
-//        }
-//    }
-//}
-
-//public class SimilarityPlotter
+//public class PlotHelper
 //{
 //    /// Plots a 1D cosine similarity graph. 
 //    /// Parameter Names

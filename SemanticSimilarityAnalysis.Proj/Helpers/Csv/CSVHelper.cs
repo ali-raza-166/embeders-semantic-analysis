@@ -7,7 +7,13 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
 {
     public class CSVHelper
     {
-        // Extract records from a CSV file
+        /// <summary>
+        /// Extract records from a CSV file
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <param name="csvFilePath"></param>
+        /// <returns></returns>
+        /// <exception cref="FileNotFoundException"></exception>
         public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(
             List<string> fields,
             string csvFilePath
@@ -64,5 +70,86 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             return records;
         }
 
+        /// <summary>
+        /// Export the similarity results to a CSV file
+        /// </summary>
+        /// <param name="similarityResults">List of similarity plot points</param>
+        /// <param name="csvFileName">Name of the CSV file you want to create</param>
+        /// <param name="outputDir">Path to the directory where you want to save the CSV file</param>
+        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"..\..\..\Outputs\CSV")
+        {
+            // Ensure the output directory exists
+            if (!Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
+
+            var csvFilePath = Path.Combine(outputDir, csvFileName);
+
+            using (var writer = new StreamWriter(csvFilePath))
+            using (var csv = new CsvHelper.CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                // Write header
+                csv.WriteField("Label");
+                foreach (var inputKey in similarityResults.First().Similarities.Keys)
+                {
+                    csv.WriteField(inputKey);
+                }
+                csv.NextRecord();
+
+                // Write data rows
+                foreach (var point in similarityResults)
+                {
+                    csv.WriteField(point.Label);
+                    foreach (var similarity in point.Similarities.Values)
+                    {
+                        csv.WriteField(similarity);
+                    }
+                    csv.NextRecord();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Determines the number of rows to process based on the user input and the number of rows in the CSV file.
+        /// </summary>
+        /// <param name="allRecords">All records extracted from the CSV file.</param>
+        /// <param name="processedRows">Number of rows requested by the user (default is -1, which means use 20 rows).</param>
+        /// <returns>The number of rows to process.</returns>
+        public int DetermineRowsToProcess(List<MultiEmbeddingRecord> allRecords, ref int processedRows)
+        {
+            // Determine if processedRows is the default value or user-provided
+            bool isDefaultProcessedRows = (processedRows == -1); // Sentinel value check
+
+            // Set the default number of rows to 20 if no user input is provided
+            if (isDefaultProcessedRows)
+            {
+                processedRows = 20; // Default value
+                Console.WriteLine("Using default number of rows: 20.");
+            }
+            else
+            {
+                Console.WriteLine($"User requested number of rows: {processedRows}.\n");
+            }
+
+            // Check if the CSV file has fewer rows than the requested processedRows
+            if (allRecords.Count < processedRows)
+            {
+                // If the user provided a value for processedRows (not the default), throw an error
+                if (!isDefaultProcessedRows)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(processedRows),
+                        $"Requested {processedRows} rows, but the CSV file contains only {allRecords.Count} rows.");
+                }
+                else
+                {
+                    // If processedRows is the default value, proceed with all available rows
+                    Console.WriteLine($"CSV file has fewer than the default ({processedRows}) rows ({allRecords.Count} rows). Proceeding with all available rows.");
+                }
+            }
+
+            // Determine the number of rows to process
+            return Math.Min(processedRows, allRecords.Count); // Use the smaller of the two values
+        }
     }
 }
