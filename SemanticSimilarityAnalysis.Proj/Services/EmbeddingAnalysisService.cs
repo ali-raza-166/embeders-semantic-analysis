@@ -41,13 +41,14 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             _jsonHelper = jsonHelper;
         }
 
+
         /// <summary>
         /// Compares the similarity between all words in the first list and all words in the second list.
         /// </summary>
         /// <param name="words1">The first list of words to compare.</param>
         /// <param name="words2">The second list of words to compare.</param>
         /// <returns>A list of SimilarityPlotPoint objects, organized in a table-like format.</returns>
-        public async Task<List<SimilarityPlotPoint>> CompareWordsVsWordsAsync(List<string> words1, List<string> words2)
+        public async Task<List<SimilarityPlotPoint>> CompareWordsVsWords(List<string> words1, List<string> words2)
         {
             if (words1 == null || words1.Count == 0)
             {
@@ -97,9 +98,9 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 // Create a SimilarityPlotPoint for this row (word from words1)
                 similarityResults.Add(new SimilarityPlotPoint(words1[i], similarities));
             }
-
             return similarityResults;
         }
+
 
         /// <summary>
         /// Compares the similarity between a list of words and the content of PDF files in a folder.
@@ -108,7 +109,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         /// <param name="pdfFolderPath">The path to the folder containing PDF files.</param>
         /// <param name="chunkType">The type of chunks to extract from the PDF (paragraphs, sentences, or none).</param>
         /// <returns>A list of SimilarityPlotPoint objects, where each row represents a PDF file and columns represent words.</returns>
-        public async Task<List<SimilarityPlotPoint>> ComparePdfsvsWordsAsync(List<string> words, string pdfFolderPath = @"..\..\..\PDFs", PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None)
+        public async Task<List<SimilarityPlotPoint>> ComparePdfsvsWords(List<string> words, string pdfFolderPath = @"../../../PDFs", PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None)
         {
             if (words == null || words.Count == 0)
             {
@@ -190,20 +191,100 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
 
         /// <summary>
+        /// Compares the cosine similarity of all PDFs in the specified folder.
+        /// This method extracts text from each PDF, generates embeddings for the extracted text chunks,
+        /// computes the average embedding for each PDF, and then calculates the cosine similarity between all unique document pairs.
+        /// The similarity results are returned as a list of SimilarityPlotPoint objects containing the label and similarity values.
+        /// </summary>
+        /// <param name="inputDir">The directory containing the PDF files to be compared.</param>
+        /// <param name="chunkType">The type of chunking to apply when extracting text from PDFs (default is None).</param>
+        /// <returns>Returns a list of SimilarityPlotPoint objects</returns>
+        public async Task<List<SimilarityPlotPoint>> CompareAllPdfDocuments(
+             string inputDir = @"../../../PDFs",
+             PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None
+        )
+        {
+            // Get all PDF file paths in the directory
+            var pdfFiles = Directory.GetFiles(inputDir, "*.pdf");
+
+            if (pdfFiles.Length < 2)
+            {
+                throw new InvalidOperationException("At least two PDF files are required for comparison.");
+            }
+
+            Console.WriteLine($"Extracting text from {pdfFiles.Length} PDF files...");
+
+            // Dictionary to store average embeddings for each PDF (using file paths as keys)
+            var averageEmbeddingsDict = new Dictionary<string, List<float>>();
+
+            // Process each PDF file to generate embeddings
+            foreach (var pdfFile in pdfFiles)
+            {
+                string fileName = Path.GetFileName(pdfFile);
+
+                // Extract text chunks from the PDF
+                var textChunks = _pdfHelper.ExtractTextChunks(pdfFile, chunkType);
+
+                if (textChunks.Count == 0)
+                {
+                    Console.WriteLine($"Warning: No extractable text in {fileName}.");
+                    continue;
+                }
+
+                // Generate embeddings for the text chunks and compute the average embedding
+                var embeddings = await _embeddingService.CreateEmbeddingsAsync(textChunks);
+                averageEmbeddingsDict[pdfFile] = _embeddingUtils.GetAverageEmbedding(embeddings);
+            }
+
+            Console.WriteLine("Computing similarity metrics for all document pairs...");
+
+            // List to store similarity plot points
+            var similarityPlotPoints = new List<SimilarityPlotPoint>();
+
+            for (int i = 0; i < pdfFiles.Length; i++)
+            {
+                for (int j = i + 1; j < pdfFiles.Length; j++)
+                {
+                    string filePath1 = pdfFiles[i];
+                    string filePath2 = pdfFiles[j];
+
+                    string fileName1 = Path.GetFileName(filePath1);
+                    string fileName2 = Path.GetFileName(filePath2);
+
+                    // Check if embeddings are available for both files
+                    if (!averageEmbeddingsDict.TryGetValue(filePath1, out var avgEmbedding1) ||
+                        !averageEmbeddingsDict.TryGetValue(filePath2, out var avgEmbedding2))
+                    {
+                        Console.WriteLine($"Warning: Skipping comparison for {fileName1} and {fileName2} due to missing embeddings.");
+                        continue;
+                    }
+
+                    double cosineSimilarity = _similarityCalculator.ComputeCosineSimilarity(avgEmbedding1, avgEmbedding2);
+
+                    similarityPlotPoints.Add(new SimilarityPlotPoint(fileName1, new Dictionary<string, double> { { fileName2, cosineSimilarity } }));
+
+                    Console.WriteLine($"Cosine Similarity between {fileName1} and {fileName2}: {cosineSimilarity}");
+                }
+            }
+            return similarityPlotPoints;
+        }
+
+
+        /// <summary>
         /// Analyzes similarity between input text embeddings and dataset embeddings. 
         /// </summary>
         /// <param name="jsonFileName">The name of the JSON file containing dataset embeddings.</param>
         /// <param name="attributeKeyForLabel">The key in the JSON file representing the label.</param>
-        /// <param name="attributeKeyForEmbedding">The key in the JSON file representing the embedding.</param>
+        /// <param name="attributeKeyForEmbedding">The key in the JSON file representing the embedding which will be compared with the input embeddings.</param>
         /// <param name="inputStrings">A list of input text strings to analyze.</param>
-        /// <param name="inputDir">The directory containing the JSON file. Default is @"..\..\..\Outputs".</param>
+        /// <param name="inputDir">The directory containing the JSON file. Default is @"../../../Outputs".</param>
         /// <returns>A list of SimilarityPlotPoint objects for plotting.</returns>
         public async Task<List<SimilarityPlotPoint>> compareDataSetVsWords(
             string jsonFileName,
             string attributeKeyForLabel,
             string attributeKeyForEmbedding,
             List<string> inputStrings,
-            string inputDir = @"..\..\..\Outputs")
+            string inputDir = @"../../../Outputs")
         {
             var jsonFilePath = Path.Combine(inputDir, jsonFileName);
 
@@ -262,53 +343,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
 
         /// <summary>
-        /// Compares document embeddings by averaging all embeddings in each document.
-        /// </summary>
-        /// <param name="pdf1">The name of the first PDF file.</param>
-        /// <param name="pdf2">The name of the second PDF file.</param>
-        /// <param name="chunkType">The type of chunk to extract from the PDFs (default is none).</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        //public async Task ComparePdfDocumentsAsync(string pdf1, string pdf2, PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None)
-        //{
-        //    // Default directory for PDF files
-        //    string defaultPath = @"..\..\..\PDFs";
-
-        //    // Construct full file paths
-        //    string pdfFilePath1 = Path.Combine(defaultPath, pdf1);
-        //    string pdfFilePath2 = Path.Combine(defaultPath, pdf2);
-
-        //    Console.WriteLine($"Extracting text from: {pdf1} and {pdf2}");
-
-        //    // Extract text from both PDFs
-        //    var textChunks1 = _pdfHelper.ExtractTextChunks(pdfFilePath1, chunkType);
-        //    var textChunks2 = _pdfHelper.ExtractTextChunks(pdfFilePath2, chunkType);
-
-        //    if (textChunks1.Count == 0 || textChunks2.Count == 0)
-        //    {
-        //        throw new InvalidOperationException("One or both PDF files contain no extractable text.");
-        //    }
-
-        //    Console.WriteLine("Generating embeddings for both documents...");
-
-        //    // Generate embeddings for extracted text
-        //    var embeddingsDoc1 = await _embeddingService.CreateEmbeddingsAsync(textChunks1);
-        //    var embeddingsDoc2 = await _embeddingService.CreateEmbeddingsAsync(textChunks2);
-
-        //    // Compute average embeddings for comparison
-        //    var vectorA = _embeddingUtils.GetAverageEmbedding(embeddingsDoc1);
-        //    var vectorB = _embeddingUtils.GetAverageEmbedding(embeddingsDoc2);
-
-        //    // Compute similarity metrics
-        //    double cosineSimilarity = _similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
-        //    double euclideanDistance = _euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
-
-        //    // Output results
-        //    Console.WriteLine($"Cosine Similarity: {cosineSimilarity}");
-        //    Console.WriteLine($"Euclidean Distance: {euclideanDistance}");
-        //}
-
-
-        /// <summary>
         /// Processes dataset embeddings from a CSV file and saves them as JSON.
         /// </summary>
         /// <param name="fields">List of fields to extract from the CSV file.</param>
@@ -321,8 +355,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             List<string> fields,
             string csvFileName,
             int processedRows = -1, // Sentinel value to indicate no user input
-            string inputDir = @"..\..\..\Datasets",
-            string outputDir = @"..\..\..\Outputs"
+            string inputDir = @"../../../Datasets",
+            string outputDir = @"../../../Outputs"
         )
         {
             // Validate that the fields list is not null or empty
@@ -345,7 +379,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             var allRecords = _csvHelper.ExtractRecordsFromCsv(fields, datasetPath);
 
             // Determine the number of rows to process
-            int rowsToProcess = _csvHelper.DetermineRowsToProcess(allRecords, ref processedRows);
+            int rowsToProcess = _csvHelper.DetermineRowsToProcess(allRecords, processedRows);
             Console.WriteLine($"Processing {rowsToProcess} rows.");
 
             // Take only the specified number of rows
