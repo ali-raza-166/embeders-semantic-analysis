@@ -32,11 +32,47 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<Word2VecService>(provider => new Word2VecService("./Datasets/glove.6B.300d.txt"))  // Register Word2VecService
                 .BuildServiceProvider();
 
-            var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-            await processor.RunAsync();
-            // var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            // await analysis.ProcessDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", "");
-            // await analysis.AnalyzeEmbeddingsAsync("/Users/macbookpro/FUAS-Academic/SE/SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Proj/Outputs/imdb_1000_Embeddings.json", "Title", "Overview", ["romantic comedy", "investigate"]);
+            // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+            // await processor.RunAsync();
+            var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+            var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
+
+            var list1 = new List<string>
+            {
+                "racket",
+                "footstep",
+                "happy",
+                "software",
+                "playground",
+                "AI",
+                "robotics",
+                "cinema",
+                "physics",
+                "grip",
+                "assination"
+            };
+
+            var list2 = new List<string>
+            {
+                "technology",
+                "badminton",
+                "violence",
+                "mecha",
+                "children"
+            };
+
+            // Words vs Words
+            var wordsResult = await analysis.CompareWordsVsWordsAsync(list1, list2);
+            csvHelper.ExportToCsv(wordsResult, "words.csv");
+
+            // Words vs PDFs
+            var pdfResult = await analysis.ComparePdfsvsWordsAsync(list2);
+            csvHelper.ExportToCsv(pdfResult, "pdfs.csv");
+
+            // Words vs Dataset
+            await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);
+            var datasetResults = await analysis.compareDataSetVsWords("imdb_1000_Embeddings.json", "Title", "Overview", list2);
+            csvHelper.ExportToCsv(datasetResults, "imdb_1000_Similarity.csv");
         }
     }
 }

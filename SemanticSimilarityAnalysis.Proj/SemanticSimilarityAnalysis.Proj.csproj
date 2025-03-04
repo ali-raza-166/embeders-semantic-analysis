@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -6,8 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
+    
       <None Remove="Datasets\new dataset 1.xlsx" />
       <None Remove="Datasets\new dataset 2.xlsx" />
     </ItemGroup>
@@ -26,7 +25,13 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.1.25080.5" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="OpenAI" Version="2.1.0" />
-      <PackageReference Include="Pdfium.Net.SDK" Version="4.94.2704" />
+      <PackageReference Include="OxyPlot.Core" Version="2.2.0" />
+      <PackageReference Include="PdfPig" Version="0.1.9" />
+      <PackageReference Include="Accord.MachineLearning" Version="3.8.2-alpha" />
+      <PackageReference Include="Accord.Statistics" Version="3.8.2-alpha" />
+      <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta2" />
+      <PackageReference Include="OxyPlot.Core" Version="2.2.0" />
+      <PackageReference Include="PdfPig" Version="0.1.9" />
       <PackageReference Include="Pinecone.Client" Version="2.1.0" />
     </ItemGroup>
 
