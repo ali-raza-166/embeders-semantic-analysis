@@ -1,6 +1,7 @@
 .idea/
 .vs/
 .env
+Solution Items
 **/bin
 **/obj
 **/Outputs
@@ -8,3 +9,4 @@
 # SemanticSimilarityAnalysis.Proj/obj/
 # SemanticSimilarityAnalysis.Test/bin/
 *.DotSettings.user
+**/Datasets/
