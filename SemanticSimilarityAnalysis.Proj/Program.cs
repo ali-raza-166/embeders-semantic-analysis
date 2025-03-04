@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI.Chat;
 using OpenAI.Embeddings;
+using OpenAI.Chat;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
@@ -16,8 +16,8 @@ namespace SemanticSimilarityAnalysis.Proj
             var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
             var serviceProvider = new ServiceCollection()
-                .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-ada-002", apiKey))
-                .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
+                .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-3-small", apiKey))
+                .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey)) 
                 .AddSingleton<OpenAiEmbeddingService>()
                 .AddSingleton<EmbeddingAnalysisService>()
                 .AddSingleton<OpenAiTextGenerationService>()
@@ -29,6 +29,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<JsonHelper>()
                 .AddSingleton<PineconeService>()
                 .AddSingleton<ProcessorAli>()
+                .AddSingleton<Word2VecService>(provider => new Word2VecService("./Datasets/glove.6B.300d.txt"))  // Register Word2VecService
                 .BuildServiceProvider();
 
             // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
