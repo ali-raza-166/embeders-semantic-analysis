@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UglyToad.PdfPig.Content;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 
@@ -27,10 +28,51 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 _wordVectors[word] = vector;
             }
         }
-
-        public float[] GetVector(string word)
+        
+        public float[]? GetVector(string word)
         {
+            word = word.ToLower();
             return _wordVectors.TryGetValue(word, out var vector) ? vector : null;
+        }
+        public float[] GetPhraseVector(string phrase)
+        {
+            phrase = phrase.ToLower();
+            var words = phrase.Split(' ');
+            var vectors = new List<float[]>();
+
+            foreach (var word in words)
+            {
+                var vector = GetVector(word);
+                if (vector != null)
+                {
+                    vectors.Add(vector);
+                }
+            }
+
+            if (vectors.Count == 0)
+            {
+                return null; // If no valid vectors were found for the phrase
+            }
+
+            // Average the word vectors
+            int vectorLength = vectors[0].Length;
+            float[] phraseVector = new float[vectorLength];
+
+            foreach (var vector in vectors)
+            {
+                for (int i = 0; i < vectorLength; i++)
+                {
+                    phraseVector[i] += vector[i];
+                }
+            }
+
+            // Normalize the phrase vector by the number of words
+            for (int i = 0; i < vectorLength; i++)
+            {
+                phraseVector[i] /= vectors.Count;
+            }
+
+            return phraseVector;
         }
     }
 }
