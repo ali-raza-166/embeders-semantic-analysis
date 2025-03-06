@@ -17,9 +17,9 @@ namespace SemanticSimilarityAnalysis.Proj
         }
 
         // Default directories
-        private readonly string defaultInputCsvDir = "Datasets";
+        private readonly string defaultInputCsvDir = "Datasets/CSVs";
         private readonly string defaultOutputCsvDir = "Outputs/CSV";
-        private readonly string defaultPdfDir = "PDFs";
+        private readonly string defaultPdfDir = "Datasets/PDFs";
         private readonly string defaultJsonDir = "Outputs";
 
         public async Task ExecuteCommandAsync(IConfiguration configuration)
@@ -64,12 +64,16 @@ namespace SemanticSimilarityAnalysis.Proj
         private async Task ExecuteWordsVsWordsAsync(IConfiguration configuration)
         {
             // Command line arguments
-            var list1 = configuration["list1"]?.Split(',')
-                .Select(s => s.Trim())
+            var list1 = configuration["list1"]?
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(word => word.Trim())
                 .ToList();
-            var list2 = configuration["list2"]?.Split(',')
-                .Select(s => s.Trim())
+
+            var list2 = configuration["list2"]?
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(word => word.Trim())
                 .ToList();
+
             var outputFileName = configuration["output"] ?? "words_vs_words.csv";
             var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
 
@@ -157,7 +161,9 @@ namespace SemanticSimilarityAnalysis.Proj
         private async Task ExecuteWordsVsDatasetAsync(IConfiguration configuration)
         {
             // Command line arguments
-            var words = configuration["words"]?.Split(',').ToList();
+            var words = configuration["words"]?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(word => word.Trim())
+            .ToList(); ;
             var csvFileName = configuration["dataset"] ?? "imdb_1000.csv"; // Dataset CSV file
             var outputFileName = configuration["output"] ?? "dataset_vs_words.csv"; // Output file name
             var inputDirectory = configuration["inputDir"] ?? defaultInputCsvDir; // Directory containing the dataset
@@ -184,11 +190,13 @@ namespace SemanticSimilarityAnalysis.Proj
             var fields = csvHelper.ReadCsvFields(csvFilePath);
 
             // Prompt for words if they are not provided
-            if (words == null)
+            if (words == null || words.Count == 0)
             {
                 Console.WriteLine("Required arguments are missing.");
                 words = PromptForList("Enter the list of words (comma-separated):");
             }
+
+            Console.WriteLine("Words: " + string.Join(", ", words));
 
             // 1. Prompt for embedding attributes/fields of the dataset to generate embeddings
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -196,9 +204,9 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.ResetColor();
             Console.Write("\nEnter the fields to use for embeddings");
             Console.ForegroundColor = ConsoleColor.Red;
-            var embeddingAttributes = PromptForList("(comma-separated, RIGHT CASE as in the available fields)");
+            Console.Write("(comma-separated, RIGHT CASE as in the available fields)");
             Console.ResetColor();
-            Console.Write(":");
+            var embeddingAttributes = PromptForList(":");
 
             // Check if at least one attribute is provided
             if (embeddingAttributes.Count == 0)
@@ -249,46 +257,56 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nCommands:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("  ww --list1 <words> --list2 <words> [--output <path>] (Words vs. Words)");
-            Console.WriteLine("  wp --words <words> [--pdf-folder <path>] [--output <path>] (Words vs. PDFs)");
-            Console.WriteLine("  pp [--pdf-folder <path>] [--output <path>] (PDFs vs. PDFs)");
-            Console.WriteLine("  wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] (Words vs. Dataset)");
+            Console.WriteLine(@"
+              ww --list1 <words> --list2 <words> [--output <path>] (Words vs. Words)
+              wp --words <words> [--pdf-folder <path>] [--output <path>] (Words vs. PDFs)
+              pp [--pdf-folder <path>] [--output <path>] (PDFs vs. PDFs)
+              wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] (Words vs. Dataset)
+            ");
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nOptions:");
+            Console.WriteLine("\nArguments:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("  --list1 <words>         Comma-separated list of words (for ww command) e.g., word1,word2,word3.");
-            Console.WriteLine("  --list2 <words>         Comma-separated list of words (for ww command).");
-            Console.WriteLine("  --words <words>         Comma-separated list of words (for wp and wd commands).");
-            Console.WriteLine("  --pdf-folder <path>     Path to the folder containing PDFs (for wp and pp commands).");
-            Console.WriteLine("  --dataset <path>        Path to the dataset CSV file (for wd command).");
-            Console.WriteLine("  --output <path>         Path to the output CSV file.");
-            Console.WriteLine("  --rows <number>         Number of rows to process from dataset (for wd command). Default is 20.");
+            Console.WriteLine(@"
+              --list1 <words>         Comma-separated list of words (for ww command) e.g., ""word1,word2,word3"".
+              --list2 <words>         Comma-separated list of words (for ww command) e.g., ""word1,word2,word3"".
+              --words <words>         Comma-separated list of words (for wp and wd commands) e.g., ""word1,word2,word3"".
+                                      **Note**: Enclose the list in quotation marks (e.g., ""Business and Finance, Information Technology, Legal and Environmental"").
+              --pdf-folder <path>     Path to the folder containing PDFs (for wp and pp commands).
+              --dataset <path>        Path to the dataset CSV file (for wd command).
+              --output <path>         Path to the output CSV file.
+              --rows <number>         Number of rows to process from dataset (for wd command). Default is 20.
+            ");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nDefault values:");
             Console.ForegroundColor = ConsoleColor.Gray;
-
-            Console.WriteLine("  --outputDir             {0}", defaultOutputCsvDir);
-            Console.WriteLine("  --inputDir              {0}", defaultInputCsvDir);
-            Console.WriteLine("  --pdf-folder            {0}", defaultPdfDir);
-            Console.WriteLine("  --dataset               {0}", "imdb_1000.csv");
+            Console.WriteLine($@"
+              --outputDir             {defaultOutputCsvDir}
+              --inputDir              {defaultInputCsvDir}
+              --pdf-folder            {defaultPdfDir}
+              --dataset               imdb_1000.csv
+            ");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nExamples WITHOUT options:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("  dotnet run --command ww --list1 word1,word2,word3 --list2 word1,word2,word3");
-            Console.WriteLine("  dotnet run --command wp --words word1,word2,word3");
-            Console.WriteLine("  dotnet run --command pp");
-            Console.WriteLine("  dotnet run --command wd --words word1,word2,word3");
+            Console.WriteLine(@"
+              dotnet run --command ww --list1 word1,word2,word3 --list2 word1,word2,word3
+              dotnet run --command wp --words word1,word2,word3
+              dotnet run --command pp
+              dotnet run --command wd --words word1,word2,word3
+            ");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nExamples WITH options:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("  dotnet run --command ww --list1 word1,word2,word3 --list2 word1,word2,word3 --output output.csv");
-            Console.WriteLine("  dotnet run --command wp --words word1,word2,word3 --pdf-folder pdfs --output output.csv");
-            Console.WriteLine("  dotnet run --command pp --pdf-folder pdfs --output output.csv");
-            Console.WriteLine("  dotnet run --command wd --words word1,word2,word3 --dataset imdb_1000.csv --output output.csv --rows 100");
+            Console.WriteLine(@"
+              dotnet run --command ww --list1 ""word1,word2,word3"" --list2 ""word1,word2,word3"" --output output.csv
+              dotnet run --command wp --words ""word1,word2,word3"" --pdf-folder pdfs --output output.csv
+              dotnet run --command pp --pdf-folder pdfs --output output.csv
+              dotnet run --command wd --words ""word1,word2,word3"" --dataset imdb_1000.csv --output output.csv --rows 100
+            ");
 
             // Reset color to default
             Console.ResetColor();
@@ -366,7 +384,11 @@ namespace SemanticSimilarityAnalysis.Proj
                 return new List<string>();
             }
 
-            return input.Split(',').Select(s => s.Trim()).ToList();
+            Console.WriteLine("The input is: " + input);
+            return input
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(word => word.Trim())
+                .ToList();
         }
     }
 }

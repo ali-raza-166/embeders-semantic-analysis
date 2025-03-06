@@ -109,7 +109,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         /// <param name="pdfFolderPath">The path to the folder containing PDF files.</param>
         /// <param name="chunkType">The type of chunks to extract from the PDF (paragraphs, sentences, or none).</param>
         /// <returns>A list of SimilarityPlotPoint objects, where each row represents a PDF file and columns represent words.</returns>
-        public async Task<List<SimilarityPlotPoint>> ComparePdfsvsWords(List<string> words, string pdfFolderPath = @"../../../PDFs", PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None)
+        public async Task<List<SimilarityPlotPoint>> ComparePdfsvsWords(List<string> words, string pdfFolderPath = @"../../Datasets/PDFs", PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None)
         {
             if (words == null || words.Count == 0)
             {
@@ -200,7 +200,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         /// <param name="chunkType">The type of chunking to apply when extracting text from PDFs (default is None).</param>
         /// <returns>Returns a list of SimilarityPlotPoint objects</returns>
         public async Task<List<SimilarityPlotPoint>> CompareAllPdfDocuments(
-             string inputDir = @"../../../PDFs",
+             string inputDir = @"../../Datasets/PDFs",
              PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None
         )
         {

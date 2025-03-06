@@ -9,7 +9,7 @@ namespace Helper.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestEmptyPdf()
         {
-            string emptyPdfPath = @"../../../PDFs\empty.pdf";
+            string emptyPdfPath = @"../../../PDFs/empty.pdf";
             var extractor = new PdfHelper();
             var stringWriter = new StringWriter();
             var consoleOutput = stringWriter.ToString();
@@ -21,7 +21,7 @@ namespace Helper.Tests
         public void TestFileNotFound()
         {
             // Arrange
-            string notFoundPath = @"../../../PDFs\notFound.pdf"; // Path to a non-existent file
+            string notFoundPath = @"../../../PDFs/notFound.pdf"; // Path to a non-existent file
             var extractor = new PdfHelper();
 
             // Act & Assert
