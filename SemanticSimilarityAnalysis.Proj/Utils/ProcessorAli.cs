@@ -1,6 +1,7 @@
 using LanguageDetection;
 using Microsoft.Extensions.DependencyInjection;
-using SemanticSimilarityAnalysis.Proj.Models;
+using SemanticSimilarityAnalysis.Proj.Helpers;
+using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Services;
 namespace SemanticSimilarityAnalysis.Proj.Utils;
 
@@ -35,9 +36,17 @@ public class ProcessorAli
             //     "Eco-friendly hybrid car with advanced safety features", 
             //     "Compact city car designed for urban driving with low maintenance costs"
             // };
+            // var inputs = new List<string>
+            // {
+            //     "Artificial intelligence is transforming industries globally.",
+            //     "Cloud computing enables scalable, on-demand services.",
+            //     "Healthcare policies aim to improve patient outcomes.",
+            //     "Legal compliance ensures adherence to regulatory frameworks.",
+            //     "Blockchain technology enhances transparency and security online."
+            // };
 
 
-            // await pineconeService.InitializeIndexAsync();
+            
             // var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
             // var listofEmbeddingVectors = new List<List<float>>();
             //
@@ -74,14 +83,15 @@ public class ProcessorAli
             //         {"Language", detector.Detect(inputs[index])}
             //     }
             // )).ToList();
+            // await pineconeService.InitializeIndexAsync();
             // await pineconeService.UpsertEmbeddingAsync(models, "default");
             // Console.WriteLine("Vector Embeddings successfully upserted into Pinecone.");
 
             //create embedding for Query item to test 
-            // const string query =  "苹果手机 15 的摄像头规格是什么？";
+            // const string query =  "What is the camera resolution of iphone 15 pro？";
             // var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([query]);
             // var queryResponse =
-            //     await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 4, detector.Detect(query));
+            //     await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 4, "de");
             // var pineconeTopKparagraphs = new List<string>();
             // Console.WriteLine($"Count of matched vectors from pinecone: {queryResponse.Count}");
             // foreach (var retrievedVector in queryResponse)
@@ -101,6 +111,8 @@ public class ProcessorAli
             //         $"Embedding vector (first 10 values): {string.Join(", ", retrievedVector.Values.Take(10))}");
             //     Console.WriteLine();
             // }
+            // var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
+            // Console.WriteLine($"\nAnswer: {answer}");
 
             
             // Console.WriteLine("Results computed by Manual TopK Method");
@@ -114,26 +126,51 @@ public class ProcessorAli
             //     Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
             // }
             
-            // var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
-            // Console.WriteLine(answer);
-            
-            
             // // Example list of embeddings (list of float lists)
-            var inputs = new List<List<float>>()
-            {
-                new List<float> { 2.5f,  2.4f },
-                new List<float> { 0.5f,  0.7f },
-                new List<float> { 2.2f,  2.9f }
-            };
-            // Apply Dimensionality Reduction PCA
-            var dimensionalityReductionService = new DimensionalityReductionService(2);  // Reduce to 2 principal components
-            var reducedPcaMatrix = dimensionalityReductionService.PerformPca(inputs);
-            var scaledDataPca = dimensionalityReductionService.MinMaxScaleData(reducedPcaMatrix);     
-            Console.WriteLine($"Scaled Data PCA: {scaledDataPca}");
+            // var inputs = new List<List<float>>()
+            // {
+            //     new List<float> { 2.5f,  2.4f, 0.4f},
+            //     new List<float> { 0.5f,  0.7f, 0.6f },
+            //     new List<float> { 2.2f,  2.9f, 0.2f }
+            // };
+            
+            // Apply Dimensionality Reduction PCA and export the output in CSV
+            // var dimensionalityReductionService = new DimensionalityReductionService(2);  // Reduce to 2 principal components
+            // var reducedPcaMatrix = dimensionalityReductionService.PerformPca(listofEmbeddingVectors);
+            // var scaledDataPca = dimensionalityReductionService.MinMaxScaleData(reducedPcaMatrix); 
+            //
+            // // Combine the words and PCA data into a single structure to expot and pass to python file
+            // var csvHelper = new CSVHelper();
+            // CSVHelper.ExportReducedDimensionalityData(scaledDataPca, inputs, "reducedDimension2DPCA.csv");
+            // var cSharPythonConnector = new CSharpPythonConnector();
+            // cSharPythonConnector.PlotScatterForReducedPca("reducedDimension2DPCA.csv", "scatter_plot.png");
+            //
+            // var reducedTsneMatrix = dimensionalityReductionService.ReduceDimensionsUsingTsne(listofEmbeddingVectors, 2);
+            // var scaledDataTsne= dimensionalityReductionService.MinMaxScaleData(reducedTsneMatrix);
+            
+            
+            //-------------Word2Vec----
+            string txtFileName = "glove.6B.300d.txt";
+            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
+            string filePath = Path.Combine(projectRoot, "Datasets", txtFileName);
+            Console.WriteLine($"Loading file: {filePath}");
 
-            var reducedTsneMatrix = dimensionalityReductionService.ReduceDimensionsUsingTsne(inputs, 2);
-            var scaledDataTsne= dimensionalityReductionService.MinMaxScaleData(reducedTsneMatrix);
-            Console.WriteLine($"Scaled Data TSNE: {scaledDataTsne}");
+            var word2VecService = new Word2VecService(filePath);
+
+            var vector1 = word2VecService.GetPhraseVector("machine learning revolution in technology"); //case-sensitive
+            var vector2 = word2VecService.GetPhraseVector("law and legal regulations"); //case-sensitive
+
+            var listVector1 = vector1.ToList();
+            var listVector2 = vector2.ToList();
+
+            // Initialize CosineSimilarity service
+            var cosineSimilarity = new CosineSimilarity();
+
+            // Compute Cosine Similarity
+            var cosineSimilarityVaue = cosineSimilarity.ComputeCosineSimilarity(listVector1, listVector2);
+
+            // Display the result
+            Console.WriteLine($"Cosine Similarity usning word2vec: {cosineSimilarityVaue}");
 
         }
         catch (Exception ex)
