@@ -14,7 +14,11 @@
 
     <ItemGroup>
       <Folder Include="Data\" />
+<<<<<<< HEAD
+      <Folder Include="Outputs\CSV\"/>
+=======
       <Folder Include="Outputs\CSV\" />
+>>>>>>> 67992ac4d52fe2dc332f70244fcb86d9a758010c
       <Folder Include="PDFs\" />
     </ItemGroup>
 
