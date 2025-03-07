@@ -7,12 +7,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     
+    <ItemGroup>
       <None Remove="Datasets\new dataset 1.xlsx" />
       <None Remove="Datasets\new dataset 2.xlsx" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Data\" />
+      <Folder Include="Outputs\CSV\"/>
       <Folder Include="PDFs\" />
     </ItemGroup>
 
