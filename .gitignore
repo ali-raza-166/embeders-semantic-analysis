@@ -9,4 +9,4 @@ Solution Items
 # SemanticSimilarityAnalysis.Proj/obj/
 # SemanticSimilarityAnalysis.Test/bin/
 *.DotSettings.user
-**/Datasets/
+#**/Datasets/
