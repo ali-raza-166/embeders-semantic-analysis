@@ -1,0 +1,1 @@
+﻿Algorithm, Neural Network, Training, Dataset, Prediction, Classification, Regression, Clustering, Overfitting, Gradient Descent

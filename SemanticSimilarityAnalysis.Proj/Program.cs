@@ -44,7 +44,14 @@ namespace SemanticSimilarityAnalysis.Proj
             // var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
             // var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
 
-            var txt = new Texthe
+            // Extract and return a list of string from txt file
+            //var txt = new TextHelper();
+            //var words = txt.ExtractWordsFromTextFile("MachineLearningWords.txt");
+            //foreach (var word in words)
+            //{
+            //    Console.WriteLine(word);
+            //}
+
 
             ///
             /// For command line
