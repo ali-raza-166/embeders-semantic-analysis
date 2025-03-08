@@ -8,11 +8,45 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
     public class CSVHelper
     {
         /// <summary>
+        /// Default number of rows to process when generating embeddings from the dataset
+        /// </summary>
+        private readonly int defaultProcessedRows = 20;
+
+        /// <summary>
+        /// Reads the header row of the CSV file using CsvHelper
+        /// </summary>
+        /// <param name="csvFilePath">Path to the CSV file</param>
+        /// <returns>Returns a List<string> containing the header fields.</returns>
+        public List<string> ReadCsvFields(string csvFilePath)
+        {
+            try
+            {
+                using (var reader = new StreamReader(csvFilePath))
+                using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                {
+                    csv.Read();
+                    csv.ReadHeader();
+                    var fields = csv.HeaderRecord;
+                    if (fields == null)
+                    {
+                        throw new Exception("CSV file does not have a header.");
+                    }
+                    return fields.ToList();
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("An error occurred while reading the CSV file header.");
+                return [];
+            }
+        }
+
+        /// <summary>
         /// Extract records from a CSV file
         /// </summary>
-        /// <param name="fields"></param>
-        /// <param name="csvFilePath"></param>
-        /// <returns></returns>
+        /// <param name="fields">Fields/columns to extract</param>
+        /// <param name="csvFilePath">Path to the CSV file</param>
+        /// <returns>Return a List of MultiEmbeddingRecord objects containing the extracted data as attributes and empty embeddings at first.</returns>
         /// <exception cref="FileNotFoundException"></exception>
         public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(
             List<string> fields,
@@ -76,7 +110,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         /// <param name="similarityResults">List of similarity plot points</param>
         /// <param name="csvFileName">Name of the CSV file you want to create</param>
         /// <param name="outputDir">Path to the directory where you want to save the CSV file</param>
-        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"..\..\..\Outputs\CSV")
+        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"../../../Outputs/CSV")
         {
             // Ensure the output directory exists
             if (!Directory.Exists(outputDir))
@@ -90,7 +124,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             using (var csv = new CsvHelper.CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 // Write header
-                csv.WriteField("Label");
+                csv.WriteField(""); // Empty field for the label column
                 foreach (var inputKey in similarityResults.First().Similarities.Keys)
                 {
                     csv.WriteField(inputKey);
@@ -114,9 +148,9 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         /// Determines the number of rows to process based on the user input and the number of rows in the CSV file.
         /// </summary>
         /// <param name="allRecords">All records extracted from the CSV file.</param>
-        /// <param name="processedRows">Number of rows requested by the user (default is -1, which means use 20 rows).</param>
+        /// <param name="processedRows">Number of rows requested by the user (default is -1, which means use "defaultProcessedRows").</param>
         /// <returns>The number of rows to process.</returns>
-        public int DetermineRowsToProcess(List<MultiEmbeddingRecord> allRecords, ref int processedRows)
+        public int DetermineRowsToProcess(List<MultiEmbeddingRecord> allRecords, int processedRows)
         {
             // Determine if processedRows is the default value or user-provided
             bool isDefaultProcessedRows = (processedRows == -1); // Sentinel value check
@@ -124,7 +158,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             // Set the default number of rows to 20 if no user input is provided
             if (isDefaultProcessedRows)
             {
-                processedRows = 20; // Default value
+                processedRows = defaultProcessedRows; // Default value
                 Console.WriteLine("Using default number of rows: 20.");
             }
             else
