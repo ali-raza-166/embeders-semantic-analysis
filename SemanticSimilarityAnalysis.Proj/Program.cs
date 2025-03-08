@@ -17,7 +17,7 @@ namespace SemanticSimilarityAnalysis.Proj
             var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
 
-            // Setup dependecy injection
+            // Setup dependency injection
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-3-small", apiKey))
                 .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
@@ -37,16 +37,14 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<Word2VecService>(provider => new Word2VecService("./Datasets/glove.6B.300d.txt"))  // Register Word2VecService
                 .BuildServiceProvider();
 
-<<<<<<< HEAD
+
             // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
             // await processor.RunAsync();
-=======
-            var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-            await processor.RunAsync();
+
             // var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
             // var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
->>>>>>> 67992ac4d52fe2dc332f70244fcb86d9a758010c
 
+            var txt = new Texthe
 
             ///
             /// For command line
@@ -56,7 +54,8 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddCommandLine(args)
                 .Build();
 
-<<<<<<< HEAD
+
+
             var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
             await commandLineHelper.ExecuteCommandAsync(configuration);
 
@@ -106,7 +105,7 @@ namespace SemanticSimilarityAnalysis.Proj
             //await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);
             //var datasetResults = await analysis.compareDataSetVsWords("imdb_1000_Embeddings.json", "Title", "Overview", list2);
             //csvHelper.ExportToCsv(datasetResults, "imdb_1000_Similarity.csv");
-=======
+
             // // Words vs Words
             // var wordsResult = await analysis.CompareWordsVsWordsAsync(list1, list2);
             // csvHelper.ExportToCsv(wordsResult, "words.csv");
@@ -119,7 +118,7 @@ namespace SemanticSimilarityAnalysis.Proj
             // await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);
             // var datasetResults = await analysis.compareDataSetVsWords("imdb_1000_Embeddings.json", "Title", "Overview", list2);
             // csvHelper.ExportToCsv(datasetResults, "imdb_1000_Similarity.csv");
->>>>>>> 67992ac4d52fe2dc332f70244fcb86d9a758010c
+
         }
     }
 }
