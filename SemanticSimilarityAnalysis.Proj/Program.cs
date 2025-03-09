@@ -1,9 +1,12 @@
+using LanguageDetection;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI.Embeddings;
 using OpenAI.Chat;
+using SemanticSimilarityAnalysis.Proj.Helpers;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
+using SemanticSimilarityAnalysis.Proj.Pipelines;
 using SemanticSimilarityAnalysis.Proj.Services;
 using SemanticSimilarityAnalysis.Proj.Utils;
 
@@ -21,7 +24,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<OpenAiEmbeddingService>()
                 .AddSingleton<EmbeddingAnalysisService>()
                 .AddSingleton<OpenAiTextGenerationService>()
-                .AddSingleton<DimensionalityReductionService>()
+                .AddSingleton<DimensionalityReductionService>(provider => new DimensionalityReductionService(2)) // Provide a value for int
                 .AddSingleton<CosineSimilarity>()
                 .AddSingleton<EuclideanDistance>()
                 .AddSingleton<EmbeddingUtils>()
@@ -29,8 +32,18 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<CSVHelper>()
                 .AddSingleton<JsonHelper>()
                 .AddSingleton<PineconeService>()
+                .AddSingleton<PineconeSetup>()
+                .AddSingleton<ChatbotService>()
+                .AddSingleton<LanguageDetector>(provider => 
+                {
+                    var detector = new LanguageDetector();
+                    detector.AddAllLanguages();
+                    return detector;
+                })
                 .AddSingleton<ProcessorAli>()
-                .AddSingleton<Word2VecService>(provider => new Word2VecService("./Datasets/glove.6B.300d.txt"))  // Register Word2VecService
+                .AddSingleton<OpenAiEmbeddingsDimReductionAndPlotting>()
+                .AddSingleton<CSharpPythonConnector>()
+                .AddSingleton<Word2VecEmbeddingsDimReductionAndPlotting>()
                 .BuildServiceProvider();
 
             var processor = serviceProvider.GetRequiredService<ProcessorAli>();

@@ -6,17 +6,15 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
 {
     public class CSharpPythonConnector
     {
-        public void PlotScatterForReducedPca(string csvFileName, string plotFileName)
+        public void PlotScatterFromCsv(string relativeCsvFilePath, string relativePlotFilePath)
         {
-            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
-            string csvFilePath = Path.Combine(projectRoot, "Outputs", "CSV", csvFileName);
-            string plotFilePath = Path.Combine(projectRoot, "Outputs", "Plots", plotFileName);
+            var projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
+            string absoluteCsvFilePath = Path.Combine(projectRoot, relativeCsvFilePath);
+            string absolutePlotFilePath = Path.Combine(projectRoot, relativePlotFilePath);
             string scriptPath = Path.Combine(projectRoot, "Helpers", "Python", "Scripts", "scatter_plot.py");
-            Console.WriteLine($"scriptPath: {scriptPath}");
-
-            if (!File.Exists(csvFilePath))
+            if (!File.Exists(absoluteCsvFilePath))
             {
-                Console.WriteLine($"Error: CSV file '{csvFilePath}' not found.");
+                Console.WriteLine($"Error: CSV file '{absoluteCsvFilePath}' not found.");
                 return;
             }
             if (!File.Exists(scriptPath))
@@ -33,12 +31,12 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
             {
                 try
                 {
-                    RunPythonScript(scriptPath, csvFilePath, plotFilePath);
+                    RunPythonScript(scriptPath, absoluteCsvFilePath, absolutePlotFilePath);
                     PythonEngine.Shutdown();
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
-                    Console.WriteLine($"Error while running Python script: {ex.Message}");
+                    Console.WriteLine($"");
                 }
             }
         }
@@ -68,7 +66,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
                 using (StreamReader reader = process.StandardOutput)
                 {
                     string output = reader.ReadToEnd();
-                    Console.WriteLine(output);  // Print Python script output for debugging
+                    Console.WriteLine(output);  // Print Python script print statements for debugging. 
                 }
 
                 process.WaitForExit(); // Ensure the process has completed
