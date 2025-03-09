@@ -8,45 +8,11 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
     public class CSVHelper
     {
         /// <summary>
-        /// Default number of rows to process when generating embeddings from the dataset
-        /// </summary>
-        private readonly int defaultProcessedRows = 20;
-
-        /// <summary>
-        /// Reads the header row of the CSV file using CsvHelper
-        /// </summary>
-        /// <param name="csvFilePath">Path to the CSV file</param>
-        /// <returns>Returns a List<string> containing the header fields.</returns>
-        public List<string> ReadCsvFields(string csvFilePath)
-        {
-            try
-            {
-                using (var reader = new StreamReader(csvFilePath))
-                using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
-                {
-                    csv.Read();
-                    csv.ReadHeader();
-                    var fields = csv.HeaderRecord;
-                    if (fields == null)
-                    {
-                        throw new Exception("CSV file does not have a header.");
-                    }
-                    return fields.ToList();
-                }
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("An error occurred while reading the CSV file header.");
-                return [];
-            }
-        }
-
-        /// <summary>
         /// Extract records from a CSV file
         /// </summary>
-        /// <param name="fields">Fields/columns to extract</param>
-        /// <param name="csvFilePath">Path to the CSV file</param>
-        /// <returns>Return a List of MultiEmbeddingRecord objects containing the extracted data as attributes and empty embeddings at first.</returns>
+        /// <param name="fields"></param>
+        /// <param name="csvFilePath"></param>
+        /// <returns></returns>
         /// <exception cref="FileNotFoundException"></exception>
         public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(
             List<string> fields,
@@ -143,16 +109,132 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
                 }
                 csv.NextRecord();
 
-                // Write data rows
-                foreach (var point in similarityResults)
+            // Write data rows
+            foreach (var point in similarityResults)
+            {
+                csv.WriteField(point.Label);
+                foreach (var similarity in point.Similarities.Values)
                 {
-                    csv.WriteField(point.Label);
-                    foreach (var similarity in point.Similarities.Values)
+                    csv.WriteField(similarity);
+                }
+                csv.NextRecord();
+            }
+        }
+        // public void ExportReducedDimensionalityData(Matrix<double> reducedData, List<string> inputs, string filePath)
+        // {
+        //     // Convert Matrix<double> to double[,] to retain compatibility with the existing logic
+        //     var numRows = reducedData.RowCount;
+        //     var numCols = reducedData.ColumnCount;
+        //     var reducedDataArray = new double[numRows, numCols];
+        //
+        //     // Copy data from the Matrix to the 2D array
+        //     for (int i = 0; i < numRows; i++)
+        //     {
+        //         for (int j = 0; j < numCols; j++)
+        //         {
+        //             reducedDataArray[i, j] = reducedData[i, j];
+        //         }
+        //     }
+        //
+        //     // Ensure the output directory exists
+        //     if (!Directory.Exists(filePath))
+        //     {
+        //         Directory.CreateDirectory(filePath);
+        //     }
+        //     
+        //
+        //     using var writer = new StreamWriter(filePath);
+        //     using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        //
+        //     // Write headers (Dim1, Dim2, Dim3, ..., DimN)
+        //     csv.WriteField("String");
+        //     for (var i = 0; i < numCols; i++)
+        //     {
+        //         csv.WriteField($"Dim{i + 1}");
+        //     }
+        //     csv.NextRecord();
+        //
+        //     // Write rows
+        //     try
+        //     {
+        //         for (var i = 0; i < numRows; i++)
+        //         {
+        //             csv.WriteField(inputs[i]);  // Write the word first
+        //
+        //             for (var j = 0; j < numCols; j++)
+        //             {
+        //                 csv.WriteField(reducedDataArray[i, j]);
+        //             }
+        //             csv.NextRecord();
+        //         }
+        //         Console.WriteLine($"PCA Data exported here: {filePath}");
+        //
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Console.WriteLine(e);
+        //         throw;
+        //     }
+        // }
+        public void ExportReducedDimensionalityData(Matrix<double> reducedData, List<string> inputs, string csvFileName)
+        {
+            // Convert Matrix<double> to double[,] to retain compatibility with the existing logic
+            var numRows = reducedData.RowCount;
+            var numCols = reducedData.ColumnCount;
+            var reducedDataArray = new double[numRows, numCols];
+
+            // Copy data from the Matrix to the 2D array
+            for (int i = 0; i < numRows; i++)
+            {
+                for (int j = 0; j < numCols; j++)
+                {
+                    reducedDataArray[i, j] = reducedData[i, j];
+                }
+            }
+
+            var projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
+            string absoluteCsvDir = Path.Combine(projectRoot, "Outputs", "CSV");
+
+            // Ensure the output directory exists
+            if (!Directory.Exists(absoluteCsvDir))
+            {
+                Console.WriteLine($"Directory does not exist: {absoluteCsvDir}");
+                Directory.CreateDirectory(absoluteCsvDir);
+            }
+
+            // Combine the directory and file name to get the full file path
+            var csvFilePath = Path.Combine(absoluteCsvDir, csvFileName);
+            try
+            {
+                using var writer = new StreamWriter(csvFilePath);
+                using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+                // Write headers (Dim1, Dim2, Dim3, ..., DimN)
+                csv.WriteField("String");
+                for (var i = 0; i < numCols; i++)
+                {
+                    csv.WriteField($"Dim{i + 1}");
+                }
+                csv.NextRecord();
+
+                // Write rows
+                for (var i = 0; i < numRows; i++)
+                {
+                    csv.WriteField(inputs[i]);  // Write the word first
+
+                    for (var j = 0; j < numCols; j++)
                     {
-                        csv.WriteField(similarity);
+                        csv.WriteField(reducedDataArray[i, j]);
                     }
                     csv.NextRecord();
                 }
+
+                Console.WriteLine($"PCA Data exported here: {csvFilePath}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occurred while writing the file: {e.Message}");
+                throw;
             }
         }
 

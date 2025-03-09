@@ -8,4 +8,5 @@ Solution Items
 # SemanticSimilarityAnalysis.Proj/bin/
 # SemanticSimilarityAnalysis.Proj/obj/
 # SemanticSimilarityAnalysis.Test/bin/
-*.DotSettings.users
+*.DotSettings.user
+**/Datasets/
