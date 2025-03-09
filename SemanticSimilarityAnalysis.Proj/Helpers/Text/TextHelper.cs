@@ -11,7 +11,7 @@ public class TextHelper
     public List<string> ExtractWordsFromTextFile(string fileName, string inputDir = "../../../Datasets/TXTs")
     {
         var filePath = Path.Combine(inputDir, fileName);
-        Console.WriteLine(filePath);
+        //Console.WriteLine(filePath);
 
         // Check if the file exists
         if (!File.Exists(filePath))
@@ -35,35 +35,37 @@ public class TextHelper
     /// <returns>A list of cleaned words.</returns>
     private List<string> CleanAndSplitText(string text)
     {
-        // Remove punctuation and special characters using regex
-        string cleanedText = Regex.Replace(text, @"[^\w\s]", "");
+        // Remove unwanted whitespace and control characters
+        text = Regex.Replace(text, @"[\t\r\n\v\f\b\0\u200B\u00A0\u2028\u2029]", "");
 
-        // Convert text to lowercase
-        cleanedText = cleanedText.ToLower();
+        // Split the text by commas
+        List<string> segments = text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                     .Select(segment => segment.Trim()) // Remove leading/trailing whitespace
+                                     .ToList();
 
-        // Split the text into words
-        List<string> words = cleanedText.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        // Clean each segment (remove punctuation, convert to lowercase, etc.)
+        var cleanedSegments = new List<string>();
+        foreach (var segment in segments)
+        {
+            // Remove punctuation and special characters using regex
+            string cleanedText = Regex.Replace(segment, @"[^\w\s]", "");
 
-        // Remove stopwords (optional)
-        words = RemoveStopWords(words);
+            // Convert text to lowercase
+            cleanedText = cleanedText.ToLower();
 
-        return words;
+            cleanedSegments.Add(cleanedText);
+        }
+
+        return cleanedSegments;
     }
 
     /// <summary>
-    /// Removes common stopwords from the list of words.
+    /// Checks if the input is a valid file path and has a .txt extension.
     /// </summary>
-    /// <param name="words">The list of words.</param>
-    /// <returns>A list of words without stopwords.</returns>
-    private List<string> RemoveStopWords(List<string> words)
+    /// <param name="input"></param>
+    /// <returns>True if the input is a valid file path and has a .txt extension; otherwise, false.</returns>
+    public bool IsTextFilePath(string input)
     {
-        // Define a list of common stopwords
-        var stopWords = new HashSet<string>
-        {
-            "a", "an", "the", "and", "or", "but", "if", "in", "on", "with", "as", "by", "for", "of", "at", "to", "from", "up", "down", "out", "over", "under", "again", "further", "then", "once"
-        };
-
-        // Filter out stopwords
-        return words.Where(word => !stopWords.Contains(word)).ToList();
+        return Path.GetExtension(input).Equals(".txt", StringComparison.OrdinalIgnoreCase);
     }
 }

@@ -110,15 +110,27 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         /// <param name="similarityResults">List of similarity plot points</param>
         /// <param name="csvFileName">Name of the CSV file you want to create</param>
         /// <param name="outputDir">Path to the directory where you want to save the CSV file</param>
-        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"../../../Outputs/CSV")
+        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"../../../Outputs/CSVs")
         {
+
+            var csvFilePath = Path.Combine(outputDir, csvFileName);
+
             // Ensure the output directory exists
             if (!Directory.Exists(outputDir))
             {
                 Directory.CreateDirectory(outputDir);
             }
 
-            var csvFilePath = Path.Combine(outputDir, csvFileName);
+            // Check if the file exists
+            if (!File.Exists(csvFilePath))
+            {
+                Console.WriteLine($"File '{csvFilePath}' does not exist. Creating new file.");
+                // The file will be created when you use StreamWriter below.
+            }
+            else
+            {
+                Console.WriteLine($"File '{csvFilePath}' already exists. Overwriting...");
+            }
 
             using (var writer = new StreamWriter(csvFilePath))
             using (var csv = new CsvHelper.CsvWriter(writer, CultureInfo.InvariantCulture))
