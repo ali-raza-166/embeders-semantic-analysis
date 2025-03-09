@@ -76,37 +76,165 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         /// <param name="similarityResults">List of similarity plot points</param>
         /// <param name="csvFileName">Name of the CSV file you want to create</param>
         /// <param name="outputDir">Path to the directory where you want to save the CSV file</param>
-        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"..\..\..\Outputs\CSV")
+        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"../../../Outputs/CSVs")
         {
+
+            var csvFilePath = Path.Combine(outputDir, csvFileName);
+
             // Ensure the output directory exists
             if (!Directory.Exists(outputDir))
             {
                 Directory.CreateDirectory(outputDir);
             }
 
-            var csvFilePath = Path.Combine(outputDir, csvFileName);
+            // Check if the file exists
+            if (!File.Exists(csvFilePath))
+            {
+                Console.WriteLine($"File '{csvFilePath}' does not exist. Creating new file.");
+                // The file will be created when you use StreamWriter below.
+            }
+            else
+            {
+                Console.WriteLine($"File '{csvFilePath}' already exists. Overwriting...");
+            }
 
             using (var writer = new StreamWriter(csvFilePath))
             using (var csv = new CsvHelper.CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 // Write header
-                csv.WriteField("Label");
+                csv.WriteField(""); // Empty field for the label column
                 foreach (var inputKey in similarityResults.First().Similarities.Keys)
                 {
                     csv.WriteField(inputKey);
                 }
                 csv.NextRecord();
 
-                // Write data rows
-                foreach (var point in similarityResults)
+            // Write data rows
+            foreach (var point in similarityResults)
+            {
+                csv.WriteField(point.Label);
+                foreach (var similarity in point.Similarities.Values)
                 {
-                    csv.WriteField(point.Label);
-                    foreach (var similarity in point.Similarities.Values)
+                    csv.WriteField(similarity);
+                }
+                csv.NextRecord();
+            }
+        }
+        // public void ExportReducedDimensionalityData(Matrix<double> reducedData, List<string> inputs, string filePath)
+        // {
+        //     // Convert Matrix<double> to double[,] to retain compatibility with the existing logic
+        //     var numRows = reducedData.RowCount;
+        //     var numCols = reducedData.ColumnCount;
+        //     var reducedDataArray = new double[numRows, numCols];
+        //
+        //     // Copy data from the Matrix to the 2D array
+        //     for (int i = 0; i < numRows; i++)
+        //     {
+        //         for (int j = 0; j < numCols; j++)
+        //         {
+        //             reducedDataArray[i, j] = reducedData[i, j];
+        //         }
+        //     }
+        //
+        //     // Ensure the output directory exists
+        //     if (!Directory.Exists(filePath))
+        //     {
+        //         Directory.CreateDirectory(filePath);
+        //     }
+        //     
+        //
+        //     using var writer = new StreamWriter(filePath);
+        //     using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        //
+        //     // Write headers (Dim1, Dim2, Dim3, ..., DimN)
+        //     csv.WriteField("String");
+        //     for (var i = 0; i < numCols; i++)
+        //     {
+        //         csv.WriteField($"Dim{i + 1}");
+        //     }
+        //     csv.NextRecord();
+        //
+        //     // Write rows
+        //     try
+        //     {
+        //         for (var i = 0; i < numRows; i++)
+        //         {
+        //             csv.WriteField(inputs[i]);  // Write the word first
+        //
+        //             for (var j = 0; j < numCols; j++)
+        //             {
+        //                 csv.WriteField(reducedDataArray[i, j]);
+        //             }
+        //             csv.NextRecord();
+        //         }
+        //         Console.WriteLine($"PCA Data exported here: {filePath}");
+        //
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Console.WriteLine(e);
+        //         throw;
+        //     }
+        // }
+        public void ExportReducedDimensionalityData(Matrix<double> reducedData, List<string> inputs, string csvFileName)
+        {
+            // Convert Matrix<double> to double[,] to retain compatibility with the existing logic
+            var numRows = reducedData.RowCount;
+            var numCols = reducedData.ColumnCount;
+            var reducedDataArray = new double[numRows, numCols];
+
+            // Copy data from the Matrix to the 2D array
+            for (int i = 0; i < numRows; i++)
+            {
+                for (int j = 0; j < numCols; j++)
+                {
+                    reducedDataArray[i, j] = reducedData[i, j];
+                }
+            }
+
+            var projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
+            string absoluteCsvDir = Path.Combine(projectRoot, "Outputs", "CSV");
+
+            // Ensure the output directory exists
+            if (!Directory.Exists(absoluteCsvDir))
+            {
+                Console.WriteLine($"Directory does not exist: {absoluteCsvDir}");
+                Directory.CreateDirectory(absoluteCsvDir);
+            }
+
+            // Combine the directory and file name to get the full file path
+            var csvFilePath = Path.Combine(absoluteCsvDir, csvFileName);
+            try
+            {
+                using var writer = new StreamWriter(csvFilePath);
+                using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+                // Write headers (Dim1, Dim2, Dim3, ..., DimN)
+                csv.WriteField("String");
+                for (var i = 0; i < numCols; i++)
+                {
+                    csv.WriteField($"Dim{i + 1}");
+                }
+                csv.NextRecord();
+
+                // Write rows
+                for (var i = 0; i < numRows; i++)
+                {
+                    csv.WriteField(inputs[i]);  // Write the word first
+
+                    for (var j = 0; j < numCols; j++)
                     {
-                        csv.WriteField(similarity);
+                        csv.WriteField(reducedDataArray[i, j]);
                     }
                     csv.NextRecord();
                 }
+
+                Console.WriteLine($"PCA Data exported here: {csvFilePath}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occurred while writing the file: {e.Message}");
+                throw;
             }
         }
 
@@ -114,9 +242,9 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         /// Determines the number of rows to process based on the user input and the number of rows in the CSV file.
         /// </summary>
         /// <param name="allRecords">All records extracted from the CSV file.</param>
-        /// <param name="processedRows">Number of rows requested by the user (default is -1, which means use 20 rows).</param>
+        /// <param name="processedRows">Number of rows requested by the user (default is -1, which means use "defaultProcessedRows").</param>
         /// <returns>The number of rows to process.</returns>
-        public int DetermineRowsToProcess(List<MultiEmbeddingRecord> allRecords, ref int processedRows)
+        public int DetermineRowsToProcess(List<MultiEmbeddingRecord> allRecords, int processedRows)
         {
             // Determine if processedRows is the default value or user-provided
             bool isDefaultProcessedRows = (processedRows == -1); // Sentinel value check
@@ -124,7 +252,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             // Set the default number of rows to 20 if no user input is provided
             if (isDefaultProcessedRows)
             {
-                processedRows = 20; // Default value
+                processedRows = defaultProcessedRows; // Default value
                 Console.WriteLine("Using default number of rows: 20.");
             }
             else
