@@ -1,10 +1,9 @@
 using LanguageDetection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI.Embeddings;
 using OpenAI.Chat;
-using SemanticSimilarityAnalysis.Proj.Helpers;
 using OpenAI.Embeddings;
+using SemanticSimilarityAnalysis.Proj.Helpers;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
@@ -55,9 +54,6 @@ namespace SemanticSimilarityAnalysis.Proj
             // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
             // await processor.RunAsync();
 
-            ///
-            /// For command line
-            /// 
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
                 .AddCommandLine(args)
@@ -68,9 +64,6 @@ namespace SemanticSimilarityAnalysis.Proj
             await commandLineHelper.ExecuteCommandAsync(configuration);
 
 
-            ///
-            /// For testing 
-            ///
             var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
             var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
 
