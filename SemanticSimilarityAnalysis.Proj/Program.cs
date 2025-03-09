@@ -1,8 +1,10 @@
 using LanguageDetection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI.Embeddings;
 using OpenAI.Chat;
 using SemanticSimilarityAnalysis.Proj.Helpers;
+using OpenAI.Embeddings;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
@@ -18,9 +20,11 @@ namespace SemanticSimilarityAnalysis.Proj
         {
             var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
+
+            // Setup dependency injection
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-3-small", apiKey))
-                .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey)) 
+                .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
                 .AddSingleton<OpenAiEmbeddingService>()
                 .AddSingleton<EmbeddingAnalysisService>()
                 .AddSingleton<OpenAiTextGenerationService>()
@@ -31,6 +35,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<PdfHelper>()
                 .AddSingleton<CSVHelper>()
                 .AddSingleton<JsonHelper>()
+                .AddSingleton<CommandLineHelper>()
                 .AddSingleton<PineconeService>()
                 .AddSingleton<PineconeSetup>()
                 .AddSingleton<ChatbotService>()
@@ -46,34 +51,69 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<Word2VecEmbeddingsDimReductionAndPlotting>()
                 .BuildServiceProvider();
 
-            var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-            await processor.RunAsync();
-            // var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            // var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
 
-            var list1 = new List<string>
-            {
-                "racket",
-                "footstep",
-                "happy",
-                "software",
-                "playground",
-                "AI",
-                "robotics",
-                "cinema",
-                "physics",
-                "grip",
-                "assination"
-            };
+            // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+            // await processor.RunAsync();
 
-            var list2 = new List<string>
-            {
-                "technology",
-                "badminton",
-                "violence",
-                "mecha",
-                "children"
-            };
+            ///
+            /// For command line
+            /// 
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
+                .AddCommandLine(args)
+                .Build();
+
+
+            var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
+            await commandLineHelper.ExecuteCommandAsync(configuration);
+
+
+            ///
+            /// For testing 
+            ///
+            var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+            var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
+
+            //var list1 = new List<string>
+            //{
+            //    "racket",
+            //    "footstep",
+            //    "happy",
+            //    "software",
+            //    "playground",
+            //    "AI",
+            //    "robotics",
+            //    "cinema",
+            //    "physics",
+            //    "grip",
+            //    "assination"
+            //};
+
+            //var list2 = new List<string>
+            //{
+            //    "technology",
+            //    "badminton",
+            //    "violence",
+            //    "mecha",
+            //    "children"
+            //};
+
+            //// Words vs Words
+            //var wordsResult = await analysis.CompareWordsVsWords(list1, list2);
+            //csvHelper.ExportToCsv(wordsResult, "words.csv");
+
+            //// Words vs PDFs
+            //var pdfResult = await analysis.ComparePdfsvsWords(list2);
+            //csvHelper.ExportToCsv(pdfResult, "pdfs.csv");
+
+            // PDFs vs PDFs
+            //var pdfsResult = await analysis.CompareAllPdfDocuments();
+            //csvHelper.ExportToCsv(pdfsResult, "pdfs.csv");
+
+            //// Words vs Dataset
+            //await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);
+            //var datasetResults = await analysis.compareDataSetVsWords("imdb_1000_Embeddings.json", "Title", "Overview", list2);
+            //csvHelper.ExportToCsv(datasetResults, "imdb_1000_Similarity.csv");
 
             // // Words vs Words
             // var wordsResult = await analysis.CompareWordsVsWordsAsync(list1, list2);
@@ -87,6 +127,7 @@ namespace SemanticSimilarityAnalysis.Proj
             // await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);
             // var datasetResults = await analysis.compareDataSetVsWords("imdb_1000_Embeddings.json", "Title", "Overview", list2);
             // csvHelper.ExportToCsv(datasetResults, "imdb_1000_Similarity.csv");
+
         }
     }
 }

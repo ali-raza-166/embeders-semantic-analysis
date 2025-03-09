@@ -2,7 +2,6 @@
 using CsvHelper.Configuration;
 using SemanticSimilarityAnalysis.Proj.Models;
 using System.Globalization;
-using MathNet.Numerics.LinearAlgebra;
 
 namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
 {
@@ -77,25 +76,38 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         /// <param name="similarityResults">List of similarity plot points</param>
         /// <param name="csvFileName">Name of the CSV file you want to create</param>
         /// <param name="outputDir">Path to the directory where you want to save the CSV file</param>
-        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"..\..\..\Outputs\CSV")
+        public void ExportToCsv(List<SimilarityPlotPoint> similarityResults, string csvFileName, string outputDir = @"../../../Outputs/CSVs")
         {
+
+            var csvFilePath = Path.Combine(outputDir, csvFileName);
+
             // Ensure the output directory exists
             if (!Directory.Exists(outputDir))
             {
                 Directory.CreateDirectory(outputDir);
             }
 
-            var csvFilePath = Path.Combine(outputDir, csvFileName);
-
-            using var writer = new StreamWriter(csvFilePath);
-            using var csv = new CsvHelper.CsvWriter(writer, CultureInfo.InvariantCulture);
-            // Write header
-            csv.WriteField("Label");
-            foreach (var inputKey in similarityResults.First().Similarities.Keys)
+            // Check if the file exists
+            if (!File.Exists(csvFilePath))
             {
-                csv.WriteField(inputKey);
+                Console.WriteLine($"File '{csvFilePath}' does not exist. Creating new file.");
+                // The file will be created when you use StreamWriter below.
             }
-            csv.NextRecord();
+            else
+            {
+                Console.WriteLine($"File '{csvFilePath}' already exists. Overwriting...");
+            }
+
+            using (var writer = new StreamWriter(csvFilePath))
+            using (var csv = new CsvHelper.CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                // Write header
+                csv.WriteField(""); // Empty field for the label column
+                foreach (var inputKey in similarityResults.First().Similarities.Keys)
+                {
+                    csv.WriteField(inputKey);
+                }
+                csv.NextRecord();
 
             // Write data rows
             foreach (var point in similarityResults)
@@ -230,9 +242,9 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         /// Determines the number of rows to process based on the user input and the number of rows in the CSV file.
         /// </summary>
         /// <param name="allRecords">All records extracted from the CSV file.</param>
-        /// <param name="processedRows">Number of rows requested by the user (default is -1, which means use 20 rows).</param>
+        /// <param name="processedRows">Number of rows requested by the user (default is -1, which means use "defaultProcessedRows").</param>
         /// <returns>The number of rows to process.</returns>
-        public int DetermineRowsToProcess(List<MultiEmbeddingRecord> allRecords, ref int processedRows)
+        public int DetermineRowsToProcess(List<MultiEmbeddingRecord> allRecords, int processedRows)
         {
             // Determine if processedRows is the default value or user-provided
             bool isDefaultProcessedRows = (processedRows == -1); // Sentinel value check
@@ -240,7 +252,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             // Set the default number of rows to 20 if no user input is provided
             if (isDefaultProcessedRows)
             {
-                processedRows = 20; // Default value
+                processedRows = defaultProcessedRows; // Default value
                 Console.WriteLine("Using default number of rows: 20.");
             }
             else
