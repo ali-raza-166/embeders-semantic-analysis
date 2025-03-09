@@ -16,11 +16,13 @@ namespace SemanticSimilarityAnalysis.Proj
             _serviceProvider = serviceProvider;
         }
 
-        // Default directories
-        private readonly string defaultInputCsvDir = "Datasets/CSVs";
-        private readonly string defaultOutputCsvDir = "Outputs/CSV";
+        // Default values
         private readonly string defaultPdfDir = "Datasets/PDFs";
+        private readonly string defaultTxtDir = "Datasets/TXTs";
+        private readonly string defaultInputCsvDir = "Datasets/CSVs";
+        private readonly string defaultOutputCsvDir = "Outputs/CSVs";
         private readonly string defaultJsonDir = "Outputs";
+        private readonly string defaultDataset = "imdb_1000.csv";
 
         public async Task ExecuteCommandAsync(IConfiguration configuration)
         {
@@ -63,68 +65,84 @@ namespace SemanticSimilarityAnalysis.Proj
         // Method to execute the "words-vs-words" command
         private async Task ExecuteWordsVsWordsAsync(IConfiguration configuration)
         {
-            // Command line arguments
-            var list1 = configuration["list1"]?
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(word => word.Trim())
-                .ToList();
-
-            var list2 = configuration["list2"]?
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(word => word.Trim())
-                .ToList();
-
+            // Get output file name and directory from configuration, or use defaults
             var outputFileName = configuration["output"] ?? "words_vs_words.csv";
             var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
+            var outputPath = Path.Combine(outputDirectory, outputFileName);
 
-            var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, outputFileName));
+            // Process list1 and list2 from command-line arguments
+            var list1 = ProcessInput(configuration["list1"] ?? "", "Please provide the first list of words or a text file path:");
+            var list2 = ProcessInput(configuration["list2"] ?? "", "Please provide the second list of words or a text file path:");
 
-            // Prompt for list1 and list2 if they are not provided
-            if (list1 == null || list2 == null)
+            // Ensure both lists contain at least one word before proceeding
+            if (list1.Count() == 0 || list2.Count() == 0)
             {
-                Console.WriteLine("Required arguments are missing.");
-                list1 = PromptForList("Enter the first list of words (comma-separated):");
-                list2 = PromptForList("Enter the second list of words (comma-separated):");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: Both lists must contain at least one word. Exiting...");
+                Console.ResetColor();
+                return;
             }
 
-            var result = await analysis.CompareWordsVsWords(list1, list2);
+            // Retrieve required services for analysis and CSV export
+            var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+            var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
 
-            // Save the result to a CSV file
-            csvHelper.ExportToCsv(result, outputFileName, outputDirectory);
+
+            // Perform the word similarity analysis
+            var results = await analysis.CompareWordsVsWords(list1, list2);
+
+            // Save the results to a CSV file
+            csvHelper.ExportToCsv(results, outputFileName, outputDirectory);
+
+            // Display success message with output file location
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Results saved to {outputPath}");
+            Console.ResetColor();
         }
+
 
         // Method to execute the "words-vs-pdfs" command
         private async Task ExecuteWordsVsPdfsAsync(IConfiguration configuration)
         {
             // Command line arguments
-            var words = configuration["words"]?.Split(',').ToList();
             var pdfFolder = configuration["pdf-folder"] ?? defaultPdfDir;
             var outputFileName = configuration["output"] ?? "words_vs_pdfs.csv";
             var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
+
+            var words = ProcessInput(configuration["words"] ?? "", "Please provide a list of words or a text file path: ");
+
+            if (words.Count() == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: Both lists must contain at least one word. Exiting...");
+                Console.ResetColor();
+                return;
+            }
 
             var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
             var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
             var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, outputFileName));
 
-            // Prompt for words and pdfFolder if they are not provided
-            if (words == null)
-            {
-                Console.WriteLine("Required arguments are missing.");
-                words = PromptForList("Enter the list of words (comma-separated):");
-            }
+            // Prompt for words if they are not provided
+
+
+            // Prompt for pdfFolder if it does not exist
             if (!Directory.Exists(pdfFolder))
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Warning: The specified PDF folder does not exist.");
+                Console.ResetColor();
                 pdfFolder = PromptForDirectory("Enter the PDF folder path:", pdfFolder);
             }
 
-            var result = await analysis.ComparePdfsvsWords(words, pdfFolder);
+            // Perform the analysis
+            var results = await analysis.ComparePdfsvsWords(words, pdfFolder);
 
             // Save the result to a CSV file
-            csvHelper.ExportToCsv(result, outputFileName, outputDirectory);
+            csvHelper.ExportToCsv(results, outputFileName, outputDirectory);
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Results saved to {outputPath}");
+            Console.ResetColor();
         }
 
         // Method to execute the "pdfs-vs-pdfs" command
@@ -151,26 +169,21 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.WriteLine($"Results saved to {outputPath}");
         }
 
+
         // Method to execute the "words-vs-dataset" command
         /// <note>
         /// To start generating the dataset embeddings and then compare them with the words, we need to enter:
-        /// 1. Wanted fields of the dataset to generate embeddings
+        /// 1. Choose fields from the dataset for labeling and generating embeddings
         /// 2. Choose a field which will be the label of the record for SAVING into csv and for PLOTTING
         /// 3. Choose a field whose embeddings will be used to compare with the words' embeddings
         /// </note>
         private async Task ExecuteWordsVsDatasetAsync(IConfiguration configuration)
         {
             // Command line arguments
-            var words = configuration["words"]?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(word => word.Trim())
-            .ToList(); ;
-            var csvFileName = configuration["dataset"] ?? "imdb_1000.csv"; // Dataset CSV file
-            var outputFileName = configuration["output"] ?? "dataset_vs_words.csv"; // Output file name
             var inputDirectory = configuration["inputDir"] ?? defaultInputCsvDir; // Directory containing the dataset
+            var csvFileName = configuration["dataset"] ?? defaultDataset; // Dataset CSV file
             var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir; // Directory containing the output
-            /// 
-            /// Number of rows to process, default is -1 which means defaultProcessRows = 20 rows. (Check out CSVHelper.cs for more details)
-            /// 
+            var outputFileName = configuration["output"] ?? "dataset_vs_words.csv"; // Output file name
             var processRows = int.TryParse(configuration["rows"], out int rows) ? rows : -1;
 
             var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
@@ -179,10 +192,13 @@ namespace SemanticSimilarityAnalysis.Proj
             var csvFilePath = Path.GetFullPath(Path.Combine(inputDirectory, csvFileName));
             var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, outputFileName));
 
-            // Prompt for csvFileName and inputPath if they are not provided
+            // Prompt for csvFileName and inputPath if they are not provided　
             if (!File.Exists(csvFilePath))
             {
-                csvFileName = PromptForFile("Enter the CSV dataset file name:", csvFileName);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Warning: The specified dataset file does not exist.");
+                Console.ResetColor();
+                csvFileName = PromptForFile("Enter the CSV dataset file name:", defaultDataset);
                 csvFilePath = Path.GetFullPath(Path.Combine(inputDirectory, csvFileName));
             }
 
@@ -190,19 +206,14 @@ namespace SemanticSimilarityAnalysis.Proj
             var fields = csvHelper.ReadCsvFields(csvFilePath);
 
             // Prompt for words if they are not provided
-            if (words == null || words.Count == 0)
-            {
-                Console.WriteLine("Required arguments are missing.");
-                words = PromptForList("Enter the list of words (comma-separated):");
-            }
-
+            var words = ProcessInput(configuration["words"] ?? "", "Please provide the list of words or a text file path: ");
             Console.WriteLine("Words: " + string.Join(", ", words));
 
             // 1. Prompt for embedding attributes/fields of the dataset to generate embeddings
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"\nAvailable fields ({string.Join(", ", fields)}):");
             Console.ResetColor();
-            Console.Write("\nEnter the fields to use for embeddings");
+            Console.Write("\nEnter the fields to be extracted from the dataset ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("(comma-separated, RIGHT CASE as in the available fields)");
             Console.ResetColor();
@@ -211,24 +222,29 @@ namespace SemanticSimilarityAnalysis.Proj
             // Check if at least one attribute is provided
             if (embeddingAttributes.Count == 0)
             {
-                Console.WriteLine("At least one attribute is required for embeddings.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: At least one attribute is required for embeddings.");
+                Console.ResetColor();
                 return;
             }
 
             // 2. Prompt for label attribute 
             var labelAttribute = PromptForInput("Enter 1 field to use as the label:");
-            if (labelAttribute == null)
+            if (string.IsNullOrEmpty(labelAttribute))
             {
-                Console.WriteLine("A label attribute is required.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: A label attribute is required.");
+                Console.ResetColor();
                 return;
             }
 
             // 3. Prompt for attribute to get its embeddings and compare with words' embeddings
             var attributeToCompare = PromptForInput($"Enter the field you want to compare with the words:");
-
-            if (embeddingAttributes.Count == 0)
+            if (string.IsNullOrEmpty(attributeToCompare))
             {
-                Console.WriteLine("An attribute is required for comparison.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: An attribute is required for comparison.");
+                Console.ResetColor();
                 return;
             }
 
@@ -243,8 +259,9 @@ namespace SemanticSimilarityAnalysis.Proj
 
             // Save the result to a CSV file
             csvHelper.ExportToCsv(result, outputFileName, outputDirectory);
-
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Results saved to {outputPath}");
+            Console.ResetColor();
         }
 
 
@@ -258,54 +275,97 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.WriteLine("\nCommands:");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(@"
-              ww --list1 <words> --list2 <words> [--output <path>] (Words vs. Words)
-              wp --words <words> [--pdf-folder <path>] [--output <path>] (Words vs. PDFs)
-              pp [--pdf-folder <path>] [--output <path>] (PDFs vs. PDFs)
-              wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] (Words vs. Dataset)
+                ww --list1 <words> --list2 <words> [--output <path>] (Words vs. Words)
+                wp --words <words> [--pdf-folder <path>] [--output <path>] (Words vs. PDFs)
+                pp [--pdf-folder <path>] [--output <path>] (PDFs vs. PDFs)
+                wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] (Words vs. Dataset)
             ");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nArguments:");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(@"
-              --list1 <words>         Comma-separated list of words (for ww command) e.g., ""word1,word2,word3"".
-              --list2 <words>         Comma-separated list of words (for ww command) e.g., ""word1,word2,word3"".
-              --words <words>         Comma-separated list of words (for wp and wd commands) e.g., ""word1,word2,word3"".
-                                      **Note**: Enclose the list in quotation marks (e.g., ""Business and Finance, Information Technology, Legal and Environmental"").
-              --pdf-folder <path>     Path to the folder containing PDFs (for wp and pp commands).
-              --dataset <path>        Path to the dataset CSV file (for wd command).
-              --output <path>         Path to the output CSV file.
-              --rows <number>         Number of rows to process from dataset (for wd command). Default is 20.
+                --command <command>     The command to execute. Must be one of the following:
+                                        - ww: Compare two lists of words.
+                                        - wp: Compare a list of words with PDF documents.
+                                        - pp: Compare all PDF documents in a folder.
+                                        - wd: Compare a list of words with a dataset.
+
+                --list1 <words>         Comma-separated list of words for the first list (for ww command).
+                                        Example: ""apple,banana,orange"" or provide a text file path like ""list1.txt"".
+
+                --list2 <words>         Comma-separated list of words for the second list (for ww command).
+                                        Example: ""apple,banana,orange"" or provide a text file path like ""list2.txt"".
+
+                --words <words>         Comma-separated list of words (for wp and wd commands).
+                                        Example: ""apple,banana,orange"" or provide a text file path like ""words.txt"".
+                                        **Note**: Enclose the list in quotation marks if it contains spaces or special characters.
+
+                --pdf-folder <path>     Path to the folder containing PDF files (for wp and pp commands).
+                                        Example: ""C:/Documents/PDFs"" or use the default folder: ""Datasets/PDFs"".
+
+                --dataset <path>        Path to the dataset CSV file (for wd command).
+                                        Example: ""imdb_1000.csv"" or provide a custom path.
+
+                --output <path>         Path to save the output CSV file.
+                                        Example: ""results.csv"".
+
+                --rows <number>         Number of rows to process from the dataset (for wd command).
+                                        Example: 100 (default is 20 rows).
+
+                --inputDir <path>       Directory containing the dataset CSV file (for wd command).
+                                        Example: ""C:/Datasets/CSVs"" or use the default folder: ""Datasets/CSVs"".
+
+                --outputDir <path>      Directory to save the output CSV file.
+                                        Example: ""C:/Outputs/CSVs"" or use the default folder: ""Outputs/CSVs"".
             ");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nDefault values:");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine($@"
-              --outputDir             {defaultOutputCsvDir}
-              --inputDir              {defaultInputCsvDir}
-              --pdf-folder            {defaultPdfDir}
-              --dataset               imdb_1000.csv
+                --pdf-folder            {defaultPdfDir}
+                --inputDir              {defaultInputCsvDir}
+                --outputDir             {defaultOutputCsvDir}
+                --dataset               {defaultDataset}
             ");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nExamples WITHOUT options:");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(@"
-              dotnet run --command ww --list1 word1,word2,word3 --list2 word1,word2,word3
-              dotnet run --command wp --words word1,word2,word3
-              dotnet run --command pp
-              dotnet run --command wd --words word1,word2,word3
+                dotnet run --command ww --list1 apple,banana,orange --list2 grape,mango,pineapple
+                dotnet run --command wp --words apple,banana,orange
+                dotnet run --command pp
+                dotnet run --command wd --words apple,banana,orange
             ");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nExamples WITH options:");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(@"
-              dotnet run --command ww --list1 ""word1,word2,word3"" --list2 ""word1,word2,word3"" --output output.csv
-              dotnet run --command wp --words ""word1,word2,word3"" --pdf-folder pdfs --output output.csv
-              dotnet run --command pp --pdf-folder pdfs --output output.csv
-              dotnet run --command wd --words ""word1,word2,word3"" --dataset imdb_1000.csv --output output.csv --rows 100
+                dotnet run --command ww --list1 ""apple,banana,orange"" --list2 ""grape,mango,pineapple"" --output results.csv
+                dotnet run --command wp --words ""apple,banana,orange"" --pdf-folder ""C:/Documents/PDFs"" --output results.csv
+                dotnet run --command pp --pdf-folder ""C:/Documents/PDFs"" --output results.csv
+                dotnet run --command wd --words ""apple,banana,orange"" --dataset imdb_1000.csv --output results.csv --rows 100
+            ");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nImportant Notes:");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(@"
+                1. For lists of words, you can either:
+                    - Provide a comma-separated list (e.g., ""apple,banana,orange"").
+                    - Provide a text file path containing the words (e.g., ""words.txt"").
+
+                2. Enclose lists in quotation marks if they contain spaces or special characters.
+                    Example: ""Business and Finance, Information Technology, Legal and Environmental"".
+
+                3. If a required argument is missing, the program will prompt you to enter it.
+
+                4. The program will automatically use default values for optional arguments if they are not provided.
+
+                5. Ensure that the paths provided for files and directories are correct and accessible.
             ");
 
             // Reset color to default
@@ -313,23 +373,23 @@ namespace SemanticSimilarityAnalysis.Proj
         }
 
 
-        // Method to prompt the user for a file
+        // Method to prompt the user for a csv file to compare words with a dataset
         private string PromptForFile(string prompt, string defaultValue)
         {
-            string path;
+            string fileName;
             while (true)
             {
                 Console.Write($"{prompt} (default: {defaultValue}): ");
 
-                path = Console.ReadLine();
+                fileName = Console.ReadLine();
 
-                if (string.IsNullOrEmpty(path))
+                if (string.IsNullOrEmpty(fileName))
                 {
-                    path = defaultValue;
+                    fileName = defaultValue;
                 }
-                if (File.Exists(path))
+                if (File.Exists(Path.Combine(defaultInputCsvDir, fileName)))
                 {
-                    return path;
+                    return fileName;
                 }
                 Console.WriteLine("File does not exist. Please enter a valid path.");
             }
@@ -389,6 +449,83 @@ namespace SemanticSimilarityAnalysis.Proj
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(word => word.Trim())
                 .ToList();
+        }
+
+        /// <summary>
+        /// When USER INTERACTION IS REQUIRED TO ENTER WORDS
+        /// Prompts the user for either a comma-separated list of words or a file path containing words.
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <returns>A list of words extracted from the input or file.</returns>
+        private List<string> PromptForWordsOrFile(string prompt)
+        {
+            var textHelper = new TextHelper();
+
+            Console.Write($"{prompt} ");
+
+            string input = Console.ReadLine()!;
+
+            // If input is a file path, read the words from the file
+            if (textHelper.IsTextFilePath(input))
+            {
+                Console.WriteLine($"Reading words from file: {input}");
+                try
+                {
+                    return textHelper.ExtractWordsFromTextFile(input, defaultTxtDir);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.ResetColor();
+                    return PromptForWordsOrFile("Enter the list of words (comma-separated) or provide a valid text file path:");
+                }
+            }
+            else
+            {
+
+                // Treat input as a comma-separated string
+                return input.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(word => word.Trim())
+                            .ToList();
+            }
+        }
+
+        /// <summary>
+        /// When PROCESSING COMMAND LINE INPUT
+        /// Check if the input is not empty and process it as either a file path containing words or a comma-separated list of words.
+        /// </summary>
+        /// <param name="input">The input string from configuration.</param>
+        /// <returns>A list of words extracted from the input.</returns>
+        private List<string> ProcessInput(string input, string prompt)
+        {
+            var textHelper = new TextHelper();
+
+            // If input is missing, or empty, prompt for it
+            if (string.IsNullOrWhiteSpace(input))
+                return PromptForWordsOrFile(prompt);
+
+            // If input is a file path, extract words from the file
+            if (textHelper.IsTextFilePath(input))
+            {
+                Console.WriteLine($"Reading words from file: {input}");
+                try
+                {
+                    return textHelper.ExtractWordsFromTextFile(input, defaultTxtDir);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.ResetColor();
+                    return new List<string>();
+                }
+            }
+
+            // If input is not a file, treat it as a comma-separated list of words
+            return input.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(word => word.Trim())
+                        .ToList();
         }
     }
 }

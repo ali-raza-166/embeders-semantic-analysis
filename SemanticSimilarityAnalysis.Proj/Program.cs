@@ -41,18 +41,6 @@ namespace SemanticSimilarityAnalysis.Proj
             // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
             // await processor.RunAsync();
 
-            // var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            // var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
-
-            // Extract and return a list of string from txt file
-            //var txt = new TextHelper();
-            //var words = txt.ExtractWordsFromTextFile("MachineLearningWords.txt");
-            //foreach (var word in words)
-            //{
-            //    Console.WriteLine(word);
-            //}
-
-
             ///
             /// For command line
             /// 
@@ -62,7 +50,6 @@ namespace SemanticSimilarityAnalysis.Proj
                 .Build();
 
 
-
             var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
             await commandLineHelper.ExecuteCommandAsync(configuration);
 
@@ -70,8 +57,8 @@ namespace SemanticSimilarityAnalysis.Proj
             ///
             /// For testing 
             ///
-            //var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            //var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
+            var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+            var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
 
             //var list1 = new List<string>
             //{
@@ -105,8 +92,9 @@ namespace SemanticSimilarityAnalysis.Proj
             //var pdfResult = await analysis.ComparePdfsvsWords(list2);
             //csvHelper.ExportToCsv(pdfResult, "pdfs.csv");
 
-            //// PDFs vs PDFs
+            // PDFs vs PDFs
             //var pdfsResult = await analysis.CompareAllPdfDocuments();
+            //csvHelper.ExportToCsv(pdfsResult, "pdfs.csv");
 
             //// Words vs Dataset
             //await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);

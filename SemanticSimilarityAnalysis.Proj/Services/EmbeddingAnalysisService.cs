@@ -178,11 +178,11 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     }
 
                     // Create a SimilarityPlotPoint for this PDF file
-                    similarityResults.Add(new SimilarityPlotPoint(Path.GetFileName(pdfFile), similarities));
+                    similarityResults.Add(new SimilarityPlotPoint(Path.GetFileNameWithoutExtension(pdfFile), similarities));
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error processing PDF file '{Path.GetFileName(pdfFile)}': {ex.Message}");
+                    Console.WriteLine($"Error processing PDF file '{Path.GetFileNameWithoutExtension(pdfFile)}': {ex.Message}");
                 }
             }
 
@@ -248,8 +248,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     string filePath1 = pdfFiles[i];
                     string filePath2 = pdfFiles[j];
 
-                    string fileName1 = Path.GetFileName(filePath1);
-                    string fileName2 = Path.GetFileName(filePath2);
+                    string fileName1 = Path.GetFileNameWithoutExtension(filePath1);
+                    string fileName2 = Path.GetFileNameWithoutExtension(filePath2);
 
                     // Check if embeddings are available for both files
                     if (!averageEmbeddingsDict.TryGetValue(filePath1, out var avgEmbedding1) ||
