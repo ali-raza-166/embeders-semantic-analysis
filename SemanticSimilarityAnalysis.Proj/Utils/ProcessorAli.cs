@@ -2,6 +2,7 @@ using LanguageDetection;
 using Microsoft.Extensions.DependencyInjection;
 using SemanticSimilarityAnalysis.Proj.Helpers;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
+using SemanticSimilarityAnalysis.Proj.Pipelines;
 using SemanticSimilarityAnalysis.Proj.Services;
 namespace SemanticSimilarityAnalysis.Proj.Utils;
 
@@ -19,23 +20,49 @@ public class ProcessorAli
         var euclideanDistCalc = _serviceProvider.GetRequiredService<EuclideanDistance>();
         var pineconeService = _serviceProvider.GetRequiredService<PineconeService>();
         var textGenerationService = _serviceProvider.GetRequiredService<OpenAiTextGenerationService>();
+        var openAiEmbeddingsDimReductionAndPlotting = _serviceProvider.GetRequiredService<OpenAiEmbeddingsDimReductionAndPlotting>();
+        var word2VecEmbeddingsDimReductionAndPlotting= _serviceProvider.GetRequiredService<Word2VecEmbeddingsDimReductionAndPlotting>();
+        var pineconeSetupService=_serviceProvider.GetRequiredService<PineconeSetup>();
+        var chatbotService = _serviceProvider.GetRequiredService<ChatbotService>();
 
-        LanguageDetector detector=new LanguageDetector();
+        LanguageDetector detector=new();
         detector.AddAllLanguages();
         try
         {
-            // var inputs = new List<string>{"Car", "vehicle", "Airplane", "Cat", "kitten" };
-            // var inputs = new List<string>
-            // {
-            //     "Luxury sedan with leather interior and premium sound system", 
-            //     "Affordable family car with spacious seating and good fuel economy", 
-            //     "Sports coupe with high-performance engine and sleek design", 
-            //     "Electric vehicle with zero emissions and fast charging technology", 
-            //     "Large commercial truck for transporting goods across long distances", 
-            //     "Heavy-duty freight truck used for shipping large containers", 
-            //     "Eco-friendly hybrid car with advanced safety features", 
-            //     "Compact city car designed for urban driving with low maintenance costs"
-            // };
+            // var inputs = new List<string>{"Waiter work at the hospital", "hospital", "Airport", "Cat", "Dog" };
+            List<string> inputs = new List<string>
+            {
+                // Manual 1: Setting up a new email account
+                // First paragraph in German:
+                "Um ein neues E-Mail-Konto auf Ihrem mobilen Gerät einzurichten, öffnen Sie zunächst die 'Einstellungen'-App auf Ihrem Telefon und wählen Sie 'Konten' oder 'Passwörter & Konten', je nach Ihrem Betriebssystem. Tippen Sie auf die Option 'Konto hinzufügen' oder 'Neues Konto hinzufügen'. Wählen Sie nun den E-Mail-Anbieter aus der Liste aus, wie z. B. Gmail, Outlook oder Yahoo. Wenn Ihr E-Mail-Anbieter nicht aufgeführt ist, wählen Sie 'Andere', um die Kontodaten manuell einzugeben. Geben Sie Ihre vollständige E-Mail-Adresse ein, z. B. 'benutzername@domain.com', gefolgt von Ihrem E-Mail-Passwort. Wenn erforderlich, geben Sie zusätzliche Einstellungen wie die Mail-Server-Adresse, IMAP/POP-Einstellungen und SMTP-Serverdetails ein. Nachdem die Daten eingegeben wurden, überprüft das System Ihre Anmeldedaten und verbindet sich mit Ihrem E-Mail-Konto.",
+
+                // Second paragraph in Chinese:
+                "在成功添加电子邮件帐户后，返回到“帐户”部分检查您的设置。现在，您可以打开手机上的电子邮件应用程序，它应该会自动与您的电子邮件帐户同步。如果系统提示您设置额外的安全功能，例如双因素身份验证，建议启用这些功能以提高保护级别。一些电子邮件提供商可能会要求您完成其他设置步骤，例如链接到特定的应用程序或启用某些功能，如联系人和日历同步。一旦一切验证并同步，您可以直接从手机发送和接收电子邮件。",
+
+                // Third paragraph in English:
+                "For added security and easy management, you can customize your email account settings. Navigate to the 'Settings' section within the email app and explore options such as 'Notification Preferences', 'Signature Settings', and 'Sync Frequency'. You may also want to organize your inbox by creating folders and labels to better manage incoming emails. Regularly check your inbox and archive unnecessary emails to keep your account tidy. Lastly, consider setting up email forwarding or filters if you need to redirect or sort incoming messages automatically.",
+
+                // Manual 2: Calibrating a smart thermostat
+                // First paragraph in German:
+                "Die Kalibrierung Ihres Smart-Thermostats ist wichtig, um sicherzustellen, dass Ihr Zuhause eine angenehme Temperatur beibehält und gleichzeitig den Energieverbrauch optimiert. Beginnen Sie damit, sicherzustellen, dass Ihr Thermostat ordnungsgemäß installiert und mit Ihrem WLAN-Netzwerk verbunden ist. Öffnen Sie die Thermostat-App auf Ihrem Telefon oder Tablet und gehen Sie zum Menü 'Einstellungen'. In diesem Menü finden Sie eine Option mit der Bezeichnung 'Kalibrierung' oder 'Temperaturanpassung'. Tippen Sie auf diese Option, um den Kalibrierungsprozess zu starten. Während der Kalibrierung überwacht das Thermostat die Raumtemperatur über einen längeren Zeitraum, in der Regel 24 Stunden, um seine Messungen genau anzupassen. Stellen Sie sicher, dass sich das Thermostat in einem Bereich mit stabiler Luftzirkulation befindet und vermeiden Sie direkte Sonneneinstrahlung oder Zugluft, die die Messungen beeinträchtigen könnten.",
+
+                // Second paragraph in Chinese:
+                "一旦温控器完成了其校准过程，它将自动调整其温度设置，以匹配您期望的舒适度。这时，您可以通过应用程序或直接在设备上访问您的温控器界面，根据个人偏好调整温度。许多现代温控器还提供像地理围栏等功能，该功能在您在家或外出时自动调整温度，以节省能源。为了获得更个性化的体验，您可以设置计划，以便在一天中的特定时间调整温度，确保系统高效工作并与您的日常生活保持一致。",
+
+                // Third paragraph in English:
+                "In addition to calibration, consider placing your thermostat in an optimal location for the most accurate temperature reading. Avoid placing it near doors, windows, or vents, as these areas may cause incorrect temperature readings due to drafts. If your thermostat has additional features, like humidity sensing, make sure that these settings are enabled to further enhance comfort. Remember to periodically check the thermostat app for updates to ensure you're taking full advantage of the latest features and optimizations. Some models also allow you to monitor energy usage and set reminders to maintain your heating and cooling system, helping you save both money and energy in the long run.",
+
+                // Manual 3: Pairing and using wireless headphones
+                // First paragraph in German:
+                "Das Koppeln und Verwenden von kabellosen Kopfhörern mit Ihrem Smartphone ist ein unkomplizierter Prozess, der Ihre Audioerfahrung verbessert. Stellen Sie sicher, dass Ihre kabellosen Kopfhörer vollständig aufgeladen sind. Schalten Sie sie ein, indem Sie den Einschaltknopf gedrückt halten, bis die LED-Leuchte blinkt, was darauf hinweist, dass sie sich im Pairing-Modus befinden. Öffnen Sie auf Ihrem Smartphone die 'Einstellungen'-App und wählen Sie 'Bluetooth'. Aktivieren Sie Bluetooth und warten Sie, bis Ihr Telefon nach verfügbaren Geräten sucht. In der Liste der Geräte finden Sie Ihre Kopfhörer und wählen Sie diese aus. Sobald Sie ausgewählt haben, wird auf Ihrem Telefon eine Koppelanfrage angezeigt; bestätigen Sie die Kopplung, indem Sie auf 'Ja' oder 'OK' tippen. Die Kopfhörer werden dann verbunden und Sie sollten einen Bestätigungston hören.",
+
+                // Second paragraph in Chinese:
+                "现在您的无线耳机已连接，您可以直接在耳机上或使用智能手机调整音量。大多数无线耳机具有附加功能，如噪声取消或触摸敏感控制，这些可以通过耳机的配套应用程序或设置启用或自定义。为了增强音频体验，可以考虑在智能手机上调整均衡器设置，以根据您的偏好调整声音。您还可以通过播放歌曲或拨打电话来测试连接，确保音频质量和麦克风的正常工作。一些耳机支持连接多个设备，您可以通过在蓝牙设置中切换连接来无缝切换设备。",
+
+                // Third paragraph in English:
+                "To disconnect the wireless headphones, simply turn off Bluetooth on your smartphone or power off the headphones themselves. If you're planning to use the headphones with another device, repeat the pairing process by following the same steps. It’s important to store your headphones properly when not in use to prevent any physical damage. Most headphones come with a carrying case, which should be used for protection. For longer battery life, remember to turn off the headphones when you're done using them. If your headphones support software updates, make sure to regularly check for any available updates, as these can improve the performance and introduce new features to your device."
+            };
+
             // var inputs = new List<string>
             // {
             //     "Artificial intelligence is transforming industries globally.",
@@ -73,7 +100,7 @@ public class ProcessorAli
             //     }
             //
             // } 
-
+            //
             // var models = embeddings.Select((embedding, index) => new PineconeModel(
             //     embedding.Id,
             //     embedding.Values.ToList(),
@@ -87,32 +114,32 @@ public class ProcessorAli
             // await pineconeService.UpsertEmbeddingAsync(models, "default");
             // Console.WriteLine("Vector Embeddings successfully upserted into Pinecone.");
 
-            //create embedding for Query item to test 
-            // const string query =  "What is the camera resolution of iphone 15 pro？";
-            // var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([query]);
-            // var queryResponse =
-            //     await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 4, "de");
-            // var pineconeTopKparagraphs = new List<string>();
-            // Console.WriteLine($"Count of matched vectors from pinecone: {queryResponse.Count}");
-            // foreach (var retrievedVector in queryResponse)
-            // {
-            //     foreach (var metadataItem in retrievedVector.Metadata)
-            //     {
-            //         Console.WriteLine($"Key: {metadataItem.Key}, Value: {metadataItem.Value}");
-            //         // The first .Value accesses the MetadataValue, and the second .Value gets the actual data (e.g., string, double).
-            //         if (metadataItem.Key == "Text" && metadataItem.Value?.Value is string textValue)
-            //         {
-            //             pineconeTopKparagraphs.Add(textValue);
-            //         }           
-            //     }
-            //     Console.WriteLine($"ID: {retrievedVector.Id}");
-            //     Console.WriteLine($"Score: {retrievedVector.Score}");
-            //     Console.WriteLine(
-            //         $"Embedding vector (first 10 values): {string.Join(", ", retrievedVector.Values.Take(10))}");
-            //     Console.WriteLine();
-            // }
-            // var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
-            // Console.WriteLine($"\nAnswer: {answer}");
+            // create embedding for Query item to test 
+            //  const string query =  "What is the camera resolution of iphone 15 pro？";
+            //  var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([query]);
+            //  var queryResponse =
+            //      await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 4, "de");
+            //  var pineconeTopKparagraphs = new List<string>();
+            //  Console.WriteLine($"Count of matched vectors from pinecone: {queryResponse.Count}");
+            //  foreach (var retrievedVector in queryResponse)
+            //  {
+            //      foreach (var metadataItem in retrievedVector.Metadata)
+            //      {
+            //          Console.WriteLine($"Key: {metadataItem.Key}, Value: {metadataItem.Value}");
+            //          // The first .Value accesses the MetadataValue, and the second .Value gets the actual data (e.g., string, double).
+            //          if (metadataItem.Key == "Text" && metadataItem.Value?.Value is string textValue)
+            //          {
+            //              pineconeTopKparagraphs.Add(textValue);
+            //          }           
+            //      }
+            //      Console.WriteLine($"ID: {retrievedVector.Id}");
+            //      Console.WriteLine($"Score: {retrievedVector.Score}");
+            //      Console.WriteLine(
+            //          $"Embedding vector (first 10 values): {string.Join(", ", retrievedVector.Values.Take(10))}");
+            //      Console.WriteLine();
+            //  }
+            //  var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
+            //  Console.WriteLine($"\nAnswer: {answer}");
 
             
             // Console.WriteLine("Results computed by Manual TopK Method");
@@ -126,51 +153,44 @@ public class ProcessorAli
             //     Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
             // }
             
-            // // Example list of embeddings (list of float lists)
-            // var inputs = new List<List<float>>()
-            // {
-            //     new List<float> { 2.5f,  2.4f, 0.4f},
-            //     new List<float> { 0.5f,  0.7f, 0.6f },
-            //     new List<float> { 2.2f,  2.9f, 0.2f }
-            // };
             
-            // Apply Dimensionality Reduction PCA and export the output in CSV
-            // var dimensionalityReductionService = new DimensionalityReductionService(2);  // Reduce to 2 principal components
-            // var reducedPcaMatrix = dimensionalityReductionService.PerformPca(listofEmbeddingVectors);
-            // var scaledDataPca = dimensionalityReductionService.MinMaxScaleData(reducedPcaMatrix); 
-            //
-            // // Combine the words and PCA data into a single structure to expot and pass to python file
-            // var csvHelper = new CSVHelper();
-            // CSVHelper.ExportReducedDimensionalityData(scaledDataPca, inputs, "reducedDimension2DPCA.csv");
-            // var cSharPythonConnector = new CSharpPythonConnector();
-            // cSharPythonConnector.PlotScatterForReducedPca("reducedDimension2DPCA.csv", "scatter_plot.png");
-            //
-            // var reducedTsneMatrix = dimensionalityReductionService.ReduceDimensionsUsingTsne(listofEmbeddingVectors, 2);
-            // var scaledDataTsne= dimensionalityReductionService.MinMaxScaleData(reducedTsneMatrix);
-            
-            
+            // await openAiEmbeddingsDimReductionAndPlotting.RunPipelineAsync(inputs); 
+            // word2VecEmbeddingsDimReductionAndPlotting.RunPipeline(inputs);
+
+            //---------------Testing pinecone refactored classes (setup+service)
+            // string namespaceName = "manuals-namespace";
+            // string indexname = "manuals-index";
+            // await pineconeSetupService.RunAsync(inputs, indexname, namespaceName);
+            // string query = "what is a smart thermostat?";
+            // var pineconeTopKparagraphs = await pineconeService.QueryEmbeddingsAsync(query, indexname,namespaceName, 3, "en");
+            // var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
+            // Console.WriteLine($"\nAnswer: {answer}");
+
+            //-----------------Testing the chatbot------------------
+            // string indexName = "manuals-index";
+            // string namespaceName = "manuals-namespace";
+            // await chatbotService.StartChatAsync(indexName, namespaceName);
+
+
             //-------------Word2Vec----
-            string txtFileName = "glove.6B.300d.txt";
-            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
-            string filePath = Path.Combine(projectRoot, "Datasets", txtFileName);
-            Console.WriteLine($"Loading file: {filePath}");
-
-            var word2VecService = new Word2VecService(filePath);
-
-            var vector1 = word2VecService.GetPhraseVector("machine learning revolution in technology"); //case-sensitive
-            var vector2 = word2VecService.GetPhraseVector("law and legal regulations"); //case-sensitive
-
-            var listVector1 = vector1.ToList();
-            var listVector2 = vector2.ToList();
-
-            // Initialize CosineSimilarity service
-            var cosineSimilarity = new CosineSimilarity();
-
-            // Compute Cosine Similarity
-            var cosineSimilarityVaue = cosineSimilarity.ComputeCosineSimilarity(listVector1, listVector2);
-
-            // Display the result
-            Console.WriteLine($"Cosine Similarity usning word2vec: {cosineSimilarityVaue}");
+            // string txtFileName = "glove.6B.300d.txt";
+            // string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
+            // string filePath = Path.Combine(projectRoot, "Datasets", txtFileName);
+            // Console.WriteLine($"Loading file: {filePath}");
+            //
+            // var word2VecService = new Word2VecService(filePath);
+            //
+            // var vector1 = word2VecService.GetPhraseVector("machine learning revolution in technology"); //case-sensitive
+            // var vector2 = word2VecService.GetPhraseVector("law and legal regulations"); //case-sensitive
+            //
+            // var listVector1 = vector1.ToList();
+            // var listVector2 = vector2.ToList();
+            //
+            // var cosineSimilarity = new CosineSimilarity();
+            // var cosineSimilarityVaue = cosineSimilarity.ComputeCosineSimilarity(listVector1, listVector2);
+            //
+            // // Display the result
+            // Console.WriteLine($"Cosine Similarity usning word2vec: {cosineSimilarityVaue}");
 
         }
         catch (Exception ex)

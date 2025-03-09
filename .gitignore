@@ -4,9 +4,9 @@
 Solution Items
 **/bin
 **/obj
-**/Outputs
+
 # SemanticSimilarityAnalysis.Proj/bin/
 # SemanticSimilarityAnalysis.Proj/obj/
 # SemanticSimilarityAnalysis.Test/bin/
 *.DotSettings.user
-#**/Datasets/
+**/Datasets/

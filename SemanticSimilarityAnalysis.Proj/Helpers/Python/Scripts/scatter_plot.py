@@ -7,9 +7,6 @@ import matplotlib.pyplot as plt
 
 def plot_scatter(csv_path, output_path):
     try:
-        print(f"Received CSV Path: {csv_path}")
-        print(f"Received Output Path: {output_path}")
-
         # Ensure the directory exists
         output_dir = os.path.dirname(output_path)
         if not os.path.exists(output_dir):
