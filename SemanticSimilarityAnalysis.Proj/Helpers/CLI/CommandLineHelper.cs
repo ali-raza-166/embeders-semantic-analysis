@@ -47,9 +47,9 @@ namespace SemanticSimilarityAnalysis.Proj
                     await ExecuteWordsVsPdfsAsync(configuration);
                     break;
 
-                case "pp":
-                    await ExecutePdfsVsPdfsAsync(configuration);
-                    break;
+                //case "pp":
+                //    await ExecutePdfsVsPdfsAsync(configuration);
+                //    break;
 
                 case "wd":
                     await ExecuteWordsVsDatasetAsync(configuration);
@@ -146,28 +146,28 @@ namespace SemanticSimilarityAnalysis.Proj
         }
 
         // Method to execute the "pdfs-vs-pdfs" command
-        private async Task ExecutePdfsVsPdfsAsync(IConfiguration configuration)
-        {
-            // Command line arguments
-            var pdfFolder = configuration["pdf-folder"] ?? defaultPdfDir;
-            var outputFileName = configuration["output"] ?? "pdfs_vs_pdfs.csv";
-            var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
+        //private async Task ExecutePdfsVsPdfsAsync(IConfiguration configuration)
+        //{
+        //    // Command line arguments
+        //    var pdfFolder = configuration["pdf-folder"] ?? defaultPdfDir;
+        //    var outputFileName = configuration["output"] ?? "pdfs_vs_pdfs.csv";
+        //    var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
 
-            var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, outputFileName));
+        //    var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+        //    var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
+        //    var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, outputFileName));
 
-            if (!Directory.Exists(pdfFolder))
-            {
-                pdfFolder = PromptForDirectory("Enter the PDF folder path:", pdfFolder);
-            }
+        //    if (!Directory.Exists(pdfFolder))
+        //    {
+        //        pdfFolder = PromptForDirectory("Enter the PDF folder path:", pdfFolder);
+        //    }
 
-            var result = await analysis.CompareAllPdfDocuments(pdfFolder);
+        //    var result = await analysis.CompareAllPdfDocuments(pdfFolder);
 
-            // Save the result to a CSV file
-            csvHelper.ExportToCsv(result, outputFileName, outputDirectory);
-            Console.WriteLine($"Results saved to {outputPath}");
-        }
+        //    // Save the result to a CSV file
+        //    csvHelper.ExportToCsv(result, outputFileName, outputDirectory);
+        //    Console.WriteLine($"Results saved to {outputPath}");
+        //}
 
 
         // Method to execute the "words-vs-dataset" command

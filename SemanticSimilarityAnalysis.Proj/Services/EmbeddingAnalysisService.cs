@@ -199,75 +199,75 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         /// <param name="inputDir">The directory containing the PDF files to be compared.</param>
         /// <param name="chunkType">The type of chunking to apply when extracting text from PDFs (default is None).</param>
         /// <returns>Returns a list of SimilarityPlotPoint objects</returns>
-        public async Task<List<SimilarityPlotPoint>> CompareAllPdfDocuments(
-             string inputDir = @"../../Datasets/PDFs",
-             PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None
-        )
-        {
-            // Get all PDF file paths in the directory
-            var pdfFiles = Directory.GetFiles(inputDir, "*.pdf");
+        //public async Task<List<SimilarityPlotPoint>> CompareAllPdfDocuments(
+        //     string inputDir = @"../../Datasets/PDFs",
+        //     PdfHelper.ChunkType chunkType = PdfHelper.ChunkType.None
+        //)
+        //{
+        //    // Get all PDF file paths in the directory
+        //    var pdfFiles = Directory.GetFiles(inputDir, "*.pdf");
 
-            if (pdfFiles.Length < 2)
-            {
-                throw new InvalidOperationException("At least two PDF files are required for comparison.");
-            }
+        //    if (pdfFiles.Length < 2)
+        //    {
+        //        throw new InvalidOperationException("At least two PDF files are required for comparison.");
+        //    }
 
-            Console.WriteLine($"Extracting text from {pdfFiles.Length} PDF files...");
+        //    Console.WriteLine($"Extracting text from {pdfFiles.Length} PDF files...");
 
-            // Dictionary to store average embeddings for each PDF (using file paths as keys)
-            var averageEmbeddingsDict = new Dictionary<string, List<float>>();
+        //    // Dictionary to store average embeddings for each PDF (using file paths as keys)
+        //    var averageEmbeddingsDict = new Dictionary<string, List<float>>();
 
-            // Process each PDF file to generate embeddings
-            foreach (var pdfFile in pdfFiles)
-            {
-                string fileName = Path.GetFileName(pdfFile);
+        //    // Process each PDF file to generate embeddings
+        //    foreach (var pdfFile in pdfFiles)
+        //    {
+        //        string fileName = Path.GetFileName(pdfFile);
 
-                // Extract text chunks from the PDF
-                var textChunks = _pdfHelper.ExtractTextChunks(pdfFile, chunkType);
+        //        // Extract text chunks from the PDF
+        //        var textChunks = _pdfHelper.ExtractTextChunks(pdfFile, chunkType);
 
-                if (textChunks.Count == 0)
-                {
-                    Console.WriteLine($"Warning: No extractable text in {fileName}.");
-                    continue;
-                }
+        //        if (textChunks.Count == 0)
+        //        {
+        //            Console.WriteLine($"Warning: No extractable text in {fileName}.");
+        //            continue;
+        //        }
 
-                // Generate embeddings for the text chunks and compute the average embedding
-                var embeddings = await _embeddingService.CreateEmbeddingsAsync(textChunks);
-                averageEmbeddingsDict[pdfFile] = _embeddingUtils.GetAverageEmbedding(embeddings);
-            }
+        //        // Generate embeddings for the text chunks and compute the average embedding
+        //        var embeddings = await _embeddingService.CreateEmbeddingsAsync(textChunks);
+        //        averageEmbeddingsDict[pdfFile] = _embeddingUtils.GetAverageEmbedding(embeddings);
+        //    }
 
-            Console.WriteLine("Computing similarity metrics for all document pairs...");
+        //    Console.WriteLine("Computing similarity metrics for all document pairs...");
 
-            // List to store similarity plot points
-            var similarityPlotPoints = new List<SimilarityPlotPoint>();
+        //    // List to store similarity plot points
+        //    var similarityPlotPoints = new List<SimilarityPlotPoint>();
 
-            for (int i = 0; i < pdfFiles.Length; i++)
-            {
-                for (int j = i + 1; j < pdfFiles.Length; j++)
-                {
-                    string filePath1 = pdfFiles[i];
-                    string filePath2 = pdfFiles[j];
+        //    for (int i = 0; i < pdfFiles.Length; i++)
+        //    {
+        //        for (int j = i + 1; j < pdfFiles.Length; j++)
+        //        {
+        //            string filePath1 = pdfFiles[i];
+        //            string filePath2 = pdfFiles[j];
 
-                    string fileName1 = Path.GetFileNameWithoutExtension(filePath1);
-                    string fileName2 = Path.GetFileNameWithoutExtension(filePath2);
+        //            string fileName1 = Path.GetFileNameWithoutExtension(filePath1);
+        //            string fileName2 = Path.GetFileNameWithoutExtension(filePath2);
 
-                    // Check if embeddings are available for both files
-                    if (!averageEmbeddingsDict.TryGetValue(filePath1, out var avgEmbedding1) ||
-                        !averageEmbeddingsDict.TryGetValue(filePath2, out var avgEmbedding2))
-                    {
-                        Console.WriteLine($"Warning: Skipping comparison for {fileName1} and {fileName2} due to missing embeddings.");
-                        continue;
-                    }
+        //            // Check if embeddings are available for both files
+        //            if (!averageEmbeddingsDict.TryGetValue(filePath1, out var avgEmbedding1) ||
+        //                !averageEmbeddingsDict.TryGetValue(filePath2, out var avgEmbedding2))
+        //            {
+        //                Console.WriteLine($"Warning: Skipping comparison for {fileName1} and {fileName2} due to missing embeddings.");
+        //                continue;
+        //            }
 
-                    double cosineSimilarity = _similarityCalculator.ComputeCosineSimilarity(avgEmbedding1, avgEmbedding2);
+        //            double cosineSimilarity = _similarityCalculator.ComputeCosineSimilarity(avgEmbedding1, avgEmbedding2);
 
-                    similarityPlotPoints.Add(new SimilarityPlotPoint(fileName1, new Dictionary<string, double> { { fileName2, cosineSimilarity } }));
+        //            similarityPlotPoints.Add(new SimilarityPlotPoint(fileName1, new Dictionary<string, double> { { fileName2, cosineSimilarity } }));
 
-                    Console.WriteLine($"Cosine Similarity between {fileName1} and {fileName2}: {cosineSimilarity}");
-                }
-            }
-            return similarityPlotPoints;
-        }
+        //            Console.WriteLine($"Cosine Similarity between {fileName1} and {fileName2}: {cosineSimilarity}");
+        //        }
+        //    }
+        //    return similarityPlotPoints;
+        //}
 
 
         /// <summary>

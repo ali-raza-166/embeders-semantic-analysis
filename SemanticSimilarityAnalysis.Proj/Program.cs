@@ -1,10 +1,9 @@
 using LanguageDetection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI.Embeddings;
 using OpenAI.Chat;
-using SemanticSimilarityAnalysis.Proj.Helpers;
 using OpenAI.Embeddings;
+using SemanticSimilarityAnalysis.Proj.Helpers;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
@@ -39,7 +38,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<PineconeService>()
                 .AddSingleton<PineconeSetup>()
                 .AddSingleton<ChatbotService>()
-                .AddSingleton<LanguageDetector>(provider => 
+                .AddSingleton<LanguageDetector>(provider =>
                 {
                     var detector = new LanguageDetector();
                     detector.AddAllLanguages();
