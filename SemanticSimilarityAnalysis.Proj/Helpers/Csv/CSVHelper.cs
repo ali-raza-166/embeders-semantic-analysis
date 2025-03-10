@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using MathNet.Numerics.LinearAlgebra;
 using SemanticSimilarityAnalysis.Proj.Models;
 using System.Globalization;
 
@@ -7,6 +8,36 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
 {
     public class CSVHelper
     {
+        private readonly int defaultProcessedRows = 20;
+        /// <summary>
+        /// Reads the header row of the CSV file using CsvHelper
+        /// </summary>
+        /// <param name="csvFilePath">Path to the CSV file</param>
+        /// <returns>Returns a List<string> containing the header fields.</returns>
+        public List<string> ReadCsvFields(string csvFilePath)
+        {
+            try
+            {
+                using (var reader = new StreamReader(csvFilePath))
+                using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                {
+                    csv.Read();
+                    csv.ReadHeader();
+                    var fields = csv.HeaderRecord;
+                    if (fields == null)
+                    {
+                        throw new Exception("CSV file does not have a header.");
+                    }
+                    return fields.ToList();
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("An error occurred while reading the CSV file header.");
+                return [];
+            }
+        }
+        
         /// <summary>
         /// Extract records from a CSV file
         /// </summary>
@@ -109,15 +140,16 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
                 }
                 csv.NextRecord();
 
-            // Write data rows
-            foreach (var point in similarityResults)
-            {
-                csv.WriteField(point.Label);
-                foreach (var similarity in point.Similarities.Values)
+                // Write data rows
+                foreach (var point in similarityResults)
                 {
-                    csv.WriteField(similarity);
+                    csv.WriteField(point.Label);
+                    foreach (var similarity in point.Similarities.Values)
+                    {
+                        csv.WriteField(similarity);
+                    }
+                    csv.NextRecord();
                 }
-                csv.NextRecord();
             }
         }
         // public void ExportReducedDimensionalityData(Matrix<double> reducedData, List<string> inputs, string filePath)
