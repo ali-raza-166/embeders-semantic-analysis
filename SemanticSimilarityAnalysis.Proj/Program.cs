@@ -1,10 +1,9 @@
 using LanguageDetection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI.Embeddings;
 using OpenAI.Chat;
-using SemanticSimilarityAnalysis.Proj.Helpers;
 using OpenAI.Embeddings;
+using SemanticSimilarityAnalysis.Proj.Helpers;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
@@ -28,7 +27,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<OpenAiEmbeddingService>()
                 .AddSingleton<EmbeddingAnalysisService>()
                 .AddSingleton<OpenAiTextGenerationService>()
-                .AddSingleton<DimensionalityReductionService>(provider => new DimensionalityReductionService(2)) // Provide a value for int
+                .AddSingleton<DimensionalityReductionService>(provider => new DimensionalityReductionService(2))
                 .AddSingleton<CosineSimilarity>()
                 .AddSingleton<EuclideanDistance>()
                 .AddSingleton<EmbeddingUtils>()
@@ -39,6 +38,8 @@ namespace SemanticSimilarityAnalysis.Proj
                 .AddSingleton<PineconeService>()
                 .AddSingleton<PineconeSetup>()
                 .AddSingleton<ChatbotService>()
+                .AddSingleton<RagAccuracyCalculator>()
+                .AddSingleton<RagPipeline>()
                 .AddSingleton<LanguageDetector>(provider => 
                 {
                     var detector = new LanguageDetector();
@@ -52,27 +53,21 @@ namespace SemanticSimilarityAnalysis.Proj
                 .BuildServiceProvider();
 
 
-            // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-            // await processor.RunAsync();
+            var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+            await processor.RunAsync();
 
-            ///
-            /// For command line
-            /// 
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
-                .AddCommandLine(args)
-                .Build();
+            // var configuration = new ConfigurationBuilder()
+            //     .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
+            //     .AddCommandLine(args)
+            //     .Build();
 
 
-            var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
-            await commandLineHelper.ExecuteCommandAsync(configuration);
-
-
-            ///
-            /// For testing 
-            ///
-            var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
+            // var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
+            // await commandLineHelper.ExecuteCommandAsync(configuration);
+            //
+            //
+            // var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+            // var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
 
             //var list1 = new List<string>
             //{
