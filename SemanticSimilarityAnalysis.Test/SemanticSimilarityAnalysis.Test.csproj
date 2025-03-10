@@ -1,36 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-    <ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.2" />
 		<PackageReference Include="Accord.MachineLearning" Version="3.8.2-alpha" />
 		<PackageReference Include="Accord.Statistics" Version="3.8.2-alpha" />
 		<PackageReference Include="MathNet.Numerics" Version="6.0.0-beta2" />
-		<PackageReference Include="CsvHelper" Version="33.0.1" />
-		<PackageReference Include="LanguageDetection" Version="1.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.1.25080.5" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-		<PackageReference Include="MSTest.TestFramework" Version="3.8.2" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="OpenAI" Version="2.1.0" />
-		<PackageReference Include="PdfPig" Version="0.1.10" />
-		<PackageReference Include="Pinecone.Client" Version="3.0.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+		<PackageReference Include="Moq" Version="4.20.72" />
+		<PackageReference Include="MSTest" Version="3.6.1" />
+
+		<PackageReference Include="MSTest.TestFramework" Version="3.6.1" />
+
+		<PackageReference Include="PdfPig" Version="0.1.9" />
+
+		<PackageReference Include="Pinecone.Client" Version="2.1.0" />
+
 		<PackageReference Include="pythonnet" Version="3.1.0-preview2024-09-06" />
-    </ItemGroup>
+	</ItemGroup>
 
-    <ItemGroup>
-        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-    </ItemGroup>
+	<ItemGroup>
+		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\SemanticSimilarityAnalysis.Proj\SemanticSimilarityAnalysis.Proj.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<Folder Include="PDFs\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SemanticSimilarityAnalysis.Proj\SemanticSimilarityAnalysis.Proj.csproj" />
+	</ItemGroup>
 
 </Project>
