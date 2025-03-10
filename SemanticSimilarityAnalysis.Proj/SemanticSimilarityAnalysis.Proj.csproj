@@ -7,7 +7,6 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     
-
     <ItemGroup>
       <PackageReference Include="Accord.MachineLearning" Version="3.8.2-alpha" />
       <PackageReference Include="Accord.Statistics" Version="3.8.2-alpha" />
@@ -25,5 +24,4 @@
       <PackageReference Include="Pinecone.Client" Version="3.0.0" />
       <PackageReference Include="pythonnet" Version="3.1.0-preview2024-09-06" />
     </ItemGroup>
-
 </Project>

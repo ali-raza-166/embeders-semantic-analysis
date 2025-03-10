@@ -10,3 +10,4 @@ Solution Items
 # SemanticSimilarityAnalysis.Test/bin/
 *.DotSettings.user
 #**/Datasets/
+**/Datasets/TXTs/Sentences

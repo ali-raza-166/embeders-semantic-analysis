@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI.Chat;
 using OpenAI.Embeddings;
+using SemanticSimilarityAnalysis.Proj;
 using SemanticSimilarityAnalysis.Proj.Helpers;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
@@ -15,37 +16,37 @@ using SemanticSimilarityAnalysis.Proj.Utils;
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
 
-            // Setup dependency injection
-            var serviceProvider = new ServiceCollection()
-                .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-3-small", apiKey))
-                .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
-                .AddSingleton<OpenAiEmbeddingService>()
-                .AddSingleton<EmbeddingAnalysisService>()
-                .AddSingleton<OpenAiTextGenerationService>()
-                .AddSingleton<DimensionalityReductionService>(provider => new DimensionalityReductionService(2))
-                .AddSingleton<CosineSimilarity>()
-                .AddSingleton<EuclideanDistance>()
-                .AddSingleton<EmbeddingUtils>()
-                .AddSingleton<PdfHelper>()
-                .AddSingleton<CSVHelper>()
-                .AddSingleton<JsonHelper>()
-                .AddSingleton<CommandLineHelper>()
-                .AddSingleton<PineconeService>()
-                .AddSingleton<PineconeSetup>()
-                .AddSingleton<ChatbotService>()
-                .AddSingleton<RagAccuracyCalculator>()
-                .AddSingleton<RagPipeline>()
-                .AddSingleton<LanguageDetector>(provider => 
-                {
-                    var detector = new LanguageDetector();
-                    detector.AddAllLanguages();
-                    return detector;
-                })
-                .AddSingleton<ProcessorAli>()
-                .AddSingleton<OpenAiEmbeddingsDimReductionAndPlotting>()
-                .AddSingleton<CSharpPythonConnector>()
-                .AddSingleton<Word2VecEmbeddingsDimReductionAndPlotting>()
-                .BuildServiceProvider();
+// Setup dependency injection
+var serviceProvider = new ServiceCollection()
+    .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-3-small", apiKey))
+    .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
+    .AddSingleton<OpenAiEmbeddingService>()
+    .AddSingleton<EmbeddingAnalysisService>()
+    .AddSingleton<OpenAiTextGenerationService>()
+    .AddSingleton<DimensionalityReductionService>(provider => new DimensionalityReductionService(2))
+    .AddSingleton<CosineSimilarity>()
+    .AddSingleton<EuclideanDistance>()
+    .AddSingleton<EmbeddingUtils>()
+    .AddSingleton<PdfHelper>()
+    .AddSingleton<CSVHelper>()
+    .AddSingleton<JsonHelper>()
+    .AddSingleton<CommandLineHelper>()
+    .AddSingleton<PineconeService>()
+    .AddSingleton<PineconeSetup>()
+    .AddSingleton<ChatbotService>()
+    .AddSingleton<RagAccuracyCalculator>()
+    .AddSingleton<RagPipeline>()
+    .AddSingleton<LanguageDetector>(provider =>
+    {
+        var detector = new LanguageDetector();
+        detector.AddAllLanguages();
+        return detector;
+    })
+    .AddSingleton<ProcessorAli>()
+    .AddSingleton<OpenAiEmbeddingsDimReductionAndPlotting>()
+    .AddSingleton<CSharpPythonConnector>()
+    .AddSingleton<Word2VecEmbeddingsDimReductionAndPlotting>()
+    .BuildServiceProvider();
 
 
 // var processor = serviceProvider.GetRequiredService<ProcessorAli>();
