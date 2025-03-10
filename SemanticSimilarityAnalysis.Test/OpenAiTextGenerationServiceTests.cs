@@ -69,10 +69,10 @@ public class OpenAiTextGenerationServiceTests
         var result = await _textGenerationService.GenerateTextAsync(query, paragraphs);
 
         // Assert
-        Assert.IsNotNull(result); 
+        Assert.IsNotNull(result);
     }
 
 
-    
+
 
 }

@@ -7,8 +7,8 @@ namespace SemanticSimilarityAnalysis.Test
     [TestClass]
     public class OpenAiEmbeddingServiceTests
     {
-        private Mock<EmbeddingClient> _mockEmbeddingClient;
-        private OpenAiEmbeddingService _embeddingService;
+        private Mock<EmbeddingClient>? _mockEmbeddingClient;
+        private OpenAiEmbeddingService? _embeddingService;
 
         [TestInitialize]
         public void SetUp()
@@ -19,6 +19,6 @@ namespace SemanticSimilarityAnalysis.Test
             // Set up the service with the mocked EmbeddingClient
             _embeddingService = new OpenAiEmbeddingService(_mockEmbeddingClient.Object);
         }
-        
+
     }
 }

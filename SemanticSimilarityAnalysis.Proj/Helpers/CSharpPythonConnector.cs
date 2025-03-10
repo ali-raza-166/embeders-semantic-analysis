@@ -1,6 +1,6 @@
+using Python.Runtime;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Python.Runtime;
 
 namespace SemanticSimilarityAnalysis.Proj.Helpers
 {
@@ -22,7 +22,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
                 Console.WriteLine($"Error: Python script '{scriptPath}' not found.");
                 return;
             }
-            
+
             SetPythonDllPath(); // MUST do according to the documentation of Python.NET package
             PythonEngine.Initialize();
             Console.WriteLine("Python Engine initialized.");
@@ -34,7 +34,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
                     RunPythonScript(scriptPath, absoluteCsvFilePath, absolutePlotFilePath);
                     PythonEngine.Shutdown();
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     Console.WriteLine($"");
                 }
@@ -42,7 +42,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
         }
         public void RunPythonScript(string scriptPath, string csvFilePath, string plotFilePath)
         {
-            string pythonExecutable = GetPythonExecutable();
+            string pythonExecutable = GetPythonExecutable()!;
             if (string.IsNullOrEmpty(pythonExecutable))
             {
                 throw new Exception("Python executable not found. Ensure Python is installed and available in the system PATH.");
@@ -79,7 +79,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
         }
         private void SetPythonDllPath()
         {
-            string pythonDllPath = DetectPythonLibrary();
+            string pythonDllPath = DetectPythonLibrary()!;
 
             if (string.IsNullOrEmpty(pythonDllPath) || !File.Exists(pythonDllPath))
             {
@@ -90,7 +90,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
             Console.WriteLine($"Python library set to: {pythonDllPath}");
         }
 
-        private static string DetectPythonLibrary()
+        private static string? DetectPythonLibrary()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -107,7 +107,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
 
             return null;
         }
-        private string GetPythonExecutable()
+        private string? GetPythonExecutable()
         {
             string pythonExecutable = string.Empty;
 
@@ -161,8 +161,8 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
                 return false;
             }
         }
-        
 
-        
+
+
     }
 }
