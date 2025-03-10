@@ -1,7 +1,5 @@
 using LanguageDetection;
 using Microsoft.Extensions.DependencyInjection;
-using SemanticSimilarityAnalysis.Proj.Helpers;
-using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Pipelines;
 using SemanticSimilarityAnalysis.Proj.Services;
 namespace SemanticSimilarityAnalysis.Proj.Utils;
@@ -21,11 +19,11 @@ public class ProcessorAli
         var pineconeService = _serviceProvider.GetRequiredService<PineconeService>();
         var textGenerationService = _serviceProvider.GetRequiredService<OpenAiTextGenerationService>();
         var openAiEmbeddingsDimReductionAndPlotting = _serviceProvider.GetRequiredService<OpenAiEmbeddingsDimReductionAndPlotting>();
-        var word2VecEmbeddingsDimReductionAndPlotting= _serviceProvider.GetRequiredService<Word2VecEmbeddingsDimReductionAndPlotting>();
-        var pineconeSetupService=_serviceProvider.GetRequiredService<PineconeSetup>();
+        var word2VecEmbeddingsDimReductionAndPlotting = _serviceProvider.GetRequiredService<Word2VecEmbeddingsDimReductionAndPlotting>();
+        var pineconeSetupService = _serviceProvider.GetRequiredService<PineconeSetup>();
         var chatbotService = _serviceProvider.GetRequiredService<ChatbotService>();
 
-        LanguageDetector detector=new();
+        LanguageDetector detector = new();
         detector.AddAllLanguages();
         try
         {
@@ -73,7 +71,7 @@ public class ProcessorAli
             // };
 
 
-            
+
             // var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
             // var listofEmbeddingVectors = new List<List<float>>();
             //
@@ -84,7 +82,7 @@ public class ProcessorAli
             //     listofEmbeddingVectors.Add(vector);
             // }
 
-            
+
             // if (embeddings.Count >= 2)
             // {
             //     for (var i = 0; i < embeddings.Count - 1; i++)
@@ -141,7 +139,7 @@ public class ProcessorAli
             //  var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
             //  Console.WriteLine($"\nAnswer: {answer}");
 
-            
+
             // Console.WriteLine("Results computed by Manual TopK Method");
             // var topKResults =
             //     similarityCalculator.GetTopKCosineSimilarities(queryEmbeddings[0].Values, models, topK: 1);
@@ -152,8 +150,8 @@ public class ProcessorAli
             //     topKParagraphs.Add(inputs[modelIndex]);
             //     Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
             // }
-            
-            
+
+
             // await openAiEmbeddingsDimReductionAndPlotting.RunPipelineAsync(inputs); 
             // word2VecEmbeddingsDimReductionAndPlotting.RunPipeline(inputs);
 
