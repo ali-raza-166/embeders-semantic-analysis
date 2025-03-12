@@ -7,10 +7,11 @@ namespace SemanticSimilarityAnalysis.Tests
     [TestClass]
     public class DimensionalityReductionServiceTests
     {
+        // Test TSNE dimensionality reduction
         [TestMethod]
         public void ReduceDimensionsUsingTsne_ShouldReduceToTargetDimensions()
         {
-            // Arrange
+            // Arrange: Create service and input data
             var service = new DimensionalityReductionService(2);
             var inputData = new List<List<float>>
             {
@@ -19,10 +20,10 @@ namespace SemanticSimilarityAnalysis.Tests
                 new List<float> { 7.0f, 8.0f, 9.0f }
             };
 
-            // Act
+            // Act: Dimensions reduction
             var result = service.ReduceDimensionsUsingTsne(inputData, 2);
 
-            // Assert
+            // Assert: Result validation
             Assert.IsNotNull(result, "Result should not be null.");
             Assert.AreEqual(2, result.ColumnCount, "Result should have exactly 2 columns.");
         }
