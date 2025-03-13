@@ -49,7 +49,28 @@ namespace SemanticSimilarityAnalysis.Tests
             service.ReduceDimensionsUsingTsne(inputData, 1); 
         }
 
-        
+        [TestMethod]
+        public void MinMaxScaleData_ShouldScaleCorrectly()
+        {
+            
+            var service = new DimensionalityReductionService(2);
+            var inputData = DenseMatrix.OfArray(new double[,]
+            {
+                { 1.0, 2.0 },
+                { 3.0, 6.0 },
+                { 5.0, 10.0 }
+            });
+
+            
+            var result = service.MinMaxScaleData(inputData);
+
+            
+            Assert.AreEqual(0, result[0, 0], "First X value should be scaled to 0.");
+            Assert.AreEqual(1, result[2, 0], "Last X value should be scaled to 536."); 
+            Assert.AreEqual(-1, result[0, 1], "First Y value should be scaled to -1.");
+            Assert.AreEqual(1, result[2, 1], "Last Y value should be scaled to 1.");
+        }
+
 
 
     }
