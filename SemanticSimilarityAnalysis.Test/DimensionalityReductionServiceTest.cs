@@ -66,7 +66,7 @@ namespace SemanticSimilarityAnalysis.Tests
 
             
             Assert.AreEqual(0, result[0, 0], "First X value should be scaled to 0.");
-            Assert.AreEqual(1, result[2, 0], "Last X value should be scaled to 536."); 
+            Assert.AreEqual(536, result[2, 0], "Last X value should be scaled to 536."); 
             Assert.AreEqual(-1, result[0, 1], "First Y value should be scaled to -1.");
             Assert.AreEqual(1, result[2, 1], "Last Y value should be scaled to 1.");
         }
