@@ -52,7 +52,7 @@ namespace SemanticSimilarityAnalysis.Tests
         [TestMethod]
         public void MinMaxScaleData_ShouldScaleCorrectly()
         {
-            
+            // Arrange: Initializing the service and defining input data
             var service = new DimensionalityReductionService(2);
             var inputData = DenseMatrix.OfArray(new double[,]
             {
@@ -61,10 +61,10 @@ namespace SemanticSimilarityAnalysis.Tests
                 { 5.0, 10.0 }
             });
 
-            
+            // Act: Applying MinMax scaling to the input data
             var result = service.MinMaxScaleData(inputData);
 
-            
+            // Assert: Verifying that the scaled values match expected results
             Assert.AreEqual(0, result[0, 0], "First X value should be scaled to 0.");
             Assert.AreEqual(536, result[2, 0], "Last X value should be scaled to 536."); 
             Assert.AreEqual(-1, result[0, 1], "First Y value should be scaled to -1.");
