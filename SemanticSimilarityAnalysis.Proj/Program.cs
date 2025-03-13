@@ -1,4 +1,5 @@
 using LanguageDetection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI.Chat;
 using OpenAI.Embeddings;
@@ -11,13 +12,15 @@ using SemanticSimilarityAnalysis.Proj.Pipelines;
 using SemanticSimilarityAnalysis.Proj.Services;
 using SemanticSimilarityAnalysis.Proj.Utils;
 
-
+//var model = "text-embedding-3-small";
+var model = "text-embedding-ada-002";
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
 
 // Setup dependency injection
 var serviceProvider = new ServiceCollection()
-    .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-3-small", apiKey))
+    .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient(model, apiKey))
+
     .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
     .AddSingleton<OpenAiEmbeddingService>()
     .AddSingleton<EmbeddingAnalysisService>()
@@ -55,35 +58,36 @@ var serviceProvider = new ServiceCollection()
 ///
 /// For command line
 /// 
-//var configuration = new ConfigurationBuilder()
-//    .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
-//    .AddCommandLine(args)
-//    .Build();
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
+    .AddCommandLine(args)
+    .Build();
 
-//var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
-//await commandLineHelper.ExecuteCommandAsync(configuration);
+var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
+await commandLineHelper.ExecuteCommandAsync(configuration);
 
 ///
-/// For testing 
+/// For testing
+/// Create output csv from set of phrases
 ///
-var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
+//var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+//var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
 
-// Call the function to compare all phrases in the folder
-var results = await analysis.CompareAllPhrasesAsync();
+////// Call the function to compare all phrases in the folder
+//var results = await analysis.CompareAllPhrasesAsync();
 
-// Print the results
-foreach (var fileResult in results)
-{
-    Console.WriteLine($"File: {fileResult.Key}");
-    foreach (var plotPoint in fileResult.Value)
-    {
-        Console.WriteLine($"  Phrase: {plotPoint.Label}");
-        foreach (var pair in plotPoint.Similarities)
-        {
-            Console.WriteLine($"    Similarity with '{pair.Key}': {pair.Value}");
-        }
-    }
-}
+//// Print the results
+//foreach (var fileResult in results)
+//{
+//    Console.WriteLine($"File: {fileResult.Key}");
+//    foreach (var plotPoint in fileResult.Value)
+//    {
+//        Console.WriteLine($"  Phrase: {plotPoint.Label}");
+//        foreach (var pair in plotPoint.Similarities)
+//        {
+//            Console.WriteLine($"    Similarity with '{pair.Key}': {pair.Value}");
+//        }
+//    }
+//}
 
-csvHelper.ExportAllPhrasesToCsv(results);
+//csvHelper.ExportAllPhrasesToCsv(results);
