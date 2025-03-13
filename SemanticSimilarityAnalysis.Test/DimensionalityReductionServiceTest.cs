@@ -36,7 +36,7 @@ namespace SemanticSimilarityAnalysis.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void ReduceDimensionsUsingTsne_ShouldThrowExceptionForInvalidDimensions()
         {
-            
+            // Arrange: Creating service and input data
             var service = new DimensionalityReductionService(2);
             var inputData = new List<List<float>>
             {
@@ -45,7 +45,7 @@ namespace SemanticSimilarityAnalysis.Tests
                 new List<float> { 7.0f, 8.0f, 9.0f }
              };
 
-           
+            // Act: Attempt to reduce to invalid dimensions
             service.ReduceDimensionsUsingTsne(inputData, 1); 
         }
 
