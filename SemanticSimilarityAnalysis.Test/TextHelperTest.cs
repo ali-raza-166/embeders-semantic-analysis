@@ -52,4 +52,17 @@ public class TextHelperTests
         }
         throw new IOException($"Failed to delete file '{filePath}' after {maxRetries} retries.");
     }
+    [TestMethod]
+    [ExpectedException(typeof(FileNotFoundException))]
+    public void ExtractWordsFromTextFile_ShouldThrowFileNotFoundException()
+    {
+        // Arrange
+        string fileName = "nonexistent.txt";
+        string inputDir = "../../../TestData";
+
+        // Act
+        _textHelper.ExtractWordsFromTextFile(fileName, inputDir);
+
+        // Assert is handled by ExpectedException
+    }
 }
