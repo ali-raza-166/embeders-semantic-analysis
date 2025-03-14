@@ -36,22 +36,6 @@ public class TextHelperTests
         Directory.Delete(inputDir);
     }
 
-    private void RetryFileDelete(string filePath, int maxRetries = 5, int delayMs = 100)
-    {
-        for (int i = 0; i < maxRetries; i++)
-        {
-            try
-            {
-                File.Delete(filePath);
-                return; // Success
-            }
-            catch (IOException)
-            {
-                System.Threading.Thread.Sleep(delayMs); // Wait before retrying
-            }
-        }
-        throw new IOException($"Failed to delete file '{filePath}' after {maxRetries} retries.");
-    }
     [TestMethod]
     [ExpectedException(typeof(FileNotFoundException))]
     public void ExtractWordsFromTextFile_ShouldThrowFileNotFoundException()
@@ -68,42 +52,58 @@ public class TextHelperTests
     [TestMethod]
     public void CleanAndSplitText_ShouldReturnCleanedWords()
     {
-        
+        // Arrange
         string text = "Hello, world! This is a test.";
 
-        
+        // Act
         var words = _textHelper.CleanAndSplitText(text);
 
-        
-        Assert.IsNotNull(words); 
-        Assert.AreEqual(2, words.Count); 
-        CollectionAssert.Contains(words, "hello"); 
+        // Assert
+        Assert.IsNotNull(words); // Ensure the result is not null
+        Assert.AreEqual(2, words.Count); // Ensure the correct number of segments is returned
+        CollectionAssert.Contains(words, "hello"); // Ensure the words are cleaned and split correctly
         CollectionAssert.Contains(words, "world this is a test");
     }
     [TestMethod]
     public void IsTextFilePath_ShouldReturnTrueForTxtFile()
     {
-        
+        // Arrange
         string filePath = "example.txt";
 
-        
+        // Act
         bool result = _textHelper.IsTextFilePath(filePath);
 
-        
-        Assert.IsTrue(result); 
+        // Assert
+        Assert.IsTrue(result); // Ensure the result is true for a .txt file
     }
 
     [TestMethod]
     public void IsTextFilePath_ShouldReturnFalseForNonTxtFile()
     {
-        
+        // Arrange
         string filePath = "example.pdf";
 
-        
+        // Act
         bool result = _textHelper.IsTextFilePath(filePath);
 
-        
-        Assert.IsFalse(result); 
+        // Assert
+        Assert.IsFalse(result); // Ensure the result is false for a non-.txt file
+    }
+    private void RetryFileDelete(string filePath, int maxRetries = 5, int delayMs = 100)
+    {
+        for (int i = 0; i < maxRetries; i++)
+        {
+            try
+            {
+                File.Delete(filePath);
+                return; // Success
+            }
+            catch (IOException)
+            {
+                System.Threading.Thread.Sleep(delayMs); // Wait before retrying
+            }
+        }
+        throw new IOException($"Failed to delete file '{filePath}' after {maxRetries} retries.");
     }
 
 
