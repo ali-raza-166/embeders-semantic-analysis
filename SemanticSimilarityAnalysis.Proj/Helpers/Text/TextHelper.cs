@@ -33,7 +33,7 @@ public class TextHelper
     /// </summary>
     /// <param name="text">The input text.</param>
     /// <returns>A list of cleaned words.</returns>
-    private List<string> CleanAndSplitText(string text)
+    public List<string> CleanAndSplitText(string text)
     {
         // Remove unwanted whitespace and control characters
         text = Regex.Replace(text, @"[\t\r\n\v\f\b\0\u200B\u00A0\u2028\u2029]", "");
