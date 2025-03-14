@@ -65,4 +65,21 @@ public class TextHelperTests
 
         // Assert is handled by ExpectedException
     }
+    [TestMethod]
+    public void CleanAndSplitText_ShouldReturnCleanedWords()
+    {
+        
+        string text = "Hello, world! This is a test.";
+
+        
+        var words = _textHelper.CleanAndSplitText(text);
+
+        
+        Assert.IsNotNull(words); 
+        Assert.AreEqual(2, words.Count); 
+        CollectionAssert.Contains(words, "hello"); 
+        CollectionAssert.Contains(words, "world this is a test");
+    }
+
+
 }
