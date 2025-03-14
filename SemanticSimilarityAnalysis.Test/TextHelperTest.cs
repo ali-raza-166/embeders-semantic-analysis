@@ -80,6 +80,31 @@ public class TextHelperTests
         CollectionAssert.Contains(words, "hello"); 
         CollectionAssert.Contains(words, "world this is a test");
     }
+    [TestMethod]
+    public void IsTextFilePath_ShouldReturnTrueForTxtFile()
+    {
+        
+        string filePath = "example.txt";
+
+        
+        bool result = _textHelper.IsTextFilePath(filePath);
+
+        
+        Assert.IsTrue(result); 
+    }
+
+    [TestMethod]
+    public void IsTextFilePath_ShouldReturnFalseForNonTxtFile()
+    {
+        
+        string filePath = "example.pdf";
+
+        
+        bool result = _textHelper.IsTextFilePath(filePath);
+
+        
+        Assert.IsFalse(result); 
+    }
 
 
 }
