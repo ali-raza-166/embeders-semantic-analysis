@@ -12,8 +12,8 @@ using SemanticSimilarityAnalysis.Proj.Pipelines;
 using SemanticSimilarityAnalysis.Proj.Services;
 using SemanticSimilarityAnalysis.Proj.Utils;
 
-//var model = "text-embedding-3-small";
-var model = "text-embedding-ada-002";
+var model = "text-embedding-3-small";
+//var model = "text-embedding-ada-002";
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
 
