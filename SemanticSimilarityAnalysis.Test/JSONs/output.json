@@ -1,0 +1,56 @@
+[
+  {
+    "Attributes": {
+      "title": "Movie 1",
+      "genre": "Action"
+    },
+    "Vectors": {
+      "Movie 1": [
+        {
+          "Id": "vector1",
+          "Values": [ 1.0, 2.0, 3.0 ],
+          "Metadata": {
+            "description": "First vector for Movie 1",
+            "source": "IMDB"
+          }
+        },
+        {
+          "Id": "vector2",
+          "Values": [ 4.0, 5.0, 6.0 ],
+          "Metadata": {
+            "description": "Second vector for Movie 1",
+            "source": "IMDB"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Attributes": {
+      "title": "Movie 2",
+      "genre": "Drama"
+    },
+    "Vectors": {
+      "Movie 2": [
+        {
+          "Id": "vector3",
+          "Values": [ 7.0, 8.0, 9.0 ],
+          "Metadata": {
+            "description": "First vector for Movie 2",
+            "source": "IMDB"
+          }
+        }
+      ],
+      "field2": [
+        {
+          "Id": "vector4",
+          "Values": [ 10.0, 11.0, 12.0 ],
+          "Metadata": {
+            "description": "Second vector for Movie 2",
+            "source": "IMDB"
+          }
+        }
+      ]
+    }
+  }
+]

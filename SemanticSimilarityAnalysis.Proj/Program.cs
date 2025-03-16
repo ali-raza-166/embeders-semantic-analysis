@@ -12,13 +12,15 @@ using SemanticSimilarityAnalysis.Proj.Pipelines;
 using SemanticSimilarityAnalysis.Proj.Services;
 using SemanticSimilarityAnalysis.Proj.Utils;
 
-
+var model = "text-embedding-3-small";
+//var model = "text-embedding-ada-002";
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
                          ?? throw new ArgumentNullException("api_key", "API key is not found.");
 
 // Setup dependency injection
 var serviceProvider = new ServiceCollection()
-    .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient("text-embedding-3-small", apiKey))
+    .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient(model, apiKey))
+
     .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
     .AddSingleton<OpenAiEmbeddingService>()
     .AddSingleton<EmbeddingAnalysisService>()
@@ -29,6 +31,7 @@ var serviceProvider = new ServiceCollection()
     .AddSingleton<EmbeddingUtils>()
     .AddSingleton<PdfHelper>()
     .AddSingleton<CSVHelper>()
+    .AddSingleton<TextHelper>()
     .AddSingleton<JsonHelper>()
     .AddSingleton<CommandLineHelper>()
     .AddSingleton<PineconeService>()
@@ -60,67 +63,31 @@ var configuration = new ConfigurationBuilder()
     .AddCommandLine(args)
     .Build();
 
-
 var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
 await commandLineHelper.ExecuteCommandAsync(configuration);
 
-
 ///
-/// For testing 
+/// For testing
+/// Create output csv from set of phrases
 ///
-var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
+//var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+//var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
 
-//var list1 = new List<string>
+////// Call the function to compare all phrases in the folder
+//var results = await analysis.CompareAllPhrasesAsync();
+
+//// Print the results
+//foreach (var fileResult in results)
 //{
-//    "racket",
-//    "footstep",
-//    "happy",
-//    "software",
-//    "playground",
-//    "AI",
-//    "robotics",
-//    "cinema",
-//    "physics",
-//    "grip",
-//    "assination"
-//};
+//    Console.WriteLine($"File: {fileResult.Key}");
+//    foreach (var plotPoint in fileResult.Value)
+//    {
+//        Console.WriteLine($"  Phrase: {plotPoint.Label}");
+//        foreach (var pair in plotPoint.Similarities)
+//        {
+//            Console.WriteLine($"    Similarity with '{pair.Key}': {pair.Value}");
+//        }
+//    }
+//}
 
-//var list2 = new List<string>
-//{
-//    "technology",
-//    "badminton",
-//    "violence",
-//    "mecha",
-//    "children"
-//};
-
-//// Words vs Words
-//var wordsResult = await analysis.CompareWordsVsWords(list1, list2);
-//csvHelper.ExportToCsv(wordsResult, "words.csv");
-
-//// Words vs PDFs
-//var pdfResult = await analysis.ComparePdfsvsWords(list2);
-//csvHelper.ExportToCsv(pdfResult, "pdfs.csv");
-
-// PDFs vs PDFs
-//var pdfsResult = await analysis.CompareAllPdfDocuments();
-//csvHelper.ExportToCsv(pdfsResult, "pdfs.csv");
-
-//// Words vs Dataset
-//await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);
-//var datasetResults = await analysis.compareDataSetVsWords("imdb_1000_Embeddings.json", "Title", "Overview", list2);
-//csvHelper.ExportToCsv(datasetResults, "imdb_1000_Similarity.csv");
-
-// // Words vs Words
-// var wordsResult = await analysis.CompareWordsVsWordsAsync(list1, list2);
-// csvHelper.ExportToCsv(wordsResult, "words.csv");
-//
-// // Words vs PDFs
-// var pdfResult = await analysis.ComparePdfsvsWordsAsync(list2);
-// csvHelper.ExportToCsv(pdfResult, "pdfs.csv");
-//
-// // Words vs Dataset
-// await analysis.CreateDataSetEmbeddingsAsync(["Title", "Overview", "Genre"], "imdb_1000.csv", 25);
-// var datasetResults = await analysis.compareDataSetVsWords("imdb_1000_Embeddings.json", "Title", "Overview", list2);
-// csvHelper.ExportToCsv(datasetResults, "imdb_1000_Similarity.csv");
+//csvHelper.ExportAllPhrasesToCsv(results);
