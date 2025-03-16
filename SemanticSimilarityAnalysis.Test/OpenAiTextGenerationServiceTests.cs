@@ -6,7 +6,9 @@ namespace SemanticSimilarityAnalysis.Test;
 [TestClass]
 public class OpenAiTextGenerationServiceTests
 {
-    private OpenAiTextGenerationService _textGenerationService;
+    // Null-forgiveness operator
+    // It tells the compiler: "I know this field is currently null, but trust me, it will be assigned before it's used."
+    private OpenAiTextGenerationService _textGenerationService = null!;
 
     [TestInitialize]
     public void Setup()
