@@ -19,8 +19,8 @@ public class ChatbotService
         {
             // Get user input
             Console.Write("You: ");
-            string query = Console.ReadLine();
-            if (query?.ToLower() == "exit") break;
+            string query = Console.ReadLine()!;
+            if (query.ToLower() == "exit") break;
 
             // Query Pinecone for relevant paragraphs
             var pineconeTopKparagraphs = await _pineconeService.QueryEmbeddingsAsync(query, indexName, namespaceName, 3);

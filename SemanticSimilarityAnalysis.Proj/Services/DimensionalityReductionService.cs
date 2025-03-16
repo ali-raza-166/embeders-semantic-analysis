@@ -15,7 +15,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         {
             _components = components;
         }
-        
+
         /// <summary>
         /// Reduces the dimensions of input data using the t-SNE (t-Distributed Stochastic Neighbor Embedding) algorithm.
         /// </summary>
@@ -25,17 +25,19 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         /// <remarks>Used to reduce the high-dimensional input data into a lower-dimensional space (typically for visualization). t-SNE is useful for uncovering complex structures in data.</remarks>
         public Matrix<double> ReduceDimensionsUsingTsne(List<List<float>> data, int targetDimensions = 2)
         {
-            Console.WriteLine("Performing PCA");
+            Console.WriteLine("Performing Tsne");
+            // Ensure that targetDimensions is 2 or higher
             if (targetDimensions < 2)
                 throw new ArgumentException("t-SNE requires at least 2 dimensions for output.");
 
+            // Create the t-SNE object and set the parameters
             var tsne = new TSNE()
             {
-                Perplexity = 0.65, 
-                Theta = 0.5, 
-                NumberOfOutputs = targetDimensions
+                Perplexity = 0.65, // You can adjust the perplexity
+                Theta = 0.5, // You can adjust the theta
+                NumberOfOutputs = targetDimensions // Set the target dimensionality (default is 2)
             };
-          
+
             // Convert List<List<float>> to double[][]
             var dataArray = ConvertListToJaggedArray(data);
             var reducedData = new double[dataArray.Length][];
@@ -43,7 +45,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             {
                 reducedData[i] = new double[targetDimensions]; // Initialize each row with the target dimension size
             }
-            
+            // Apply t-SNE transformation
             try
             {
                 tsne.Transform(dataArray, reducedData);
@@ -52,12 +54,9 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             {
                 throw new InvalidOperationException("Error during t-SNE transformation", ex);
             }
-
-            var reducedDataMatrix = ConvertJaggedArrayToMatrix(reducedData);
-            Console.WriteLine($"Reduced Data TSNE: {reducedDataMatrix}");
-            return reducedDataMatrix;
+            return ConvertJaggedArrayToMatrix(reducedData);
         }
-        
+
         /// <summary>
         /// Converts a list of lists of floats into a jagged array of doubles.
         /// </summary>
@@ -105,26 +104,33 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             // Now return the Matrix<double> from the 2D array
             return DenseMatrix.OfArray(matrixData);
         }
-       //---------------------------------------- PCA---------------------------------------------------
+        //---------------------------------------- PCA---------------------------------------------------
         public Matrix<double> PerformPca(List<List<float>> data)
         {
-            Console.WriteLine($"Applying PCA Dimensionality reduction...");
+            // Convert the List of embeddings (List<float>) to a Matrix
             var matrixData = ConvertListToMatrix(data);
             Console.WriteLine($"Convert the List of embeddings (List<float>) to a Matrix: {matrixData}");
-            
+
+            // Perform mean centering
             var centeredData = CenterData(matrixData);
             Console.WriteLine($"Perform mean centering: {centeredData}");
 
-            
+
+            // Calculate covariance matrix
             var covarianceMatrix = ComputeCovarianceMatrix(centeredData);
             Console.WriteLine($"Covariance Matrix:\n{covarianceMatrix}");
-            
+
+
+            // Perform eigen decomposition to get the principal components
             var eigenDecomposition = covarianceMatrix.Evd();
             Console.WriteLine($"eigenDecomposition:\n{eigenDecomposition.EigenVectors}");
-            
+
+
+            // Select the top 'n' eigenvectors corresponding to the largest eigenvalues
             var topEigenVectors = eigenDecomposition.EigenVectors.SubMatrix(0, covarianceMatrix.RowCount, 0, _components);
             Console.WriteLine($"Top Eigen Vectors:\n{topEigenVectors}");
-            
+
+            // Project the centered data onto the principal components
             var projectedData = centeredData * topEigenVectors;
             Console.WriteLine($"Projected Data:\n{projectedData}");
 
@@ -140,11 +146,13 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         /// <remarks>Mean centering is a common preprocessing step, especially for PCA, where each feature's mean is subtracted to have a centered dataset around 0.</remarks>
         private static Matrix<double> CenterData(Matrix<double> data)
         {
+            // Compute the mean for each column (feature)
             var mean = data.ColumnSums() / data.RowCount;
-            
+
             var rows = data.RowCount;
             var cols = data.ColumnCount;
-            
+
+            // Step 2: Create a mean matrix and subtract manually
             var centeredData = DenseMatrix.Create(data.RowCount, data.ColumnCount, 0.0);
             for (var i = 0; i < rows; i++)
             {
@@ -153,7 +161,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     centeredData[i, j] = data[i, j] - mean[j];
                 }
             }
-            
+
+            // Step 3: Return the new centered matrix
             return centeredData;
         }
 
@@ -168,9 +177,11 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         {
             var rowCount = centeredData.RowCount;
             var colCount = centeredData.ColumnCount;
-            
+
+            // Initialize covariance matrix
             var covarianceMatrix = DenseMatrix.Create(colCount, colCount, 0.0);
-            
+
+            // Compute covariance using nested loops
             for (var i = 0; i < colCount; i++)
             {
                 for (var j = 0; j < colCount; j++)
@@ -183,10 +194,10 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     covarianceMatrix[i, j] = sum / (rowCount - 1);
                 }
             }
-            
+
             return covarianceMatrix;
         }
-        
+
         /// <summary>
         /// Applies Min-Max scaling to the data, transforming it into a specific range (e.g., 0 to 536 for the x-axis and -1 to 1 for the y-axis).
         /// </summary>
@@ -205,7 +216,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             Console.WriteLine($"minX: {minX}, maxX: {maxX}, minY: {minY}, maxY: {maxY}");
             // Create a new matrix to store the scaled data
             var scaledData = DenseMatrix.Create(reducedData.RowCount, reducedData.ColumnCount, 0.0);
-            
+
             /*
              Min Max Scaling formula
                 scaled_x= (x-xmin)/(xmax-xmin)* (b-a) + a
@@ -219,13 +230,13 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 for (var j = 0; j < reducedData.ColumnCount; j++)
                 {
                     // Scale x-axis (between 0 and 536)
-                    var a=0;
-                    var b=0;
+                    var a = 0;
+                    var b = 0;
                     if (j == 0)
                     {
                         a = 0;
                         b = 536;
-                        scaledData[i, j] = (reducedData[i, j] - minX) / (maxX - minX) * (b-a) + a;
+                        scaledData[i, j] = (reducedData[i, j] - minX) / (maxX - minX) * (b - a) + a;
                     }
                     // Scale y-axis (between -1 and 1)
                     else if (j == 1)
@@ -236,11 +247,12 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     }
                 }
             }
-            Console.WriteLine($"MinMaxScaleData: {scaledData}");
+
+            // Return the scaled data as a DenseMatrix
             return scaledData;
         }
-        
-        
+
+
         /// <summary>
         /// Converts a list of lists of floats into a dense matrix of doubles.
         /// </summary>
@@ -261,7 +273,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 }
             }
 
-            return DenseMatrix.OfArray(matrixData); 
+            return DenseMatrix.OfArray(matrixData);
         }
 
 

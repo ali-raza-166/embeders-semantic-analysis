@@ -8,10 +8,17 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Json
         // Method to read and deserialize JSON from a file 
         public List<MultiEmbeddingRecord> GetRecordFromJson(string filePath)
         {
-            using (var stream = File.OpenRead(filePath))
+            try
             {
-                return JsonSerializer.Deserialize<List<MultiEmbeddingRecord>>(stream)
-                    ?? throw new InvalidOperationException("Failed to load embeddings.");
+                using (var stream = File.OpenRead(filePath))
+                {
+                    return JsonSerializer.Deserialize<List<MultiEmbeddingRecord>>(stream)
+                        ?? throw new InvalidOperationException("Failed to load embeddings.");
+                }
+            }
+            catch (FileNotFoundException ex)
+            {
+                throw new InvalidOperationException("File not found.", ex);
             }
         }
 

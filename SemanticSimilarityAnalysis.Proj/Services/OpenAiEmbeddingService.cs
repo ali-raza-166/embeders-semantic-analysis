@@ -7,7 +7,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
     {
         private readonly EmbeddingClient _embeddingClient;
 
-        public OpenAiEmbeddingService(EmbeddingClient embeddingClient) 
+        public OpenAiEmbeddingService(EmbeddingClient embeddingClient)
         {
             _embeddingClient = embeddingClient ?? throw new ArgumentNullException(nameof(embeddingClient));
         }
@@ -25,8 +25,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
                     Console.WriteLine($"Embedding vector index: {embedding.Index}");
                     Console.WriteLine($"Embedding vector (first 10 values): {string.Join(", ", vectorList.Take(10))}");
-                    Console.WriteLine($"Embedding vector: {vectorList}\n");
-                    
                     var text = inputs[embedding.Index];
 
                     var newEmbedding = new Embedding(embedding.Index, text, vectorList);
