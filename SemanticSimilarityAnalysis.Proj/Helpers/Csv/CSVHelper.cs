@@ -6,6 +6,9 @@ using System.Globalization;
 
 namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
 {
+    /// <summary>
+    /// Helper class for working with CSV files
+    /// </summary>
     public class CSVHelper
     {
         /// Default number of rows to process when generating embeddings from the dataset
@@ -45,8 +48,8 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         /// <summary>
         /// Extract records from a CSV file
         /// </summary>
-        /// <param name="fields"></param>
-        /// <param name="csvFilePath"></param>
+        /// <param name="fields">Fields to extract for labelling and generating embeddings</param>
+        /// <param name="csvFilePath">CSV file path</param>
         /// <returns></returns>
         /// <exception cref="FileNotFoundException"></exception>
         public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(
@@ -216,6 +219,12 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         //     }
         // }
 
+        /// <summary>
+        /// Export the reduced dimensionality data to a CSV file
+        /// </summary>
+        /// <param name="reducedData"></param>
+        /// <param name="inputs"></param>
+        /// <param name="csvFileName"></param>
         public void ExportReducedDimensionalityData(Matrix<double> reducedData, List<string> inputs, string csvFileName)
         {
             // Convert Matrix<double> to double[,] to retain compatibility with the existing logic

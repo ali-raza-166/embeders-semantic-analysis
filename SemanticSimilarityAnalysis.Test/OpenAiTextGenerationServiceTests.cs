@@ -41,6 +41,7 @@ public class OpenAiTextGenerationServiceTests
         Assert.IsNotNull(result);
         Assert.IsTrue(result.Contains("Paris"), "Response should contain 'Paris'");
     }
+
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
     public async Task GenerateTextAsync_ShouldThrowArgumentNullException_WhenApiKeyIsMissing()
