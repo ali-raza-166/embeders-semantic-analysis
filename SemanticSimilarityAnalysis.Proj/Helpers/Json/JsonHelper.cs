@@ -3,9 +3,17 @@ using System.Text.Json;
 
 namespace SemanticSimilarityAnalysis.Proj.Helpers.Json
 {
+    /// <summary>
+    /// Helper class for JSON operations
+    /// </summary>
     public class JsonHelper
     {
-        // Method to read and deserialize JSON from a file 
+        /// <summary>
+        /// Method to read and deserialize JSON from a file for STARTING generating embeddings
+        /// </summary>
+        /// <param name="filePath">Path to the JSON file</param>
+        /// <returns>List of MultiEmbeddingRecord for generating embeddings</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public List<MultiEmbeddingRecord> GetRecordFromJson(string filePath)
         {
             try
@@ -22,7 +30,12 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Json
             }
         }
 
-        // Ensure the directory exists and save the JSON
+        /// <summary>
+        /// Ensure the directory exists and save the JSON to PREPARE for generating embeddings
+        /// </summary>
+        /// <param name="records">List of MultiEmbeddingRecord saved to JSON and prepared for generating embeddings</param>
+        /// <param name="jsonFilePath">Path to the JSON file</param>
+        /// <returns></returns>
         public async Task SaveRecordToJson(List<MultiEmbeddingRecord> records, string jsonFilePath)
         {
             var outputDirectory = Path.GetDirectoryName(jsonFilePath);

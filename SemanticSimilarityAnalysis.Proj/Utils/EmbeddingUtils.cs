@@ -6,6 +6,12 @@ namespace SemanticSimilarityAnalysis.Proj.Utils
     /// </summary>
     public class EmbeddingUtils
     {
+        /// <summary>
+        /// Calculates the average embedding from a list of embeddings.
+        /// </summary>
+        /// <param name="embeddings">List of embeddings</param>
+        /// <returns>List of floats representing the average embedding</returns>
+        /// <exception cref="ArgumentException"></exception>
         public List<float> GetAverageEmbedding(List<Embedding> embeddings)
         {
             if (embeddings == null || embeddings.Count == 0)

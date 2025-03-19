@@ -1,9 +1,5 @@
 # Getting started
 
-## Prerequisites
-- .NET SDK installed on your machine.
-- Access to the required datasets and PDF folders.
-
 ## Installation
 1. Clone the repository
 ```
@@ -21,3 +17,9 @@ b. Enter the following command.
 ```
 dotnet build
 ```
+
+## Command Line Helper for Semantic Similarity Analysis
+The CommandLineHelper class is a central component of the Semantic Similarity Analysis tool, designed to handle command-line interactions and execute various commands for analyzing semantic similarity. This helper class processes user input, performs the required analysis, and exports results to CSV files. It supports commands for comparing words, PDFs, and datasets, making it a versatile tool for semantic analysis tasks.
+
+[See more in CommandLine.md](./CommandLine.md)
+

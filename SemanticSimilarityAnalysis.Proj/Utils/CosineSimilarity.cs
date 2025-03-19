@@ -1,8 +1,6 @@
-using SemanticSimilarityAnalysis.Proj.Interfaces;
 using SemanticSimilarityAnalysis.Proj.Models;
 
 namespace SemanticSimilarityAnalysis.Proj.Utils;
-
 public class CosineSimilarity
 {
     public double ComputeCosineSimilarity(List<float> vectorA, List<float> vectorB)

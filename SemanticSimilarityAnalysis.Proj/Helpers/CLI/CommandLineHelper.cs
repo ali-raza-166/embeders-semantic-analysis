@@ -3,10 +3,20 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
+using SemanticSimilarityAnalysis.Proj.Helpers.Text;
 using SemanticSimilarityAnalysis.Proj.Services;
+
 
 namespace SemanticSimilarityAnalysis.Proj
 {
+    /// <summary>
+    /// Helper class for executing commands related to semantic similarity analysis from the command line.
+    /// </summary>
+    /// <remarks>
+    /// This class handles the execution of various commands such as comparing words vs. words, words vs. PDFs, and words vs. datasets.
+    /// It utilizes dependency injection to access required services and supports default directories for input and output files.
+    /// The class processes user input, performs semantic similarity analysis, and exports results to CSV files.
+    /// </remarks>
     public class CommandLineHelper
     {
         private readonly IServiceProvider _serviceProvider;
@@ -39,22 +49,26 @@ namespace SemanticSimilarityAnalysis.Proj
             // Execute the appropriate command based on the user input
             switch (command)
             {
+                // Words vs. Words
                 case "ww":
                     await ExecuteWordsVsWordsAsync(configuration);
                     break;
 
+                // Words vs. PDFs
                 case "wp":
                     await ExecuteWordsVsPdfsAsync(configuration);
+                    break;
+
+                // Words vs. Dataset
+                case "wd":
+                    await ExecuteWordsVsDatasetAsync(configuration);
                     break;
 
                 //case "pp":
                 //    await ExecutePdfsVsPdfsAsync(configuration);
                 //    break;
 
-                case "wd":
-                    await ExecuteWordsVsDatasetAsync(configuration);
-                    break;
-
+                // Invalid command
                 default:
                     Console.WriteLine($"Invalid command: {command}");
                     ShowHelp();
@@ -144,6 +158,7 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.WriteLine($"Results saved to {outputPath}");
             Console.ResetColor();
         }
+
 
         // Method to execute the "pdfs-vs-pdfs" command
         //private async Task ExecutePdfsVsPdfsAsync(IConfiguration configuration)
@@ -265,7 +280,9 @@ namespace SemanticSimilarityAnalysis.Proj
         }
 
 
-        // Method to display help information
+        /// <summary>
+        /// Displays the help message.
+        /// </summary>
         private void ShowHelp()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -277,7 +294,6 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.WriteLine(@"
                 ww --list1 <words> --list2 <words> [--output <path>] (Words vs. Words)
                 wp --words <words> [--pdf-folder <path>] [--output <path>] (Words vs. PDFs)
-                pp [--pdf-folder <path>] [--output <path>] (PDFs vs. PDFs)
                 wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] (Words vs. Dataset)
             ");
 
@@ -288,7 +304,6 @@ namespace SemanticSimilarityAnalysis.Proj
                 --command <command>     The command to execute. Must be one of the following:
                                         - ww: Compare two lists of words.
                                         - wp: Compare a list of words with PDF documents.
-                                        - pp: Compare all PDF documents in a folder.
                                         - wd: Compare a list of words with a dataset.
 
                 --list1 <words>         Comma-separated list of words for the first list (for ww command).
@@ -301,7 +316,7 @@ namespace SemanticSimilarityAnalysis.Proj
                                         Example: ""apple,banana,orange"" or provide a text file path like ""words.txt"".
                                         **Note**: Enclose the list in quotation marks if it contains spaces or special characters.
 
-                --pdf-folder <path>     Path to the folder containing PDF files (for wp and pp commands).
+                --pdf-folder <path>     Path to the folder containing PDF files (for wp command).
                                         Example: ""C:/Documents/PDFs"" or use the default folder: ""Datasets/PDFs"".
 
                 --dataset <path>        Path to the dataset CSV file (for wd command).
@@ -336,7 +351,6 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.WriteLine(@"
                 dotnet run --command ww --list1 apple,banana,orange --list2 grape,mango,pineapple
                 dotnet run --command wp --words apple,banana,orange
-                dotnet run --command pp
                 dotnet run --command wd --words apple,banana,orange
             ");
 
@@ -346,7 +360,6 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.WriteLine(@"
                 dotnet run --command ww --list1 ""apple,banana,orange"" --list2 ""grape,mango,pineapple"" --output results.csv
                 dotnet run --command wp --words ""apple,banana,orange"" --pdf-folder ""C:/Documents/PDFs"" --output results.csv
-                dotnet run --command pp --pdf-folder ""C:/Documents/PDFs"" --output results.csv
                 dotnet run --command wd --words ""apple,banana,orange"" --dataset imdb_1000.csv --output results.csv --rows 100
             ");
 
@@ -372,8 +385,12 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.ResetColor();
         }
 
-
-        // Method to prompt the user for a csv file to compare words with a dataset
+        /// <summary>
+        /// Method to prompt the user for a csv file to compare words with a dataset
+        /// </summary>
+        /// <param name="prompt">Prompt text</param>
+        /// <param name="defaultValue">Default value</param>
+        /// <returns>String of path</returns>
         private string PromptForFile(string prompt, string defaultValue)
         {
             string fileName;
@@ -395,7 +412,12 @@ namespace SemanticSimilarityAnalysis.Proj
             }
         }
 
-        // Method to prompt the user for a directory
+        /// <summary>
+        /// Method to prompt the user for a directory
+        /// </summary>
+        /// <param name="prompt">Prompt text</param>
+        /// <param name="defaultValue">Default value</param>
+        /// <returns>String of path</returns>
         private string PromptForDirectory(string prompt, string defaultValue)
         {
             string path;
@@ -417,7 +439,12 @@ namespace SemanticSimilarityAnalysis.Proj
             }
         }
 
-        // Method to prompt the user for a single input
+        /// <summary>
+        /// Method to prompt the user for a single input 
+        /// </summary>
+        /// <param name="prompt">Input prompt e.g. "Enter a number: "</param>
+        /// <returns>String of input</returns>
+        /// <exception cref="ArgumentException"></exception>
         private string PromptForInput(string prompt)
         {
             Console.Write($"{prompt} ");
@@ -432,7 +459,11 @@ namespace SemanticSimilarityAnalysis.Proj
             return input;
         }
 
-        // Method to prompt the user for a comma-separated list
+        /// <summary>
+        /// Method to prompt the user for a comma-separated list
+        /// </summary>
+        /// <param name="prompt">Input prompt e.g. "Enter a comma-separated list: "</param>
+        /// <returns>List of words from the user input</returns>
         private List<string> PromptForList(string prompt)
         {
             Console.Write($"{prompt} ");
@@ -455,7 +486,7 @@ namespace SemanticSimilarityAnalysis.Proj
         /// When USER INTERACTION IS REQUIRED TO ENTER WORDS
         /// Prompts the user for either a comma-separated list of words or a file path containing words.
         /// </summary>
-        /// <param name="prompt"></param>
+        /// <param name="prompt">Prompt text e.g "Enter the CSV dataset file name:"</param>
         /// <returns>A list of words extracted from the input or file.</returns>
         private List<string> PromptForWordsOrFile(string prompt)
         {
