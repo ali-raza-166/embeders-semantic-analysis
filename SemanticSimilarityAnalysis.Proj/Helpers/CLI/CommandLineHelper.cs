@@ -292,9 +292,9 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.WriteLine("\nCommands:");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(@"
-                ww --list1 <words> --list2 <words> [--output <path>] (Words vs. Words)
-                wp --words <words> [--pdf-folder <path>] [--output <path>] (Words vs. PDFs)
-                wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] (Words vs. Dataset)
+                ww --list1 <words> --list2 <words> [--output <path>] [--outputDir <path>] (Words vs. Words)
+                wp --words <words> [--pdf-folder <path>] [--output <path>] [--outputDir <path>] (Words vs. PDFs)
+                wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] [--inputDir <path>] [--outputDir <path>] (Words vs. Dataset)
             ");
 
             Console.ForegroundColor = ConsoleColor.Green;
