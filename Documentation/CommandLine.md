@@ -32,61 +32,63 @@ dotnet run --command <command> [options]
 Replace <command> with one of the supported commands (ww, wp, wd) and provide the necessary options.
 
 ### Commands and Examples
-**1. Words vs. Words (ww)**
+**1. Words vs. Words (`ww`)**
 
 Compare two lists of words.
 
-Syntax:
+- Syntax:
 
 ```
-dotnet run --command ww --list1 <words> --list2 <words> [--output <path>]
+dotnet run --command ww --list1 <words> --list2 <words> [--output <path>] [--outputDir <path>]
 ```
 
-Options:
+- Options:
 
-    Refer to the [Options](###Options) table for details on --list1, --list2, --output, and --outputDir.
+Refer to the [Options](###Options) table for details on --list1, --list2, --output, and --outputDir.
 
-Example:
+- Example:
 
 ```
-dotnet run --command ww --list1 apple,banana,orange --list2 grape,mango,pineapple --output results.csv
+dotnet run --command ww --list1 apple,banana,orange,dog,cat --list2 fruit,animal --output results.csv
 ```
 
-**2. Words vs. PDFs (wp)**
+
+**2. Words vs. PDFs (`wp`)**
 
 Compare a list of words with text extracted from PDF documents.
 
-Syntax:
+- Syntax:
 
 ```
-dotnet run --command wp --words <words> [--pdf-folder <path>] [--output <path>]
+dotnet run --command wp --words <words> [--pdf-folder <path>] [--output <path>] [--outputDir <path>]
 ```
 
-Options:
+- Options:
 
-    Refer to the [Options](###Options) table for details on --words, --pdf-folder, --output, and --outputDir.
+Refer to the [Options](###Options) table for details on --words, --pdf-folder, --output, and --outputDir.
 
-Example:
+- Example:
 
 ```
-dotnet run --command wp --words "apple,banana,orange" --pdf-folder "C:/Documents/PDFs" --output results.csv
+dotnet run --command wp --words "apple,banana,orange,dog,cat" --pdf-folder "C:/Documents/PDFs" --output results.csv
 ```
 
-**3. Words vs. Dataset (wd)**
+
+**3. Words vs. Dataset (`wd`)**
 
 Compare a list of words with a dataset (e.g., a CSV file).
 
-Syntax:
+- Syntax:
 
 ```
-dotnet run --command wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>]
+dotnet run --command wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] [--inputDir <path>] [--outputDir <path>]
 ```
 
-Options:
+- Options:
 
-    Refer to the [Options](###Options) table for details on --words, --dataset, --output, --rows, --inputDir, and --outputDir.
+Refer to the [Options](###Options) table for details on --words, --dataset, --output, --rows, --inputDir, and --outputDir.
 
-Example:
+- Example:
 
 ```
 dotnet run --command wd --words "apple,banana,orange" --dataset imdb_1000.csv --output results.csv --rows 100
@@ -112,37 +114,51 @@ Below is a list of all available options for the commands. These options can be 
 
 If you don't provide certain options, the tool will use the following default values:
 
-    PDF Folder: "Datasets/PDFs"
+- PDF Folder: "Datasets/PDFs"
 
-    Input Directory: "Datasets/CSVs"
+- Input Directory: "Datasets/CSVs"
 
-    Output Directory: "Outputs/CSVs"
+- Output Directory: "Outputs/CSVs"
 
-    Dataset: "imdb_1000.csv"
+- Dataset: "imdb_1000.csv"
+
 
 ## Help
+To see the full list of commands and options, you can either:
 
-To see the full list of commands and options, run:
+**1. Run the Tool**
 
+- Open your terminal or command prompt, navigate to the project directory, and run the following command:
 ```
 dotnet run
 ```
+- This will display the help menu with a list of available commands and options.
+
+**2. Start the Program in Visual Studio**
+
+- Open the project in Visual Studio.
+ 
+- Set the project as the startup project (if it isn't already).
+
+- Press F5 or click the Start button to run the program.
+
+- The help menu will be displayed in the console window, showing the list of available commands and options.
 
 ## Important Notes
 
-    For lists of words, you can either:
+For lists of words, you can either:
 
-        Provide a comma-separated list (e.g., "apple,banana,orange").
+- Provide a comma-separated list (e.g., "apple,banana,orange").
 
-        Provide a text file path containing the words (e.g., "words.txt").
+- Provide a text file path containing the words (e.g., "words.txt").
 
-    Enclose lists in quotation marks if they contain spaces or special characters.
+- Enclose lists in quotation marks if they contain spaces or special characters.
     Example: "Business and Finance, Information Technology, Legal and Environmental".
 
-    If a required argument is missing, the program will prompt you to enter it.
+- If a required argument is missing, the program will prompt you to enter it.
 
-    The program will automatically use default values for optional arguments if they are not provided.
+- The program will automatically use default values for optional arguments if they are not provided.
 
-    Ensure that the paths provided for files and directories are correct and accessible.
+- Ensure that the paths provided for files and directories are correct and accessible.
 
-    The output directory (default: "Outputs/CSVs") will be created automatically if it does not exist. Results will be saved in this directory as CSV files.
+- The output directory (default: "Outputs/CSVs") will be created automatically if it does not exist. Results will be saved in this directory as CSV files.
