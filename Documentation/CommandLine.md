@@ -44,7 +44,7 @@ dotnet run --command ww --list1 <words> --list2 <words> [--output <path>] [--out
 
 - Options:
 
-Refer to the [Options](###Options) table for details on --list1, --list2, --output, and --outputDir.
+Refer to the [Options](#options) table for details on --list1, --list2, --output, and --outputDir.
 
 - Example:
 
@@ -65,7 +65,7 @@ dotnet run --command wp --words <words> [--pdf-folder <path>] [--output <path>] 
 
 - Options:
 
-Refer to the [Options](###Options) table for details on --words, --pdf-folder, --output, and --outputDir.
+Refer to the [Options](#options) table for details on --words, --pdf-folder, --output, and --outputDir.
 
 - Example:
 
@@ -86,7 +86,7 @@ dotnet run --command wd --words <words> [--dataset <path>] [--output <path>] [--
 
 - Options:
 
-Refer to the [Options](###Options) table for details on --words, --dataset, --output, --rows, --inputDir, and --outputDir.
+Refer to the [Options](#options) table for details on --words, --dataset, --output, --rows, --inputDir, and --outputDir.
 
 - Example:
 
