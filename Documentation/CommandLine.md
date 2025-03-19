@@ -14,13 +14,17 @@ To enable command-line execution in your application, ensure that you include th
     await commandLineHelper.ExecuteCommandAsync(configuration);
 ```
 
+<br/>
+
 ## Correct Directory
 
-Before running the application, it is crucial to ensure that you are in the correct directory ([SemanticSimilarityAnalysis.Proj]). This can be done by navigating to the project directory using the following command:
+Before running the application, it is crucial to ensure that you are in the correct directory `SemanticSimilarityAnalysis.Proj`. This can be done by navigating to the project directory using the following command:
 
 ```bash
 cd ./SemanticSimilarityAnalysis.Proj/
 ```
+
+<br/>
 
 ## Usage
 ### General Syntax
@@ -42,9 +46,13 @@ Compare two lists of words.
 dotnet run --command ww --list1 <words> --list2 <words> [--output <path>] [--outputDir <path>]
 ```
 
+<br/>
+
 - Options:
 
 Refer to the [Options](#options) table for details on --list1, --list2, --output, and --outputDir.
+
+<br/>
 
 - Example:
 
@@ -52,6 +60,7 @@ Refer to the [Options](#options) table for details on --list1, --list2, --output
 dotnet run --command ww --list1 apple,banana,orange,dog,cat --list2 fruit,animal --output results.csv
 ```
 
+<br/>
 
 **2. Words vs. PDFs (`wp`)**
 
@@ -63,9 +72,13 @@ Compare a list of words with text extracted from PDF documents.
 dotnet run --command wp --words <words> [--pdf-folder <path>] [--output <path>] [--outputDir <path>]
 ```
 
+<br/>
+
 - Options:
 
 Refer to the [Options](#options) table for details on --words, --pdf-folder, --output, and --outputDir.
+
+<br/>
 
 - Example:
 
@@ -73,6 +86,7 @@ Refer to the [Options](#options) table for details on --words, --pdf-folder, --o
 dotnet run --command wp --words "apple,banana,orange,dog,cat" --pdf-folder "C:/Documents/PDFs" --output results.csv
 ```
 
+<br/>
 
 **3. Words vs. Dataset (`wd`)**
 
@@ -84,15 +98,21 @@ Compare a list of words with a dataset (e.g., a CSV file).
 dotnet run --command wd --words <words> [--dataset <path>] [--output <path>] [--rows <number>] [--inputDir <path>] [--outputDir <path>]
 ```
 
+<br/>
+
 - Options:
 
 Refer to the [Options](#options) table for details on --words, --dataset, --output, --rows, --inputDir, and --outputDir.
+
+<br/>
 
 - Example:
 
 ```
 dotnet run --command wd --words "apple,banana,orange" --dataset imdb_1000.csv --output results.csv --rows 100
 ```
+
+<br/>
 
 ### Options
 
