@@ -1,6 +1,7 @@
 ﻿using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
+using SemanticSimilarityAnalysis.Proj.Helpers.Text;
 using SemanticSimilarityAnalysis.Proj.Models;
 using SemanticSimilarityAnalysis.Proj.Utils;
 using System.Data;
@@ -21,6 +22,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         private readonly PdfHelper _pdfHelper;
         private readonly CSVHelper _csvHelper;
         private readonly JsonHelper _jsonHelper;
+        private readonly TextHelper _textHelper;
 
         public EmbeddingAnalysisService(
             OpenAiEmbeddingService embeddingService,
@@ -29,7 +31,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             EmbeddingUtils embeddingUtils,
             PdfHelper pdfHelper,
             CSVHelper csvHelper,
-            JsonHelper jsonHelper
+            JsonHelper jsonHelper,
+            TextHelper textHelper
         )
         {
             _embeddingService = embeddingService;
@@ -39,6 +42,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             _pdfHelper = pdfHelper;
             _csvHelper = csvHelper;
             _jsonHelper = jsonHelper;
+            _textHelper = textHelper;
         }
 
 
@@ -99,6 +103,93 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 similarityResults.Add(new SimilarityPlotPoint(words1[i], similarities));
             }
             return similarityResults;
+        }
+
+
+        /// <summary>
+        /// Processes all files in the Sentences folder, calculates cosine similarities for phrases in each file, and returns the results.
+        /// </summary>
+        /// <param name="inputDir">The directory containing the text files. Default is "../../../Datasets/Sentences".</param>
+        /// <returns>A dictionary where the key is the file name and the value is a list of SimilarityPlotPoint objects for that file.</returns>
+        public async Task<Dictionary<string, List<SimilarityPlotPoint>>> CompareAllPhrasesAsync(
+            string inputDir = "../../../Datasets/TXTs/Sentences")
+        {
+            // Dictionary to store results for each file
+            var results = new Dictionary<string, List<SimilarityPlotPoint>>();
+
+            // Check if the directory exists
+            if (!Directory.Exists(inputDir))
+            {
+                throw new DirectoryNotFoundException($"The folder '{inputDir}' does not exist.");
+            }
+
+            // Get all text files in the directory
+            var textFiles = Directory.GetFiles(inputDir, "*.txt");
+
+            if (textFiles.Length == 0)
+            {
+                throw new FileNotFoundException("No text files found in the specified folder.");
+            }
+
+            // Process each file
+            foreach (var filePath in textFiles)
+            {
+                var fileName = Path.GetFileName(filePath);
+
+                try
+                {
+                    // Step 1: Extract phrases from the text file
+                    var phrases = _textHelper.ExtractWordsFromTextFile(fileName, inputDir);
+
+                    if (phrases.Count == 0)
+                    {
+                        Console.WriteLine($"Warning: No phrases were extracted from the file '{fileName}'.");
+                        continue;
+                    }
+
+                    // Step 2: Generate embeddings for each phrase
+                    var phraseEmbeddings = await _embeddingService.CreateEmbeddingsAsync(phrases);
+
+                    if (phraseEmbeddings.Count != phrases.Count)
+                    {
+                        Console.WriteLine($"Warning: Failed to generate embeddings for all phrases in the file '{fileName}'.");
+                        continue;
+                    }
+
+                    // Step 3: Calculate pairwise similarities and store in SimilarityPlotPoint
+                    var similarityResults = new List<SimilarityPlotPoint>();
+
+                    for (int i = 0; i < phrases.Count; i++)
+                    {
+                        var similarities = new Dictionary<string, double>();
+
+                        for (int j = i + 1; j < phrases.Count; j++) // Compare only with phrases after the current one
+                        {
+                            double similarity = _similarityCalculator.ComputeCosineSimilarity(
+                                phraseEmbeddings[i].Values,
+                                phraseEmbeddings[j].Values
+                            );
+
+                            similarities[phrases[j]] = similarity;
+                        }
+
+                        // Add the similarity results for the current phrase
+                        if (similarities.Count > 0)
+                        {
+                            similarityResults.Add(new SimilarityPlotPoint(phrases[i], similarities));
+                        }
+                    }
+
+                    // Add the results to the dictionary
+                    results[fileName] = similarityResults;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error processing file '{fileName}': {ex.Message}");
+                }
+            }
+
+            return results;
         }
 
 

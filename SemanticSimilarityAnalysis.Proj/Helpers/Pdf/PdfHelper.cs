@@ -3,6 +3,9 @@ using UglyToad.PdfPig;
 
 namespace SemanticSimilarityAnalysis.Proj.Helpers.Pdf
 {
+    /// <summary>
+    /// Helper class to extract text chunks from a PDF file.
+    /// </summary>
     public class PdfHelper
     {
         public enum ChunkType

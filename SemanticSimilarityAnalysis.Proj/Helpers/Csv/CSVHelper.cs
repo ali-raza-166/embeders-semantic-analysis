@@ -6,12 +6,14 @@ using System.Globalization;
 
 namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
 {
+    /// <summary>
+    /// Helper class for working with CSV files
+    /// </summary>
     public class CSVHelper
     {
-        /// <summary>
         /// Default number of rows to process when generating embeddings from the dataset
-        /// </summary>
         private readonly int defaultProcessedRows = 20;
+
 
         /// <summary>
         /// Reads the header row of the CSV file using CsvHelper
@@ -42,11 +44,12 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             }
         }
 
+
         /// <summary>
         /// Extract records from a CSV file
         /// </summary>
-        /// <param name="fields"></param>
-        /// <param name="csvFilePath"></param>
+        /// <param name="fields">Fields to extract for labelling and generating embeddings</param>
+        /// <param name="csvFilePath">CSV file path</param>
         /// <returns></returns>
         /// <exception cref="FileNotFoundException"></exception>
         public List<MultiEmbeddingRecord> ExtractRecordsFromCsv(
@@ -105,6 +108,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             return records;
         }
 
+
         /// <summary>
         /// Export the similarity results to a CSV file
         /// </summary>
@@ -156,6 +160,8 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
                 }
             }
         }
+
+
         // public void ExportReducedDimensionalityData(Matrix<double> reducedData, List<string> inputs, string filePath)
         // {
         //     // Convert Matrix<double> to double[,] to retain compatibility with the existing logic
@@ -212,6 +218,13 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
         //         throw;
         //     }
         // }
+
+        /// <summary>
+        /// Export the reduced dimensionality data to a CSV file
+        /// </summary>
+        /// <param name="reducedData"></param>
+        /// <param name="inputs"></param>
+        /// <param name="csvFileName"></param>
         public void ExportReducedDimensionalityData(Matrix<double> reducedData, List<string> inputs, string csvFileName)
         {
             // Convert Matrix<double> to double[,] to retain compatibility with the existing logic
@@ -314,6 +327,84 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
 
             // Determine the number of rows to process
             return Math.Min(processedRows, allRecords.Count); // Use the smaller of the two values
+        }
+
+
+        /// <summary>
+        /// Exports all phrase similarity data to a single CSV file, with each file's data separated by 3 empty rows.
+        /// </summary>
+        /// <param name="results">The dictionary containing similarity results for each file.</param>
+        /// <param name="csvFileName">The name of the CSV file to export the results.</param>
+        /// <param name="outputDir">The directory to save the CSV file. Default is "../../../Outputs/CSVs".</param>
+        public void ExportAllPhrasesToCsv(
+            Dictionary<string, List<SimilarityPlotPoint>> results,
+            string csvFileName = "phrases.csv",
+            string outputDir = @"../../../Outputs/CSVs")
+        {
+            // Ensure the output directory exists
+            if (!Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
+
+            // Construct the full file path
+            var csvFilePath = Path.Combine(outputDir, csvFileName);
+
+            // Write to CSV
+            using (var writer = new StreamWriter(csvFilePath))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                // Write header
+                csv.WriteField("File Name");
+                csv.WriteField("Phrase 1");
+                csv.WriteField("Phrase 2");
+                csv.WriteField("Similarity");
+                csv.NextRecord();
+
+                // Write data for each file
+                foreach (var fileResult in results)
+                {
+                    var fileName = fileResult.Key;
+                    var similarityResults = fileResult.Value;
+
+                    // Write file name as a header
+                    csv.WriteField($"File: {fileName}");
+                    csv.WriteField("");
+                    csv.WriteField("");
+                    csv.WriteField("");
+                    csv.NextRecord();
+
+                    // Write similarity data for the file
+                    foreach (var plotPoint in similarityResults)
+                    {
+                        string phrase1 = plotPoint.Label;
+
+                        foreach (var pair in plotPoint.Similarities)
+                        {
+                            string phrase2 = pair.Key;
+                            double similarity = pair.Value;
+
+                            csv.WriteField("");
+                            csv.WriteField(phrase1);
+                            csv.WriteField(phrase2);
+                            csv.WriteField(similarity);
+                            csv.NextRecord();
+                        }
+                    }
+
+                    // Add 3 empty rows between files
+                    for (int i = 0; i < 3; i++)
+                    {
+                        csv.WriteField("");
+                        csv.WriteField("");
+                        csv.WriteField("");
+                        csv.WriteField("");
+                        csv.NextRecord();
+                    }
+                }
+            }
+
+            Console.WriteLine($"All phrase similarities exported to '{csvFilePath}' successfully.");
         }
     }
 }

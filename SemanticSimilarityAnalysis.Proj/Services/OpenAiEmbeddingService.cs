@@ -7,7 +7,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
     {
         private readonly EmbeddingClient _embeddingClient;
 
-        public OpenAiEmbeddingService(EmbeddingClient embeddingClient) 
+        public OpenAiEmbeddingService(EmbeddingClient embeddingClient)
         {
             _embeddingClient = embeddingClient ?? throw new ArgumentNullException(nameof(embeddingClient));
         }
@@ -39,5 +39,4 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             }
         }
     }
-
 }
