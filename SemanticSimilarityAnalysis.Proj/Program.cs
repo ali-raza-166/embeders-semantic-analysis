@@ -8,6 +8,7 @@ using SemanticSimilarityAnalysis.Proj.Helpers;
 using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
+using SemanticSimilarityAnalysis.Proj.Helpers.Text;
 using SemanticSimilarityAnalysis.Proj.Pipelines;
 using SemanticSimilarityAnalysis.Proj.Services;
 using SemanticSimilarityAnalysis.Proj.Utils;
@@ -52,8 +53,8 @@ var serviceProvider = new ServiceCollection()
     .BuildServiceProvider();
 
 
-// var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-// await processor.RunAsync();
+var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+await processor.RunAsync();
 
 ///
 /// For command line

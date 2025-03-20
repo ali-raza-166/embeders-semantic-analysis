@@ -28,122 +28,19 @@ public class ProcessorAli
         detector.AddAllLanguages();
         try
         {
-            // var inputs = new List<string>{"Waiter work at the hospital", "hospital", "Airport", "Cat", "Dog" };
-            // List<string> inputs = new List<string>
-            // {
-            //     // Manual 1: Setting up a new email account
-            //     // First paragraph in German:
-            //     "Um ein neues E-Mail-Konto auf Ihrem mobilen Gerät einzurichten, öffnen Sie zunächst die 'Einstellungen'-App auf Ihrem Telefon und wählen Sie 'Konten' oder 'Passwörter & Konten', je nach Ihrem Betriebssystem. Tippen Sie auf die Option 'Konto hinzufügen' oder 'Neues Konto hinzufügen'. Wählen Sie nun den E-Mail-Anbieter aus der Liste aus, wie z. B. Gmail, Outlook oder Yahoo. Wenn Ihr E-Mail-Anbieter nicht aufgeführt ist, wählen Sie 'Andere', um die Kontodaten manuell einzugeben. Geben Sie Ihre vollständige E-Mail-Adresse ein, z. B. 'benutzername@domain.com', gefolgt von Ihrem E-Mail-Passwort. Wenn erforderlich, geben Sie zusätzliche Einstellungen wie die Mail-Server-Adresse, IMAP/POP-Einstellungen und SMTP-Serverdetails ein. Nachdem die Daten eingegeben wurden, überprüft das System Ihre Anmeldedaten und verbindet sich mit Ihrem E-Mail-Konto.",
-            //
-            //     // Second paragraph in Chinese:
-            //     "在成功添加电子邮件帐户后，返回到“帐户”部分检查您的设置。现在，您可以打开手机上的电子邮件应用程序，它应该会自动与您的电子邮件帐户同步。如果系统提示您设置额外的安全功能，例如双因素身份验证，建议启用这些功能以提高保护级别。一些电子邮件提供商可能会要求您完成其他设置步骤，例如链接到特定的应用程序或启用某些功能，如联系人和日历同步。一旦一切验证并同步，您可以直接从手机发送和接收电子邮件。",
-            //
-            //     // Third paragraph in English:
-            //     "For added security and easy management, you can customize your email account settings. Navigate to the 'Settings' section within the email app and explore options such as 'Notification Preferences', 'Signature Settings', and 'Sync Frequency'. You may also want to organize your inbox by creating folders and labels to better manage incoming emails. Regularly check your inbox and archive unnecessary emails to keep your account tidy. Lastly, consider setting up email forwarding or filters if you need to redirect or sort incoming messages automatically.",
-            //
-            //     // Manual 2: Calibrating a smart thermostat
-            //     // First paragraph in German:
-            //     "Die Kalibrierung Ihres Smart-Thermostats ist wichtig, um sicherzustellen, dass Ihr Zuhause eine angenehme Temperatur beibehält und gleichzeitig den Energieverbrauch optimiert. Beginnen Sie damit, sicherzustellen, dass Ihr Thermostat ordnungsgemäß installiert und mit Ihrem WLAN-Netzwerk verbunden ist. Öffnen Sie die Thermostat-App auf Ihrem Telefon oder Tablet und gehen Sie zum Menü 'Einstellungen'. In diesem Menü finden Sie eine Option mit der Bezeichnung 'Kalibrierung' oder 'Temperaturanpassung'. Tippen Sie auf diese Option, um den Kalibrierungsprozess zu starten. Während der Kalibrierung überwacht das Thermostat die Raumtemperatur über einen längeren Zeitraum, in der Regel 24 Stunden, um seine Messungen genau anzupassen. Stellen Sie sicher, dass sich das Thermostat in einem Bereich mit stabiler Luftzirkulation befindet und vermeiden Sie direkte Sonneneinstrahlung oder Zugluft, die die Messungen beeinträchtigen könnten.",
-            //
-            //     // Second paragraph in Chinese:
-            //     "一旦温控器完成了其校准过程，它将自动调整其温度设置，以匹配您期望的舒适度。这时，您可以通过应用程序或直接在设备上访问您的温控器界面，根据个人偏好调整温度。许多现代温控器还提供像地理围栏等功能，该功能在您在家或外出时自动调整温度，以节省能源。为了获得更个性化的体验，您可以设置计划，以便在一天中的特定时间调整温度，确保系统高效工作并与您的日常生活保持一致。",
-            //
-            //     // Third paragraph in English:
-            //     "In addition to calibration, consider placing your thermostat in an optimal location for the most accurate temperature reading. Avoid placing it near doors, windows, or vents, as these areas may cause incorrect temperature readings due to drafts. If your thermostat has additional features, like humidity sensing, make sure that these settings are enabled to further enhance comfort. Remember to periodically check the thermostat app for updates to ensure you're taking full advantage of the latest features and optimizations. Some models also allow you to monitor energy usage and set reminders to maintain your heating and cooling system, helping you save both money and energy in the long run.",
-            //
-            //     // Manual 3: Pairing and using wireless headphones
-            //     // First paragraph in German:
-            //     "Das Koppeln und Verwenden von kabellosen Kopfhörern mit Ihrem Smartphone ist ein unkomplizierter Prozess, der Ihre Audioerfahrung verbessert. Stellen Sie sicher, dass Ihre kabellosen Kopfhörer vollständig aufgeladen sind. Schalten Sie sie ein, indem Sie den Einschaltknopf gedrückt halten, bis die LED-Leuchte blinkt, was darauf hinweist, dass sie sich im Pairing-Modus befinden. Öffnen Sie auf Ihrem Smartphone die 'Einstellungen'-App und wählen Sie 'Bluetooth'. Aktivieren Sie Bluetooth und warten Sie, bis Ihr Telefon nach verfügbaren Geräten sucht. In der Liste der Geräte finden Sie Ihre Kopfhörer und wählen Sie diese aus. Sobald Sie ausgewählt haben, wird auf Ihrem Telefon eine Koppelanfrage angezeigt; bestätigen Sie die Kopplung, indem Sie auf 'Ja' oder 'OK' tippen. Die Kopfhörer werden dann verbunden und Sie sollten einen Bestätigungston hören.",
-            //
-            //     // Second paragraph in Chinese:
-            //     "现在您的无线耳机已连接，您可以直接在耳机上或使用智能手机调整音量。大多数无线耳机具有附加功能，如噪声取消或触摸敏感控制，这些可以通过耳机的配套应用程序或设置启用或自定义。为了增强音频体验，可以考虑在智能手机上调整均衡器设置，以根据您的偏好调整声音。您还可以通过播放歌曲或拨打电话来测试连接，确保音频质量和麦克风的正常工作。一些耳机支持连接多个设备，您可以通过在蓝牙设置中切换连接来无缝切换设备。",
-            //
-            //     // Third paragraph in English:
-            //     "To disconnect the wireless headphones, simply turn off Bluetooth on your smartphone or power off the headphones themselves. If you're planning to use the headphones with another device, repeat the pairing process by following the same steps. It’s important to store your headphones properly when not in use to prevent any physical damage. Most headphones come with a carrying case, which should be used for protection. For longer battery life, remember to turn off the headphones when you're done using them. If your headphones support software updates, make sure to regularly check for any available updates, as these can improve the performance and introduce new features to your device."
-            // };
-            List<string> inputs = new List<string>
-            {
-                "Dr. Damir Dobric CEO, Lead Software Architect @ daenet | Microsoft AI MVP, Microsoft Regional Director Frankfurt Rhine-Main Metropolitan Area.",
-                "Summary: CEO and Lead Architect of DAENET GmbH – ACP Digital, Microsoft's long-term Gold Certified Partner and a leading technology integrator specialized in software technologies, with a strong focus on Cloud Computing, IoT, and Machine Learning. Damir Dobric is a highly skilled and experienced Lead Software Architect at DAENET, a company specializing in delivering innovative software solutions and consulting services. With a strong background in software development, Damir specializes in various areas such as cloud computing, IoT, and artificial intelligence.",
-                "In addition to his role at DAENET, Damir is also a Microsoft Most Valuable Professional (MVP). The Microsoft MVP Award is a prestigious recognition given to exceptional technical experts who are passionate about sharing their knowledge and experiences with others. As an MVP, Damir is part of an elite group of professionals known as Microsoft Regional Directors who actively contribute to the Microsoft community by offering guidance, support, and expertise in various Microsoft technologies. Damir's commitment to excellence in software development and his dedication to helping others have earned him a reputation as a thought leader in the industry. His contributions to the Microsoft community and his work as a Lead Software Architect at DAENET showcase his expertise and passion for technology. With a keen eye for innovation and a deep understanding of cutting-edge technologies,",
-                "Damir Dobric is a valuable asset to both DAENET, ACP and the broader Microsoft ecosystem. His work continues to inspire and support other professionals in their pursuit of technical excellence and innovation. He serves as an external professor for Software Engineering and Cloud Computing at the Frankfurt University of Applied Sciences.",
-                "Damir holds a PhD in Computational Intelligence from the University of Plymouth, UK. Experience daenet CEO, Lead Software Architect 1998 - Present (27 years) Frankfurt Am Main Area, Germany Microsoft Regional Director, Most Valuable Professional and Partner Technology Solution Professional for Microsoft Azure. Education University of Plymouth PhD Computational Intelligence, Artificial Intelligence",
-                "Contact www.linkedin.com/in/damirdobric (LinkedIn) https://damirdobric.me/ (Personal Website). Twritte: @ddobric",
-                "Top Skills Windows Azure .NET Cloud Applications.",
-                "Publications: 1) Artifficial Intelligence: Ready, Steady Gp Blog DEVELOPERS.DE, 2) Azure Best Practices: Running th code on a memory limit Load Balancers in Microsoft Azure cloud platform. 3) Why the cortical algorithm does need a baby phase?"
-            };
-
-
-
-
+            
+            //--------------- Creating Embeddings and Storing in a new list. SEE DATA AT THE END OF THIS FILE ----------------------------
             // var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
             // var listofEmbeddingVectors = new List<List<float>>();
             //
             // foreach (var vectorValues in embeddings)
             // {
             //     var vector = vectorValues.Values; // Get the vector for the current embedding
-            //     // Add the vector to the vectors list
             //     listofEmbeddingVectors.Add(vector);
             // }
-
-
-            // if (embeddings.Count >= 2)
-            // {
-            //     for (var i = 0; i < embeddings.Count - 1; i++)
-            //     {
-            //         var vectorA = embeddings[i].Values;
-            //         var vectorB = embeddings[i + 1].Values;
-            //         
-            //         var cosineSimilarity = similarityCalculator.ComputeCosineSimilarity(vectorA, vectorB);
-            //         Console.WriteLine($"Cosine Similarity between '{inputs[i]}' and '{inputs[i + 1]}': {cosineSimilarity}");
-            //         
-            //         var euclideanDistance = euclideanDistCalc.ComputeEuclideanDistance(vectorA, vectorB);
-            //         Console.WriteLine($"Euclidean Distance between '{inputs[i]}' and '{inputs[i + 1]}': {euclideanDistance}");
-            //     }
-            //
-            // } 
-            //
-            // var models = embeddings.Select((embedding, index) => new PineconeModel(
-            //     embedding.Id,
-            //     embedding.Values.ToList(),
-            //     new Dictionary<string, object?>
-            //     {
-            //         { "Text", inputs[index] }, 
-            //         {"Language", detector.Detect(inputs[index])}
-            //     }
-            // )).ToList();
-            // await pineconeService.InitializeIndexAsync();
-            // await pineconeService.UpsertEmbeddingAsync(models, "default");
-            // Console.WriteLine("Vector Embeddings successfully upserted into Pinecone.");
-
-            // create embedding for Query item to test 
-            //  const string query =  "What is the camera resolution of iphone 15 pro？";
-            //  var queryEmbeddings = await embeddingService.CreateEmbeddingsAsync([query]);
-            //  var queryResponse =
-            //      await pineconeService.QueryEmbeddingsAsync(queryEmbeddings[0].Values.ToList(), "default", 4, "de");
-            //  var pineconeTopKparagraphs = new List<string>();
-            //  Console.WriteLine($"Count of matched vectors from pinecone: {queryResponse.Count}");
-            //  foreach (var retrievedVector in queryResponse)
-            //  {
-            //      foreach (var metadataItem in retrievedVector.Metadata)
-            //      {
-            //          Console.WriteLine($"Key: {metadataItem.Key}, Value: {metadataItem.Value}");
-            //          // The first .Value accesses the MetadataValue, and the second .Value gets the actual data (e.g., string, double).
-            //          if (metadataItem.Key == "Text" && metadataItem.Value?.Value is string textValue)
-            //          {
-            //              pineconeTopKparagraphs.Add(textValue);
-            //          }           
-            //      }
-            //      Console.WriteLine($"ID: {retrievedVector.Id}");
-            //      Console.WriteLine($"Score: {retrievedVector.Score}");
-            //      Console.WriteLine(
-            //          $"Embedding vector (first 10 values): {string.Join(", ", retrievedVector.Values.Take(10))}");
-            //      Console.WriteLine();
-            //  }
-            //  var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
-            //  Console.WriteLine($"\nAnswer: {answer}");
-
-
+            
+            
+            //--------------- Testing Manual Method for TopK Searching --------------------------------------
             // Console.WriteLine("Results computed by Manual TopK Method");
             // var topKResults =
             //     similarityCalculator.GetTopKCosineSimilarities(queryEmbeddings[0].Values, models, topK: 1);
@@ -156,60 +53,63 @@ public class ProcessorAli
             // }
 
 
+            //---------------Testing Dimensionality Reduction Pipelines ---------------------------------- 
             // await openAiEmbeddingsDimReductionAndPlotting.RunPipelineAsync(inputs); 
             // word2VecEmbeddingsDimReductionAndPlotting.RunPipeline(inputs);
 
-            //---------------Testing pinecone refactored classes (setup+service)
+            
+            //---------------Testing pinecone refactored classes (setup+service) , Plus Multilingual testing------- 
             // string namespaceName = "profiles";
-            // string indexname = "dr-dobric-index";
-            // await pineconeSetupService.RunAsync(inputs, indexName, namespaceName);
-            // string query = "Where does Dr. Dobric live?";
-            // var pineconeTopKparagraphs = await pineconeService.QueryEmbeddingsAsync(query, indexname, namespaceName, 3, "en");
+            // string indexName = "index-ali";
+            // await pineconeSetupService.RunAsync(inputs, indexName, namespaceName); //Uncomment if new index creation setup is required. CHANGE PARAMS ACCORDNGLY
+            // string query = "What is the age of Ali?";
+            // var pineconeTopKparagraphs = await pineconeService.QueryEmbeddingsAsync(query, indexName, namespaceName, 3, "en");
             // var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
             // Console.WriteLine($"\nAnswer: {answer}");
 
+            
             // -----------------Testing the chatbot------------------
-             // string namespaceName = "profiles";
-             // string indexName = "dr-dobric-index";
-             // await chatbotService.StartChatAsync(indexName, namespaceName);
+            // string namespaceName = "profiles";
+            // string indexName = "dr-dobric-index";
+            // await chatbotService.StartChatAsync(indexName, namespaceName);
              
              
-             // ---------------Testing RagPipeline------------
-              string namespaceName = "profiles";
-              string indexName = "dr-dobric-index";
-              List<string> inputQueries = new()
-              {
-                  "Where does Dr. Dobric live?",
-                  "What company does Dr. Damir Dobric work for?",
-                  "What is the research topic of Dr. Damir's in his Phd?",
-                  "What is Dr. Damir Dobric’s academic background?",
-                  "Where can I find more about Dr. Damir Dobric?"
-              };
-             
-              List<string> groundTruthAnswers = new()
-              {
-                  "Dr. Dobric lives in Frankfurt Rhine-Main Metropolitan Area",
-                  "Damir Dobric works for DAENET GmbH – ACP Digital, a Microsoft Gold Certified Partner.",
-                  "Dr Damir's research topic in Phd is Computational Intelligence",
-                  "Dr Damir Dobic holds a PhD in Computational Intelligence from the University of Plymouth, UK.",
-                  "Damir's LinkedIn profile is www.linkedin.com/in/damirdobric, and his personal website is https://damirdobric.me."
-              };
-              List<string> generatedResponses = await ragPipeline.BatchRetrieveAndGenerateResponsesAsync(inputQueries, indexName, namespaceName, 3);
-              for (int i = 0; i < generatedResponses.Count; i++)
-              {
-                  RagEvaluationResult result = await ragPipeline.EvaluateAccuracy(generatedResponses[i], groundTruthAnswers[i]);
-                  Console.WriteLine($"Query: {inputQueries[i]}");
-                  Console.WriteLine($"Generated Answer: {generatedResponses[i]}");
-                  Console.WriteLine($"Ground truth Answer: {groundTruthAnswers[i]}");
-                  Console.WriteLine($"Accuracy Results:");
-                  Console.WriteLine($"Cosine Similarity: {result.CosineSimilarity}");
-                  Console.WriteLine($"ROUGE-1 Score: {result.Rouge1Score}");
-                  Console.WriteLine($"ROUGE-2 Score: {result.Rouge2Score}");
-              }
+              //---------------Testing RagPipeline------------
+              // string namespaceName = "profiles";
+              // string indexName = "dr-dobric-index";
+              // List<string> inputQueries = new()
+              // {
+              //     "Where does Dr. Dobric live?",
+              //     "What company does Dr. Damir Dobric work for?",
+              //     "What is the research topic of Dr. Damir's in his Phd?",
+              //     "What is Dr. Damir Dobric’s academic background?",
+              //     "Where can I find more about Dr. Damir Dobric?"
+              // };
+              //
+              // List<string> groundTruthAnswers = new()
+              // {
+              //     "Dr. Dobric lives in Frankfurt Rhine-Main Metropolitan Area",
+              //     "Damir Dobric works for DAENET GmbH – ACP Digital, a Microsoft Gold Certified Partner.",
+              //     "Dr Damir's research topic in Phd is Computational Intelligence",
+              //     "Dr Damir Dobic holds a PhD in Computational Intelligence from the University of Plymouth, UK.",
+              //     "Damir's LinkedIn profile is www.linkedin.com/in/damirdobric, and his personal website is https://damirdobric.me."
+              // };
+              // List<string> generatedResponses = await ragPipeline.BatchRetrieveAndGenerateResponsesAsync(inputQueries, indexName, namespaceName, 3);
+              // for (int i = 0; i < generatedResponses.Count; i++)
+              // {
+              //     RagEvaluationResult result = await ragPipeline.EvaluateAccuracy(generatedResponses[i], groundTruthAnswers[i]);
+              //     Console.WriteLine($"Query: {inputQueries[i]}");
+              //     Console.WriteLine($"Generated Answer: {generatedResponses[i]}");
+              //     Console.WriteLine($"Ground truth Answer: {groundTruthAnswers[i]}");
+              //     Console.WriteLine($"Accuracy Results:");
+              //     Console.WriteLine($"Cosine Similarity: {result.CosineSimilarity}");
+              //     Console.WriteLine($"ROUGE-1 Score: {result.Rouge1Score}");
+              //     Console.WriteLine($"ROUGE-2 Score: {result.Rouge2Score}");
+              // }
               
 
 
-            //-------------Word2Vec----
+            //-------------Word2Vec Testing for phrases and words----
             // string txtFileName = "glove.6B.300d.txt";
             // string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
             // string filePath = Path.Combine(projectRoot, "Datasets", txtFileName);
@@ -227,7 +127,7 @@ public class ProcessorAli
             // var cosineSimilarityVaue = cosineSimilarity.ComputeCosineSimilarity(listVector1, listVector2);
             //
             // // Display the result
-            // Console.WriteLine($"Cosine Similarity usning word2vec: {cosineSimilarityVaue}");
+            // Console.WriteLine($"Cosine Similarity using word2vec: {cosineSimilarityVaue}");
 
         }
         catch (Exception ex)
@@ -236,6 +136,7 @@ public class ProcessorAli
         }
 
     }
+    
     // public List<string> GetMultilingualParagraphs()
     //     {
     //         return new List<string>
@@ -265,4 +166,52 @@ public class ProcessorAli
     //             "新款 MacBook Pro 提供了超薄的设计，兼具轻巧和强大的性能。尽管其外形纤薄，MacBook Pro 依然能应对高负荷任务，性能毫不妥协。键盘也经过重新设计，带来更加安静和舒适的打字体验。凭借更大的触控板和更强的扬声器，MacBook Pro 提供了卓越的工作和娱乐体验。",
     //         };
     // }
+    
+    // var inputs = new List<string>{"Waiter work at the hospital", "hospital", "Airport", "Cat", "Dog" };
+     
+    // var inputs = new List<string>
+    // {
+    //     // Manual 1: Setting up a new email account
+    //     // First paragraph in German:
+    //     "Um ein neues E-Mail-Konto auf Ihrem mobilen Gerät einzurichten, öffnen Sie zunächst die 'Einstellungen'-App auf Ihrem Telefon und wählen Sie 'Konten' oder 'Passwörter & Konten', je nach Ihrem Betriebssystem. Tippen Sie auf die Option 'Konto hinzufügen' oder 'Neues Konto hinzufügen'. Wählen Sie nun den E-Mail-Anbieter aus der Liste aus, wie z. B. Gmail, Outlook oder Yahoo. Wenn Ihr E-Mail-Anbieter nicht aufgeführt ist, wählen Sie 'Andere', um die Kontodaten manuell einzugeben. Geben Sie Ihre vollständige E-Mail-Adresse ein, z. B. 'benutzername@domain.com', gefolgt von Ihrem E-Mail-Passwort. Wenn erforderlich, geben Sie zusätzliche Einstellungen wie die Mail-Server-Adresse, IMAP/POP-Einstellungen und SMTP-Serverdetails ein. Nachdem die Daten eingegeben wurden, überprüft das System Ihre Anmeldedaten und verbindet sich mit Ihrem E-Mail-Konto.",
+    //
+    //     // Second paragraph in Chinese:
+    //     "在成功添加电子邮件帐户后，返回到“帐户”部分检查您的设置。现在，您可以打开手机上的电子邮件应用程序，它应该会自动与您的电子邮件帐户同步。如果系统提示您设置额外的安全功能，例如双因素身份验证，建议启用这些功能以提高保护级别。一些电子邮件提供商可能会要求您完成其他设置步骤，例如链接到特定的应用程序或启用某些功能，如联系人和日历同步。一旦一切验证并同步，您可以直接从手机发送和接收电子邮件。",
+    //
+    //     // Third paragraph in English:
+    //     "For added security and easy management, you can customize your email account settings. Navigate to the 'Settings' section within the email app and explore options such as 'Notification Preferences', 'Signature Settings', and 'Sync Frequency'. You may also want to organize your inbox by creating folders and labels to better manage incoming emails. Regularly check your inbox and archive unnecessary emails to keep your account tidy. Lastly, consider setting up email forwarding or filters if you need to redirect or sort incoming messages automatically.",
+    //
+    //     // Manual 2: Calibrating a smart thermostat
+    //     // First paragraph in German:
+    //     "Die Kalibrierung Ihres Smart-Thermostats ist wichtig, um sicherzustellen, dass Ihr Zuhause eine angenehme Temperatur beibehält und gleichzeitig den Energieverbrauch optimiert. Beginnen Sie damit, sicherzustellen, dass Ihr Thermostat ordnungsgemäß installiert und mit Ihrem WLAN-Netzwerk verbunden ist. Öffnen Sie die Thermostat-App auf Ihrem Telefon oder Tablet und gehen Sie zum Menü 'Einstellungen'. In diesem Menü finden Sie eine Option mit der Bezeichnung 'Kalibrierung' oder 'Temperaturanpassung'. Tippen Sie auf diese Option, um den Kalibrierungsprozess zu starten. Während der Kalibrierung überwacht das Thermostat die Raumtemperatur über einen längeren Zeitraum, in der Regel 24 Stunden, um seine Messungen genau anzupassen. Stellen Sie sicher, dass sich das Thermostat in einem Bereich mit stabiler Luftzirkulation befindet und vermeiden Sie direkte Sonneneinstrahlung oder Zugluft, die die Messungen beeinträchtigen könnten.",
+    //
+    //     // Second paragraph in Chinese:
+    //     "一旦温控器完成了其校准过程，它将自动调整其温度设置，以匹配您期望的舒适度。这时，您可以通过应用程序或直接在设备上访问您的温控器界面，根据个人偏好调整温度。许多现代温控器还提供像地理围栏等功能，该功能在您在家或外出时自动调整温度，以节省能源。为了获得更个性化的体验，您可以设置计划，以便在一天中的特定时间调整温度，确保系统高效工作并与您的日常生活保持一致。",
+    //
+    //     // Third paragraph in English:
+    //     "In addition to calibration, consider placing your thermostat in an optimal location for the most accurate temperature reading. Avoid placing it near doors, windows, or vents, as these areas may cause incorrect temperature readings due to drafts. If your thermostat has additional features, like humidity sensing, make sure that these settings are enabled to further enhance comfort. Remember to periodically check the thermostat app for updates to ensure you're taking full advantage of the latest features and optimizations. Some models also allow you to monitor energy usage and set reminders to maintain your heating and cooling system, helping you save both money and energy in the long run.",
+    //
+    //     // Manual 3: Pairing and using wireless headphones
+    //     // First paragraph in German:
+    //     "Das Koppeln und Verwenden von kabellosen Kopfhörern mit Ihrem Smartphone ist ein unkomplizierter Prozess, der Ihre Audioerfahrung verbessert. Stellen Sie sicher, dass Ihre kabellosen Kopfhörer vollständig aufgeladen sind. Schalten Sie sie ein, indem Sie den Einschaltknopf gedrückt halten, bis die LED-Leuchte blinkt, was darauf hinweist, dass sie sich im Pairing-Modus befinden. Öffnen Sie auf Ihrem Smartphone die 'Einstellungen'-App und wählen Sie 'Bluetooth'. Aktivieren Sie Bluetooth und warten Sie, bis Ihr Telefon nach verfügbaren Geräten sucht. In der Liste der Geräte finden Sie Ihre Kopfhörer und wählen Sie diese aus. Sobald Sie ausgewählt haben, wird auf Ihrem Telefon eine Koppelanfrage angezeigt; bestätigen Sie die Kopplung, indem Sie auf 'Ja' oder 'OK' tippen. Die Kopfhörer werden dann verbunden und Sie sollten einen Bestätigungston hören.",
+    //
+    //     // Second paragraph in Chinese:
+    //     "现在您的无线耳机已连接，您可以直接在耳机上或使用智能手机调整音量。大多数无线耳机具有附加功能，如噪声取消或触摸敏感控制，这些可以通过耳机的配套应用程序或设置启用或自定义。为了增强音频体验，可以考虑在智能手机上调整均衡器设置，以根据您的偏好调整声音。您还可以通过播放歌曲或拨打电话来测试连接，确保音频质量和麦克风的正常工作。一些耳机支持连接多个设备，您可以通过在蓝牙设置中切换连接来无缝切换设备。",
+    //
+    //     // Third paragraph in English:
+    //     "To disconnect the wireless headphones, simply turn off Bluetooth on your smartphone or power off the headphones themselves. If you're planning to use the headphones with another device, repeat the pairing process by following the same steps. It’s important to store your headphones properly when not in use to prevent any physical damage. Most headphones come with a carrying case, which should be used for protection. For longer battery life, remember to turn off the headphones when you're done using them. If your headphones support software updates, make sure to regularly check for any available updates, as these can improve the performance and introduce new features to your device."
+    // };
+    
+    // List<string> inputs = new List<string>
+    // {
+    //     "Dr. Damir Dobric CEO, Lead Software Architect @ daenet | Microsoft AI MVP, Microsoft Regional Director Frankfurt Rhine-Main Metropolitan Area.",
+    //     "Summary: CEO and Lead Architect of DAENET GmbH – ACP Digital, Microsoft's long-term Gold Certified Partner and a leading technology integrator specialized in software technologies, with a strong focus on Cloud Computing, IoT, and Machine Learning. Damir Dobric is a highly skilled and experienced Lead Software Architect at DAENET, a company specializing in delivering innovative software solutions and consulting services. With a strong background in software development, Damir specializes in various areas such as cloud computing, IoT, and artificial intelligence.",
+    //     "In addition to his role at DAENET, Damir is also a Microsoft Most Valuable Professional (MVP). The Microsoft MVP Award is a prestigious recognition given to exceptional technical experts who are passionate about sharing their knowledge and experiences with others. As an MVP, Damir is part of an elite group of professionals known as Microsoft Regional Directors who actively contribute to the Microsoft community by offering guidance, support, and expertise in various Microsoft technologies. Damir's commitment to excellence in software development and his dedication to helping others have earned him a reputation as a thought leader in the industry. His contributions to the Microsoft community and his work as a Lead Software Architect at DAENET showcase his expertise and passion for technology. With a keen eye for innovation and a deep understanding of cutting-edge technologies,",
+    //     "Damir Dobric is a valuable asset to both DAENET, ACP and the broader Microsoft ecosystem. His work continues to inspire and support other professionals in their pursuit of technical excellence and innovation. He serves as an external professor for Software Engineering and Cloud Computing at the Frankfurt University of Applied Sciences.",
+    //     "Damir holds a PhD in Computational Intelligence from the University of Plymouth, UK. Experience daenet CEO, Lead Software Architect 1998 - Present (27 years) Frankfurt Am Main Area, Germany Microsoft Regional Director, Most Valuable Professional and Partner Technology Solution Professional for Microsoft Azure. Education University of Plymouth PhD Computational Intelligence, Artificial Intelligence",
+    //     "Contact www.linkedin.com/in/damirdobric (LinkedIn) https://damirdobric.me/ (Personal Website). Twritte: @ddobric",
+    //     "Top Skills Windows Azure .NET Cloud Applications.",
+    //     "Publications: 1) Artifficial Intelligence: Ready, Steady Gp Blog DEVELOPERS.DE, 2) Azure Best Practices: Running th code on a memory limit Load Balancers in Microsoft Azure cloud platform. 3) Why the cortical algorithm does need a baby phase?"
+    // };
+    
 }

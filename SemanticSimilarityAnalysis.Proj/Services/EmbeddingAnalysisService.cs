@@ -1,6 +1,7 @@
 ﻿using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
 using SemanticSimilarityAnalysis.Proj.Helpers.Json;
 using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
+using SemanticSimilarityAnalysis.Proj.Helpers.Text;
 using SemanticSimilarityAnalysis.Proj.Models;
 using SemanticSimilarityAnalysis.Proj.Utils;
 using System.Data;

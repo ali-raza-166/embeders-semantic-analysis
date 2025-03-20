@@ -1,3 +1,5 @@
+using SemanticSimilarityAnalysis.Proj.Helpers.Text;
+
 namespace Helper.Tests
 {
     [TestClass]
