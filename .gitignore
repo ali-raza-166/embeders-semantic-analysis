@@ -11,3 +11,4 @@ Solution Items
 *.DotSettings.user
 #**/Datasets/
 **/Datasets/TXTs/Sentences
+SemanticSimilarityAnalysis.Proj/Datasets/glove.6B.300d.txt

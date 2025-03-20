@@ -49,8 +49,8 @@ var serviceProvider = new ServiceCollection()
     .BuildServiceProvider();
 
 
-// var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-// await processor.RunAsync();
+var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+await processor.RunAsync();
 
 ///
 /// For command line
