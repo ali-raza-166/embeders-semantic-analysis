@@ -1,6 +1,8 @@
 ﻿namespace SemanticSimilarityAnalysis.Proj.Models
 {
-
+    /// <summary>
+    /// Represents a point in the similarity plot. It contains a label and a dictionary of similarity values between the selected record's attribute embeddings and input embeddings.
+    /// </summary>
     public class SimilarityPlotPoint
     {
 

@@ -40,6 +40,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
                 }
             }
         }
+
         public void RunPythonScript(string scriptPath, string csvFilePath, string plotFilePath)
         {
             string pythonExecutable = GetPythonExecutable()!;
@@ -75,11 +76,13 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
                     throw new Exception($"Python script failed with exit code {process.ExitCode}");
                 }
             }
-
         }
+
         private void SetPythonDllPath()
         {
             string pythonDllPath = DetectPythonLibrary()!;
+
+            Console.WriteLine($"Detected Python library: {pythonDllPath}");
 
             if (string.IsNullOrEmpty(pythonDllPath) || !File.Exists(pythonDllPath))
             {
@@ -94,7 +97,8 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return @"C:\Users\YourUser\AppData\Local\Programs\Python\Python39\python39.dll"; // Adjust for Windows
+                string? pythonDllPath = Environment.GetEnvironmentVariable("PYTHON_DLL");
+                return pythonDllPath;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -107,6 +111,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
 
             return null;
         }
+
         private string? GetPythonExecutable()
         {
             string pythonExecutable = string.Empty;
@@ -161,8 +166,5 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
                 return false;
             }
         }
-
-
-
     }
 }
