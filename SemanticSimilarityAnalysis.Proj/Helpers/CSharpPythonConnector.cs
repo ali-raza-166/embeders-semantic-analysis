@@ -6,6 +6,11 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
 {
     public class CSharpPythonConnector
     {
+        /// <summary>
+        /// Generates a scatter plot from a CSV file using a Python script.
+        /// </summary>
+        /// <param name="relativeCsvFilePath">Relative path to the CSV file.</param>
+        /// <param name="relativePlotFilePath">Relative path to save the generated plot.</param>
         public void PlotScatterFromCsv(string relativeCsvFilePath, string relativePlotFilePath)
         {
             var projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"../../.."));
@@ -40,6 +45,13 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
                 }
             }
         }
+        
+        /// <summary>
+        /// Executes a Python script with specified arguments.
+        /// </summary>
+        /// <param name="scriptPath">Path to the Python script.</param>
+        /// <param name="csvFilePath">Path to the CSV file input.</param>
+        /// <param name="plotFilePath">Path to save the generated plot.</param>
         public void RunPythonScript(string scriptPath, string csvFilePath, string plotFilePath)
         {
             string pythonExecutable = GetPythonExecutable()!;
@@ -77,6 +89,10 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
             }
 
         }
+        
+        /// <summary>
+        /// Sets the Python DLL path for Python.NET to function properly.
+        /// </summary>
         private void SetPythonDllPath()
         {
             string pythonDllPath = DetectPythonLibrary()!;
@@ -90,6 +106,10 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
             Console.WriteLine($"Python library set to: {pythonDllPath}");
         }
 
+        /// <summary>
+        /// Detects the appropriate Python library file based on the operating system.
+        /// </summary>
+        /// <returns>The path to the Python library file.</returns>
         private static string? DetectPythonLibrary()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -107,6 +127,11 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
 
             return null;
         }
+        
+        /// <summary>
+        /// Retrieves the Python executable based on the operating system.
+        /// </summary>
+        /// <returns>The name of the Python executable if found; otherwise, null.</returns>
         private string? GetPythonExecutable()
         {
             string pythonExecutable = string.Empty;
@@ -132,6 +157,12 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
 
             return pythonExecutable;
         }
+        
+        /// <summary>
+        /// Checks if the given Python executable is available in the system's PATH.
+        /// </summary>
+        /// <param name="pythonExecutable">The name of the Python executable.</param>
+        /// <returns>True if Python is found in PATH; otherwise, false.</returns>
         private bool IsPythonExecutableInPath(string pythonExecutable)
         {
             try

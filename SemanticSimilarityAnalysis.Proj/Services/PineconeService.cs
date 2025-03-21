@@ -3,26 +3,35 @@ using SemanticSimilarityAnalysis.Proj.Models;
 using LanguageDetection;
 namespace SemanticSimilarityAnalysis.Proj.Services
 {
+    /// <summary>
+    /// PineconeService provides methods to interact with Pinecone, a vector database.
+    /// It handles index creation, embedding generation, upserting embeddings, and querying stored vectors.
+    /// </summary>
     public class PineconeService
     {
         private readonly OpenAiEmbeddingService _embeddingService;
         private readonly PineconeClient _pineconeClient;
         private readonly LanguageDetector _detector;
         private const int Dimension = 1536;
-        public PineconeService(OpenAiEmbeddingService embeddingService, LanguageDetector detector)
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PineconeService"/> class.
+        /// </summary>
+        /// <param name="embeddingService">Service for generating OpenAI embeddings.</param>
+        /// <param name="pineconeClient">Pinecone client for interacting with the database.</param>
+        /// <param name="detector">Language detection service.</param>
+        public PineconeService(OpenAiEmbeddingService embeddingService,PineconeClient pineconeClient, LanguageDetector detector)
         {
-            var apiKey = Environment.GetEnvironmentVariable("PINECONE_API_KEY");
-            Console.WriteLine("PINECONE API KEY: " + apiKey);
-            if (string.IsNullOrEmpty(apiKey))
-            {
-                throw new InvalidOperationException("Pinecone API key is not set in environment variables.");
-            }
-
-            _pineconeClient = new PineconeClient(apiKey);
+            _pineconeClient = pineconeClient ?? throw new ArgumentNullException(nameof(pineconeClient));
             _embeddingService = embeddingService ?? throw new ArgumentNullException(nameof(embeddingService));
             _detector = detector ?? throw new ArgumentNullException(nameof(detector));
         }
 
+        /// <summary>
+        /// Initializes a Pinecone index with the given name.
+        /// If the index already exists, it will not be created again.
+        /// </summary>
+        /// <param name="indexName">The name of the index to initialize.</param>
         public async Task InitializeIndexAsync(string indexName)
         {
             try
@@ -60,16 +69,20 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
                 await _pineconeClient.CreateIndexAsync(request);
                 Console.WriteLine($"Index '{indexName}' created successfully.");
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 // throw new InvalidOperationException($"Failed to Initialize index. {indexName} Error:", ex.Message);
             }
-            
         }
 
+        /// <summary>
+        /// Generates embeddings for a given dataset using OpenAI's embedding service.
+        /// Each embedding is stored with metadata including the text and detected language.
+        /// </summary>
+        /// <param name="dataset">List of text samples to generate embeddings for.</param>
+        /// <returns>A list of PineconeModel objects containing embeddings and metadata.</returns>
         public async Task<List<PineconeModel>> GenerateEmbeddingsAsync(List<string> dataset)
         {
             Console.WriteLine("Generating embeddings for dataset...");
@@ -87,6 +100,12 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             return pineconeModels;
         }
 
+        /// <summary>
+        /// Upserts (inserts or updates) a list of embeddings into the specified Pinecone index and namespace.
+        /// </summary>
+        /// <param name="models">The list of embeddings to upsert.</param>
+        /// <param name="indexName">The Pinecone index name.</param>
+        /// <param name="namespaceName">The namespace within the index.</param>
         public async Task UpsertEmbeddingAsync(List<PineconeModel> models, string indexName, string namespaceName)
         {
             Console.WriteLine($"In pinecone service upsert method {namespaceName}...");
@@ -127,6 +146,16 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             }
         }
         
+        /// <summary>
+        /// Queries the Pinecone index to find the top-k most similar embeddings to a given input query.
+        /// An optional language filter can be applied.
+        /// </summary>
+        /// <param name="query">The input query text.</param>
+        /// <param name="indexName">The Pinecone index to query.</param>
+        /// <param name="namespaceName">The namespace within the index.</param>
+        /// <param name="topK">The number of closest matches to retrieve.</param>
+        /// <param name="languageFilter">Optional filter to limit results to a specific language.</param>
+        /// <returns>A list of the most similar text results.</returns>
         public async Task<List<string>> QueryEmbeddingsAsync(string query, string indexName, string namespaceName, uint topK, string? languageFilter = null)
         {
             Console.WriteLine($"Creating embedding for query: {query}");
@@ -144,6 +173,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     IncludeValues = true,
                     IncludeMetadata = true,
                 };
+                
                 // Only add the filter if a language filter is explicitly provided
                 if (!string.IsNullOrEmpty(languageFilter))
                 {

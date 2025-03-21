@@ -17,7 +17,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
     {
         private readonly OpenAiEmbeddingService _embeddingService;
         private readonly CosineSimilarity _similarityCalculator;
-        private readonly EuclideanDistance _euclideanDistCalc;
         private readonly EmbeddingUtils _embeddingUtils;
         private readonly PdfHelper _pdfHelper;
         private readonly CSVHelper _csvHelper;
@@ -27,7 +26,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         public EmbeddingAnalysisService(
             OpenAiEmbeddingService embeddingService,
             CosineSimilarity similarityCalculator,
-            EuclideanDistance euclideanDistCalc,
             EmbeddingUtils embeddingUtils,
             PdfHelper pdfHelper,
             CSVHelper csvHelper,
@@ -37,7 +35,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         {
             _embeddingService = embeddingService;
             _similarityCalculator = similarityCalculator;
-            _euclideanDistCalc = euclideanDistCalc;
             _embeddingUtils = embeddingUtils;
             _pdfHelper = pdfHelper;
             _csvHelper = csvHelper;

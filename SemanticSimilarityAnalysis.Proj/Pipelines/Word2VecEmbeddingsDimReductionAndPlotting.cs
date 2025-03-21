@@ -17,7 +17,6 @@ namespace SemanticSimilarityAnalysis.Proj.Pipelines
     /// </summary>
     public class Word2VecEmbeddingsDimReductionAndPlotting
     {
-        // private readonly Word2VecService _word2VecService;
         private readonly DimensionalityReductionService _dimensionalityReductionService;
         private readonly CSVHelper _csvHelper;
         private readonly CSharpPythonConnector _pythonConnector;
@@ -25,12 +24,11 @@ namespace SemanticSimilarityAnalysis.Proj.Pipelines
 
 
         /// <summary>
-        /// Initializes the Word2Vec pipeline with required services.
+        /// Initializes the pipeline with services for dimensionality reduction, CSV handling, and Python visualization.
         /// </summary>
-        /// <param name="dimensionalityReductionService">Handles PCA and t-SNE dimensionality reduction.</param>
-        /// <param name="csvHelper">Manages exporting reduced data to CSV format.</param>
-        /// <param name="pythonConnector">Runs Python scripts for visualization.</param>
-        /// <exception cref="ArgumentNullException">Thrown if any of the dependencies are null.</exception>
+        /// <param name="dimensionalityReductionService">Service for PCA and t-SNE dimensionality reduction.</param>
+        /// <param name="csvHelper">Service for exporting data to CSV format.</param>
+        /// <param name="pythonConnector">Service for running Python visualization scripts.</param>
         public Word2VecEmbeddingsDimReductionAndPlotting(
             DimensionalityReductionService dimensionalityReductionService,
             CSVHelper csvHelper,
@@ -48,9 +46,9 @@ namespace SemanticSimilarityAnalysis.Proj.Pipelines
         }
 
         /// <summary>
-        /// Executes the Word2Vec embedding pipeline, including dimensionality reduction and visualization.
+        /// Runs the pipeline by generating embeddings, reducing dimensionality, and creating visualizations.
         /// </summary>
-        /// <param name="inputs">A list of words or phrases to process.</param>
+        /// <param name="inputs">List of words or phrases to process.</param>
         /// <exception cref="ArgumentException">Thrown if the input list is empty.</exception>
         public void RunPipeline(List<string> inputs)
         {
@@ -82,15 +80,12 @@ namespace SemanticSimilarityAnalysis.Proj.Pipelines
                     Console.WriteLine("No valid embeddings found. Skipping pipeline.");
                     continue; // Skip this iteration if no valid embeddings are found
                 }
-
-                // Apply dimensionality reduction
+                
                 var reducedDataMatrix = reductionMethod(validEmbeddings);
                 var scaledData = _dimensionalityReductionService.MinMaxScaleData(reducedDataMatrix);
 
-                // Export reduced data to CSV
                 ExportReducedDimensionalityData(scaledData, validWords, csvFileName);
 
-                // Plot the results
                 _pythonConnector.PlotScatterFromCsv(csvFilePath, plotFilePath);
             }
 
@@ -98,7 +93,7 @@ namespace SemanticSimilarityAnalysis.Proj.Pipelines
         }
 
         /// <summary>
-        /// Generates valid Word2Vec embeddings for the provided inputs.
+        /// Generates valid Word2Vec embeddings for the given inputs.
         /// </summary>
         /// <param name="inputs">List of words or phrases.</param>
         /// <param name="validWords">Output list of words with valid embeddings.</param>
@@ -134,10 +129,10 @@ namespace SemanticSimilarityAnalysis.Proj.Pipelines
         }
 
         /// <summary>
-        /// Saves the reduced-dimensional data to a CSV file.
+        /// Saves the reduced-dimensional embeddings to a CSV file.
         /// </summary>
-        /// <param name="scaledData"></param>
-        /// <param name="inputs">List of words or phrases corresponding to embeddings.</param>
+        /// <param name="scaledData">Matrix containing the reduced embeddings.</param>
+        /// <param name="inputs">List of words or phrases.</param>
         /// <param name="outputCsvFileName">Filename for the output CSV file.</param>
         private void ExportReducedDimensionalityData(Matrix<double> scaledData, List<string> inputs, string outputCsvFileName)
         {
