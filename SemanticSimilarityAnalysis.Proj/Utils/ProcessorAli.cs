@@ -15,7 +15,6 @@ public class ProcessorAli
     {
         var embeddingService = _serviceProvider.GetRequiredService<OpenAiEmbeddingService>();
         var similarityCalculator = _serviceProvider.GetRequiredService<CosineSimilarity>();
-        var euclideanDistCalc = _serviceProvider.GetRequiredService<EuclideanDistance>();
         var pineconeService = _serviceProvider.GetRequiredService<PineconeService>();
         var textGenerationService = _serviceProvider.GetRequiredService<OpenAiTextGenerationService>();
         var openAiEmbeddingsDimReductionAndPlotting = _serviceProvider.GetRequiredService<OpenAiEmbeddingsDimReductionAndPlotting>();
@@ -59,55 +58,61 @@ public class ProcessorAli
 
             
             //---------------Testing pinecone refactored classes (setup+service) , Plus Multilingual testing------- 
+            //After the initial setup, the immediate query's response is not generated. Comment the third line and run the application again.
+            //Now the index will be available and query will be answered.
+           
             // string namespaceName = "profiles";
-            // string indexName = "index-ali";
-            // await pineconeSetupService.RunAsync(inputs, indexName, namespaceName); //Uncomment if new index creation setup is required. CHANGE PARAMS ACCORDNGLY
-            // string query = "What is the age of Ali?";
+            // string indexName = "dr-dobric-index";
+            // await pineconeSetupService.RunAsync(inputs, indexName, namespaceName); //Uncomment if new index creation setup is required. CHANGE PARAMS ACCORDINGLY
+            // string query = "Who is dr dobric?";
             // var pineconeTopKparagraphs = await pineconeService.QueryEmbeddingsAsync(query, indexName, namespaceName, 3, "en");
             // var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
             // Console.WriteLine($"\nAnswer: {answer}");
 
             
+            
             // -----------------Testing the chatbot------------------
-            // string namespaceName = "profiles";
-            // string indexName = "dr-dobric-index";
-            // await chatbotService.StartChatAsync(indexName, namespaceName);
+            string namespaceName = "profiles";
+            string indexName = "dr-dobric-index";
+            await chatbotService.StartChatAsync(indexName, namespaceName);
              
-             
-              //---------------Testing RagPipeline------------
-              // string namespaceName = "profiles";
-              // string indexName = "dr-dobric-index";
-              // List<string> inputQueries = new()
-              // {
-              //     "Where does Dr. Dobric live?",
-              //     "What company does Dr. Damir Dobric work for?",
-              //     "What is the research topic of Dr. Damir's in his Phd?",
-              //     "What is Dr. Damir Dobric’s academic background?",
-              //     "Where can I find more about Dr. Damir Dobric?"
-              // };
-              //
-              // List<string> groundTruthAnswers = new()
-              // {
-              //     "Dr. Dobric lives in Frankfurt Rhine-Main Metropolitan Area",
-              //     "Damir Dobric works for DAENET GmbH – ACP Digital, a Microsoft Gold Certified Partner.",
-              //     "Dr Damir's research topic in Phd is Computational Intelligence",
-              //     "Dr Damir Dobic holds a PhD in Computational Intelligence from the University of Plymouth, UK.",
-              //     "Damir's LinkedIn profile is www.linkedin.com/in/damirdobric, and his personal website is https://damirdobric.me."
-              // };
-              // List<string> generatedResponses = await ragPipeline.BatchRetrieveAndGenerateResponsesAsync(inputQueries, indexName, namespaceName, 3);
-              // for (int i = 0; i < generatedResponses.Count; i++)
-              // {
-              //     RagEvaluationResult result = await ragPipeline.EvaluateAccuracy(generatedResponses[i], groundTruthAnswers[i]);
-              //     Console.WriteLine($"Query: {inputQueries[i]}");
-              //     Console.WriteLine($"Generated Answer: {generatedResponses[i]}");
-              //     Console.WriteLine($"Ground truth Answer: {groundTruthAnswers[i]}");
-              //     Console.WriteLine($"Accuracy Results:");
-              //     Console.WriteLine($"Cosine Similarity: {result.CosineSimilarity}");
-              //     Console.WriteLine($"ROUGE-1 Score: {result.Rouge1Score}");
-              //     Console.WriteLine($"ROUGE-2 Score: {result.Rouge2Score}");
-              // }
+            
+            
+          // ---------------Testing RagPipeline------------
+          // string namespaceName = "profiles";
+          // string indexName = "dr-dobric-index";
+          // List<string> inputQueries = new()
+          // {
+          //     "Where does Dr. Dobric live?",
+          //     "What company does Dr. Damir Dobric work for?",
+          //     "What is the research topic of Dr. Damir's in his Phd?",
+          //     "What is Dr. Damir Dobric’s academic background?",
+          //     "Where can I find more about Dr. Damir Dobric?"
+          // };
+          //
+          // List<string> groundTruthAnswers = new()
+          // {
+          //     "Dr. Dobric lives in Frankfurt Rhine-Main Metropolitan Area",
+          //     "Damir Dobric works for DAENET GmbH – ACP Digital, a Microsoft Gold Certified Partner.",
+          //     "Dr Damir's research topic in Phd is Computational Intelligence",
+          //     "Dr Damir Dobic holds a PhD in Computational Intelligence from the University of Plymouth, UK.",
+          //     "Damir's LinkedIn profile is www.linkedin.com/in/damirdobric, and his personal website is https://damirdobric.me."
+          // };
+          // List<string> generatedResponses = await ragPipeline.BatchRetrieveAndGenerateResponsesAsync(inputQueries, indexName, namespaceName, 3);
+          // for (int i = 0; i < generatedResponses.Count; i++)
+          // {
+          //     RagEvaluationResult result = await ragPipeline.EvaluateAccuracy(generatedResponses[i], groundTruthAnswers[i]);
+          //     Console.WriteLine($"Query: {inputQueries[i]}");
+          //     Console.WriteLine($"Generated Answer: {generatedResponses[i]}");
+          //     Console.WriteLine($"Ground truth Answer: {groundTruthAnswers[i]}");
+          //     Console.WriteLine($"Accuracy Results:");
+          //     Console.WriteLine($"Cosine Similarity: {result.CosineSimilarity}");
+          //     Console.WriteLine($"ROUGE-1 Score: {result.Rouge1Score}");
+          //     Console.WriteLine($"ROUGE-2 Score: {result.Rouge2Score}");
+          // }
               
 
+          
 
             //-------------Word2Vec Testing for phrases and words----
             // string txtFileName = "glove.6B.300d.txt";
@@ -202,16 +207,16 @@ public class ProcessorAli
     //     "To disconnect the wireless headphones, simply turn off Bluetooth on your smartphone or power off the headphones themselves. If you're planning to use the headphones with another device, repeat the pairing process by following the same steps. It’s important to store your headphones properly when not in use to prevent any physical damage. Most headphones come with a carrying case, which should be used for protection. For longer battery life, remember to turn off the headphones when you're done using them. If your headphones support software updates, make sure to regularly check for any available updates, as these can improve the performance and introduce new features to your device."
     // };
     
-    // List<string> inputs = new List<string>
-    // {
-    //     "Dr. Damir Dobric CEO, Lead Software Architect @ daenet | Microsoft AI MVP, Microsoft Regional Director Frankfurt Rhine-Main Metropolitan Area.",
-    //     "Summary: CEO and Lead Architect of DAENET GmbH – ACP Digital, Microsoft's long-term Gold Certified Partner and a leading technology integrator specialized in software technologies, with a strong focus on Cloud Computing, IoT, and Machine Learning. Damir Dobric is a highly skilled and experienced Lead Software Architect at DAENET, a company specializing in delivering innovative software solutions and consulting services. With a strong background in software development, Damir specializes in various areas such as cloud computing, IoT, and artificial intelligence.",
-    //     "In addition to his role at DAENET, Damir is also a Microsoft Most Valuable Professional (MVP). The Microsoft MVP Award is a prestigious recognition given to exceptional technical experts who are passionate about sharing their knowledge and experiences with others. As an MVP, Damir is part of an elite group of professionals known as Microsoft Regional Directors who actively contribute to the Microsoft community by offering guidance, support, and expertise in various Microsoft technologies. Damir's commitment to excellence in software development and his dedication to helping others have earned him a reputation as a thought leader in the industry. His contributions to the Microsoft community and his work as a Lead Software Architect at DAENET showcase his expertise and passion for technology. With a keen eye for innovation and a deep understanding of cutting-edge technologies,",
-    //     "Damir Dobric is a valuable asset to both DAENET, ACP and the broader Microsoft ecosystem. His work continues to inspire and support other professionals in their pursuit of technical excellence and innovation. He serves as an external professor for Software Engineering and Cloud Computing at the Frankfurt University of Applied Sciences.",
-    //     "Damir holds a PhD in Computational Intelligence from the University of Plymouth, UK. Experience daenet CEO, Lead Software Architect 1998 - Present (27 years) Frankfurt Am Main Area, Germany Microsoft Regional Director, Most Valuable Professional and Partner Technology Solution Professional for Microsoft Azure. Education University of Plymouth PhD Computational Intelligence, Artificial Intelligence",
-    //     "Contact www.linkedin.com/in/damirdobric (LinkedIn) https://damirdobric.me/ (Personal Website). Twritte: @ddobric",
-    //     "Top Skills Windows Azure .NET Cloud Applications.",
-    //     "Publications: 1) Artifficial Intelligence: Ready, Steady Gp Blog DEVELOPERS.DE, 2) Azure Best Practices: Running th code on a memory limit Load Balancers in Microsoft Azure cloud platform. 3) Why the cortical algorithm does need a baby phase?"
-    // };
+    List<string> inputs = new List<string>
+    {
+        "Dr. Damir Dobric CEO, Lead Software Architect @ daenet | Microsoft AI MVP, Microsoft Regional Director Frankfurt Rhine-Main Metropolitan Area.",
+        "Summary: CEO and Lead Architect of DAENET GmbH – ACP Digital, Microsoft's long-term Gold Certified Partner and a leading technology integrator specialized in software technologies, with a strong focus on Cloud Computing, IoT, and Machine Learning. Damir Dobric is a highly skilled and experienced Lead Software Architect at DAENET, a company specializing in delivering innovative software solutions and consulting services. With a strong background in software development, Damir specializes in various areas such as cloud computing, IoT, and artificial intelligence.",
+        "In addition to his role at DAENET, Damir is also a Microsoft Most Valuable Professional (MVP). The Microsoft MVP Award is a prestigious recognition given to exceptional technical experts who are passionate about sharing their knowledge and experiences with others. As an MVP, Damir is part of an elite group of professionals known as Microsoft Regional Directors who actively contribute to the Microsoft community by offering guidance, support, and expertise in various Microsoft technologies. Damir's commitment to excellence in software development and his dedication to helping others have earned him a reputation as a thought leader in the industry. His contributions to the Microsoft community and his work as a Lead Software Architect at DAENET showcase his expertise and passion for technology. With a keen eye for innovation and a deep understanding of cutting-edge technologies,",
+        "Damir Dobric is a valuable asset to both DAENET, ACP and the broader Microsoft ecosystem. His work continues to inspire and support other professionals in their pursuit of technical excellence and innovation. He serves as an external professor for Software Engineering and Cloud Computing at the Frankfurt University of Applied Sciences.",
+        "Damir holds a PhD in Computational Intelligence from the University of Plymouth, UK. Experience daenet CEO, Lead Software Architect 1998 - Present (27 years) Frankfurt Am Main Area, Germany Microsoft Regional Director, Most Valuable Professional and Partner Technology Solution Professional for Microsoft Azure. Education University of Plymouth PhD Computational Intelligence, Artificial Intelligence",
+        "Contact www.linkedin.com/in/damirdobric (LinkedIn) https://damirdobric.me/ (Personal Website). Twitter: @ddobric",
+        "Top Skills Windows Azure .NET Cloud Applications.",
+        "Publications: 1) Artifficial Intelligence: Ready, Steady Gp Blog DEVELOPERS.DE, 2) Azure Best Practices: Running th code on a memory limit Load Balancers in Microsoft Azure cloud platform. 3) Why the cortical algorithm does need a baby phase?"
+    };
     
 }
