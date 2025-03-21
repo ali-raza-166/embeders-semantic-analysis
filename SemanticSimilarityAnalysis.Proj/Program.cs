@@ -11,7 +11,7 @@ var configurations = new ConfigurationBuilder()
     .Build();
 
 var serviceProvider = new ServiceCollection()
-    .RegisterServices(configurations) 
+    .RegisterServices(configurations)
     .BuildServiceProvider();
 
 var processor = serviceProvider.GetRequiredService<ProcessorAli>();

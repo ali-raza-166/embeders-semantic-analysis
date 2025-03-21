@@ -114,7 +114,8 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return @"C:\Users\YourUser\AppData\Local\Programs\Python\Python39\python39.dll"; // Adjust for Windows
+                //return @"C:\Users\YourUser\AppData\Local\Programs\Python\Python39\python39.dll"; // Adjust for Windows
+                return @"C:\Users\User\AppData\Local\Programs\Python\Python312\python312.dll";
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {

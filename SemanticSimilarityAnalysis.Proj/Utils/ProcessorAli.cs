@@ -27,7 +27,7 @@ public class ProcessorAli
         detector.AddAllLanguages();
         try
         {
-            
+
             //--------------- Creating Embeddings and Storing in a new list. SEE DATA AT THE END OF THIS FILE ----------------------------
             // var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
             // var listofEmbeddingVectors = new List<List<float>>();
@@ -37,8 +37,8 @@ public class ProcessorAli
             //     var vector = vectorValues.Values; // Get the vector for the current embedding
             //     listofEmbeddingVectors.Add(vector);
             // }
-            
-            
+
+
             //--------------- Testing Manual Method for TopK Searching --------------------------------------
             // Console.WriteLine("Results computed by Manual TopK Method");
             // var topKResults =
@@ -56,11 +56,11 @@ public class ProcessorAli
             // await openAiEmbeddingsDimReductionAndPlotting.RunPipelineAsync(inputs); 
             // word2VecEmbeddingsDimReductionAndPlotting.RunPipeline(inputs);
 
-            
+
             //---------------Testing pinecone refactored classes (setup+service) , Plus Multilingual testing------- 
             //After the initial setup, the immediate query's response is not generated. Comment the third line and run the application again.
             //Now the index will be available and query will be answered.
-           
+
             // string namespaceName = "profiles";
             // string indexName = "dr-dobric-index";
             // await pineconeSetupService.RunAsync(inputs, indexName, namespaceName); //Uncomment if new index creation setup is required. CHANGE PARAMS ACCORDINGLY
@@ -69,50 +69,50 @@ public class ProcessorAli
             // var answer = await textGenerationService.GenerateTextAsync(query, pineconeTopKparagraphs);
             // Console.WriteLine($"\nAnswer: {answer}");
 
-            
-            
+
+
             // -----------------Testing the chatbot------------------
             string namespaceName = "profiles";
             string indexName = "dr-dobric-index";
             await chatbotService.StartChatAsync(indexName, namespaceName);
-             
-            
-            
-          // ---------------Testing RagPipeline------------
-          // string namespaceName = "profiles";
-          // string indexName = "dr-dobric-index";
-          // List<string> inputQueries = new()
-          // {
-          //     "Where does Dr. Dobric live?",
-          //     "What company does Dr. Damir Dobric work for?",
-          //     "What is the research topic of Dr. Damir's in his Phd?",
-          //     "What is Dr. Damir Dobric’s academic background?",
-          //     "Where can I find more about Dr. Damir Dobric?"
-          // };
-          //
-          // List<string> groundTruthAnswers = new()
-          // {
-          //     "Dr. Dobric lives in Frankfurt Rhine-Main Metropolitan Area",
-          //     "Damir Dobric works for DAENET GmbH – ACP Digital, a Microsoft Gold Certified Partner.",
-          //     "Dr Damir's research topic in Phd is Computational Intelligence",
-          //     "Dr Damir Dobic holds a PhD in Computational Intelligence from the University of Plymouth, UK.",
-          //     "Damir's LinkedIn profile is www.linkedin.com/in/damirdobric, and his personal website is https://damirdobric.me."
-          // };
-          // List<string> generatedResponses = await ragPipeline.BatchRetrieveAndGenerateResponsesAsync(inputQueries, indexName, namespaceName, 3);
-          // for (int i = 0; i < generatedResponses.Count; i++)
-          // {
-          //     RagEvaluationResult result = await ragPipeline.EvaluateAccuracy(generatedResponses[i], groundTruthAnswers[i]);
-          //     Console.WriteLine($"Query: {inputQueries[i]}");
-          //     Console.WriteLine($"Generated Answer: {generatedResponses[i]}");
-          //     Console.WriteLine($"Ground truth Answer: {groundTruthAnswers[i]}");
-          //     Console.WriteLine($"Accuracy Results:");
-          //     Console.WriteLine($"Cosine Similarity: {result.CosineSimilarity}");
-          //     Console.WriteLine($"ROUGE-1 Score: {result.Rouge1Score}");
-          //     Console.WriteLine($"ROUGE-2 Score: {result.Rouge2Score}");
-          // }
-              
 
-          
+
+
+            // ---------------Testing RagPipeline------------
+            // string namespaceName = "profiles";
+            // string indexName = "dr-dobric-index";
+            // List<string> inputQueries = new()
+            // {
+            //     "Where does Dr. Dobric live?",
+            //     "What company does Dr. Damir Dobric work for?",
+            //     "What is the research topic of Dr. Damir's in his Phd?",
+            //     "What is Dr. Damir Dobric’s academic background?",
+            //     "Where can I find more about Dr. Damir Dobric?"
+            // };
+            //
+            // List<string> groundTruthAnswers = new()
+            // {
+            //     "Dr. Dobric lives in Frankfurt Rhine-Main Metropolitan Area",
+            //     "Damir Dobric works for DAENET GmbH – ACP Digital, a Microsoft Gold Certified Partner.",
+            //     "Dr Damir's research topic in Phd is Computational Intelligence",
+            //     "Dr Damir Dobic holds a PhD in Computational Intelligence from the University of Plymouth, UK.",
+            //     "Damir's LinkedIn profile is www.linkedin.com/in/damirdobric, and his personal website is https://damirdobric.me."
+            // };
+            // List<string> generatedResponses = await ragPipeline.BatchRetrieveAndGenerateResponsesAsync(inputQueries, indexName, namespaceName, 3);
+            // for (int i = 0; i < generatedResponses.Count; i++)
+            // {
+            //     RagEvaluationResult result = await ragPipeline.EvaluateAccuracy(generatedResponses[i], groundTruthAnswers[i]);
+            //     Console.WriteLine($"Query: {inputQueries[i]}");
+            //     Console.WriteLine($"Generated Answer: {generatedResponses[i]}");
+            //     Console.WriteLine($"Ground truth Answer: {groundTruthAnswers[i]}");
+            //     Console.WriteLine($"Accuracy Results:");
+            //     Console.WriteLine($"Cosine Similarity: {result.CosineSimilarity}");
+            //     Console.WriteLine($"ROUGE-1 Score: {result.Rouge1Score}");
+            //     Console.WriteLine($"ROUGE-2 Score: {result.Rouge2Score}");
+            // }
+
+
+
 
             //-------------Word2Vec Testing for phrases and words----
             // string txtFileName = "glove.6B.300d.txt";
@@ -141,7 +141,7 @@ public class ProcessorAli
         }
 
     }
-    
+
     // public List<string> GetMultilingualParagraphs()
     //     {
     //         return new List<string>
@@ -171,9 +171,9 @@ public class ProcessorAli
     //             "新款 MacBook Pro 提供了超薄的设计，兼具轻巧和强大的性能。尽管其外形纤薄，MacBook Pro 依然能应对高负荷任务，性能毫不妥协。键盘也经过重新设计，带来更加安静和舒适的打字体验。凭借更大的触控板和更强的扬声器，MacBook Pro 提供了卓越的工作和娱乐体验。",
     //         };
     // }
-    
+
     // var inputs = new List<string>{"Waiter work at the hospital", "hospital", "Airport", "Cat", "Dog" };
-     
+
     // var inputs = new List<string>
     // {
     //     // Manual 1: Setting up a new email account
@@ -206,7 +206,7 @@ public class ProcessorAli
     //     // Third paragraph in English:
     //     "To disconnect the wireless headphones, simply turn off Bluetooth on your smartphone or power off the headphones themselves. If you're planning to use the headphones with another device, repeat the pairing process by following the same steps. It’s important to store your headphones properly when not in use to prevent any physical damage. Most headphones come with a carrying case, which should be used for protection. For longer battery life, remember to turn off the headphones when you're done using them. If your headphones support software updates, make sure to regularly check for any available updates, as these can improve the performance and introduce new features to your device."
     // };
-    
+
     List<string> inputs = new List<string>
     {
         "Dr. Damir Dobric CEO, Lead Software Architect @ daenet | Microsoft AI MVP, Microsoft Regional Director Frankfurt Rhine-Main Metropolitan Area.",
@@ -218,5 +218,5 @@ public class ProcessorAli
         "Top Skills Windows Azure .NET Cloud Applications.",
         "Publications: 1) Artifficial Intelligence: Ready, Steady Gp Blog DEVELOPERS.DE, 2) Azure Best Practices: Running th code on a memory limit Load Balancers in Microsoft Azure cloud platform. 3) Why the cortical algorithm does need a baby phase?"
     };
-    
+
 }
