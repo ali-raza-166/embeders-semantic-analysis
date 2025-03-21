@@ -7,10 +7,18 @@ using Matrix = MathNet.Numerics.LinearAlgebra.Complex32.Matrix;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 {
+    /// <summary>
+    /// Provides dimensionality reduction techniques such as PCA and t-SNE.
+    /// Used to transform high-dimensional embeddings into lower-dimensional space for visualization and analysis.
+    /// </summary>
     public class DimensionalityReductionService
     {
         private readonly int _components;
 
+        /// <summary>
+        /// Initializes the dimensionality reduction service with a specified number of principal components.
+        /// </summary>
+        /// <param name="components">The number of dimensions to retain after reduction of dimension.</param>
         public DimensionalityReductionService(int components)
         {
             _components = components;
@@ -181,7 +189,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             // Initialize covariance matrix
             var covarianceMatrix = DenseMatrix.Create(colCount, colCount, 0.0);
 
-            // Compute covariance using nested loops
+            // Compute covariance
             for (var i = 0; i < colCount; i++)
             {
                 for (var j = 0; j < colCount; j++)

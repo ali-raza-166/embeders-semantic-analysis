@@ -11,3 +11,4 @@ Solution Items
 *.DotSettings.user
 **/Datasets/
 **/Datasets/TXTs/Sentences
+appsettings.json

@@ -17,7 +17,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
     {
         private readonly OpenAiEmbeddingService _embeddingService;
         private readonly CosineSimilarity _similarityCalculator;
-        private readonly EuclideanDistance _euclideanDistCalc;
         private readonly EmbeddingUtils _embeddingUtils;
         private readonly PdfHelper _pdfHelper;
         private readonly CSVHelper _csvHelper;
@@ -27,7 +26,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         public EmbeddingAnalysisService(
             OpenAiEmbeddingService embeddingService,
             CosineSimilarity similarityCalculator,
-            EuclideanDistance euclideanDistCalc,
             EmbeddingUtils embeddingUtils,
             PdfHelper pdfHelper,
             CSVHelper csvHelper,
@@ -37,7 +35,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         {
             _embeddingService = embeddingService;
             _similarityCalculator = similarityCalculator;
-            _euclideanDistCalc = euclideanDistCalc;
             _embeddingUtils = embeddingUtils;
             _pdfHelper = pdfHelper;
             _csvHelper = csvHelper;
@@ -92,14 +89,11 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                         continue;
                     }
 
-                    // Compute cosine similarity between the two word embeddings
                     double similarity = _similarityCalculator.ComputeCosineSimilarity(embeddings1[i].Values, embeddings2[j].Values);
 
-                    // Add the similarity score to the dictionary
                     similarities.Add(words2[j], similarity);
                 }
 
-                // Create a SimilarityPlotPoint for this row (word from words1)
                 similarityResults.Add(new SimilarityPlotPoint(words1[i], similarities));
             }
             return similarityResults;
@@ -117,7 +111,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             // Dictionary to store results for each file
             var results = new Dictionary<string, List<SimilarityPlotPoint>>();
 
-            // Check if the directory exists
             if (!Directory.Exists(inputDir))
             {
                 throw new DirectoryNotFoundException($"The folder '{inputDir}' does not exist.");
@@ -131,7 +124,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 throw new FileNotFoundException("No text files found in the specified folder.");
             }
 
-            // Process each file
             foreach (var filePath in textFiles)
             {
                 var fileName = Path.GetFileName(filePath);
@@ -173,14 +165,12 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                             similarities[phrases[j]] = similarity;
                         }
 
-                        // Add the similarity results for the current phrase
                         if (similarities.Count > 0)
                         {
                             similarityResults.Add(new SimilarityPlotPoint(phrases[i], similarities));
                         }
                     }
 
-                    // Add the results to the dictionary
                     results[fileName] = similarityResults;
                 }
                 catch (Exception ex)
@@ -227,14 +217,12 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 throw new FileNotFoundException("No PDF files found in the specified folder.");
             }
 
-            // Generate embeddings for all words
             var wordEmbeddings = await _embeddingService.CreateEmbeddingsAsync(words);
 
             foreach (var pdfFile in pdfFiles)
             {
                 try
                 {
-                    // Extract text chunks from the PDF using PdfHelper
                     var textChunks = _pdfHelper.ExtractTextChunks(pdfFile, chunkType);
 
                     if (textChunks.Count == 0)
@@ -243,10 +231,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                         continue;
                     }
 
-                    // Generate embeddings for the PDF text chunks
                     var documentEmbeddings = await _embeddingService.CreateEmbeddingsAsync(textChunks);
 
-                    // Compute the average embedding for the document
                     var documentVector = _embeddingUtils.GetAverageEmbedding(documentEmbeddings);
 
                     // Create a dictionary to store similarity scores for this PDF file
@@ -261,14 +247,11 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                             continue;
                         }
 
-                        // Compute cosine similarity between the word and the document
                         double similarity = _similarityCalculator.ComputeCosineSimilarity(wordEmbeddings[i].Values, documentVector);
 
-                        // Add the similarity score to the dictionary
                         similarities.Add(words[i], similarity);
                     }
 
-                    // Create a SimilarityPlotPoint for this PDF file
                     similarityResults.Add(new SimilarityPlotPoint(Path.GetFileNameWithoutExtension(pdfFile), similarities));
                 }
                 catch (Exception ex)
@@ -379,7 +362,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         {
             var jsonFilePath = Path.Combine(inputDir, jsonFileName);
 
-            // Check if JSON file exists
             if (!File.Exists(jsonFilePath))
                 throw new FileNotFoundException($"JSON file not found: {jsonFilePath}");
 
@@ -419,7 +401,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     Console.WriteLine($"Similarity with '{inputKey}': {similarity}");
                 }
 
-                // Create a SimilarityPlotPoint object
                 var similarityPlotPoint = new SimilarityPlotPoint(recordLabel, similarities);
                 similarityResults.Add(similarityPlotPoint);
             }
@@ -456,7 +437,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 throw new ArgumentException("The fields list cannot be null or empty.");
             }
 
-            // Construct the dataset file path
             string datasetPath = Path.Combine(inputDir, csvFileName);
             Console.WriteLine($"Extracting records from: {datasetPath}");
 
@@ -486,10 +466,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
                     if (string.IsNullOrWhiteSpace(attributeValue)) continue;
 
-                    // Generate embedding for the attribute value
                     var attributeEmbedding = await _embeddingService.CreateEmbeddingsAsync(new List<string> { attributeValue });
 
-                    // Add the generated attribute embedding to the record
                     record.AddEmbedding(attributeName, new VectorData(attributeEmbedding[0].Values));
                 }
             }
@@ -497,7 +475,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             // Ensure the 'Outputs' directory exists
             Directory.CreateDirectory(outputDir);
 
-            // Remove .csv extension from the file name
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(csvFileName);
 
             // Save the embeddings as a JSON file

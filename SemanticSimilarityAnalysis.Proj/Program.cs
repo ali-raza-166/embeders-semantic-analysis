@@ -1,70 +1,34 @@
-using LanguageDetection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI.Chat;
-using OpenAI.Embeddings;
 using SemanticSimilarityAnalysis.Proj;
-using SemanticSimilarityAnalysis.Proj.Helpers;
-using SemanticSimilarityAnalysis.Proj.Helpers.Csv;
-using SemanticSimilarityAnalysis.Proj.Helpers.Json;
-using SemanticSimilarityAnalysis.Proj.Helpers.Pdf;
-using SemanticSimilarityAnalysis.Proj.Helpers.Text;
-using SemanticSimilarityAnalysis.Proj.Pipelines;
-using SemanticSimilarityAnalysis.Proj.Services;
+using SemanticSimilarityAnalysis.Proj.Extensions;
 using SemanticSimilarityAnalysis.Proj.Utils;
 
-var model = "text-embedding-3-small";
-//var model = "text-embedding-ada-002";
-var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
-                         ?? throw new ArgumentNullException("api_key", "API key is not found.");
+var configurations = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .Build();
 
-// Setup dependency injection
 var serviceProvider = new ServiceCollection()
-    .AddSingleton<EmbeddingClient>(provider => new EmbeddingClient(model, apiKey))
-
-    .AddSingleton<ChatClient>(provider => new ChatClient("gpt-4o", apiKey))
-    .AddSingleton<OpenAiEmbeddingService>()
-    .AddSingleton<EmbeddingAnalysisService>()
-    .AddSingleton<OpenAiTextGenerationService>()
-    .AddSingleton<DimensionalityReductionService>(provider => new DimensionalityReductionService(2))
-    .AddSingleton<CosineSimilarity>()
-    .AddSingleton<EuclideanDistance>()
-    .AddSingleton<EmbeddingUtils>()
-    .AddSingleton<PdfHelper>()
-    .AddSingleton<CSVHelper>()
-    .AddSingleton<TextHelper>()
-    .AddSingleton<JsonHelper>()
-    .AddSingleton<CommandLineHelper>()
-    .AddSingleton<PineconeService>()
-    .AddSingleton<PineconeSetup>()
-    .AddSingleton<ChatbotService>()
-    .AddSingleton<RagAccuracyCalculator>()
-    .AddSingleton<RagPipeline>()
-    .AddSingleton<LanguageDetector>(provider =>
-    {
-        var detector = new LanguageDetector();
-        detector.AddAllLanguages();
-        return detector;
-    })
-    .AddSingleton<ProcessorAli>()
-    .AddSingleton<OpenAiEmbeddingsDimReductionAndPlotting>()
-    .AddSingleton<CSharpPythonConnector>()
-    .AddSingleton<Word2VecEmbeddingsDimReductionAndPlotting>()
+    .RegisterServices(configurations) 
     .BuildServiceProvider();
-
 
 var processor = serviceProvider.GetRequiredService<ProcessorAli>();
 await processor.RunAsync();
 
+
+
 ///
 /// For command line
 /// 
-//var configuration = new ConfigurationBuilder()
-//    .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
-//    .AddCommandLine(args)
-//    .Build();
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
+    .AddCommandLine(args)
+    .Build();
 
-//var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
-//await commandLineHelper.ExecuteCommandAsync(configuration);
+var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
+await commandLineHelper.ExecuteCommandAsync(configuration);
 
 ///
 /// For testing
