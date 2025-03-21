@@ -15,7 +15,6 @@ public class ProcessorAli
     {
         var embeddingService = _serviceProvider.GetRequiredService<OpenAiEmbeddingService>();
         var similarityCalculator = _serviceProvider.GetRequiredService<CosineSimilarity>();
-        var euclideanDistCalc = _serviceProvider.GetRequiredService<EuclideanDistance>();
         var pineconeService = _serviceProvider.GetRequiredService<PineconeService>();
         var textGenerationService = _serviceProvider.GetRequiredService<OpenAiTextGenerationService>();
         var openAiEmbeddingsDimReductionAndPlotting = _serviceProvider.GetRequiredService<OpenAiEmbeddingsDimReductionAndPlotting>();
