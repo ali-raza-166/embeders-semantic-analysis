@@ -4,14 +4,37 @@ using SemanticSimilarityAnalysis.Proj.Interfaces;
 
 namespace SemanticSimilarityAnalysis.Proj.Services
 {
+    /// <summary>
+    /// Service for generating text responses using OpenAI's Chat API.
+    /// </summary>
+    /// <remarks>
+    /// This service takes a query and relevant context paragraphs, then generates a response 
+    /// based on the provided information while preserving the query's original language.
+    /// </remarks>
     public class OpenAiTextGenerationService: ITextGenerator
     {
         private readonly ChatClient _openAiClient;
+        
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenAiTextGenerationService"/> class.
+        /// </summary>
+        /// <param name="openAiClient">An instance of OpenAI's chat client.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="openAiClient"/> is null.</exception>
         public OpenAiTextGenerationService(ChatClient openAiClient)
         {
             _openAiClient = openAiClient ?? throw new ArgumentNullException(nameof(openAiClient));;
         }
+        /// <summary>
+        /// Generates a text response based on a query and relevant context paragraphs.
+        /// </summary>
+        /// <param name="query">The user's query for which a response is generated.</param>
+        /// <param name="paragraphs">A list of text paragraphs providing contextual information.</param>
+        /// <returns>A generated response as a string.</returns>
+        /// <remarks>
+        /// The method constructs a prompt combining the provided context and query, ensuring the response maintains
+        /// the language of the query. It then sends the prompt to OpenAI’s Chat API for response generation.
+        /// </remarks>
         public async Task<string> GenerateTextAsync( string query, List<string> paragraphs)
         {
             var contextText = string.Join("\n\n", paragraphs);
@@ -27,21 +50,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
                              Based on the above information, answer the following question:
                              {query}";
-//             var prompt = $@"You will receive a text paragraph (context) and a question. Your task is to answer the question **only using the information from the context** while maintaining consistency in language.
-//                 
-//                 **Instructions:**
-//                 1. **Identify the language of the query.** Your response **must** be in the same language as the query.
-//                 2. **Do not introduce external knowledge.** Base your answer strictly on the provided context.
-//                 3. **Be precise and clear.** Avoid vague or overly broad responses.
-//                 4. **If the context does not contain enough information, clearly state that.** Do not guess.
-//
-//                 **Context:**  
-//                 {contextText}  
-//
-//                 **Question:**  
-//                 {query}  
-//  
-//                 **Provide your answer below, strictly following the instructions:**";
             
             ChatCompletion completion = await _openAiClient.CompleteChatAsync(prompt);
             return completion.Content[0].Text;
