@@ -1,491 +1,488 @@
 File Name,Phrase 1,Phrase 2,Similarity
 File: Bat.txt,,,
-,a bat flew out of the cave,he hit the baseball with a bat,0.4531068403320199
-,a bat flew out of the cave,she didnt bat an eye at the shocking news,0.23713513814191037
-,a bat flew out of the cave,hes been in a batting slump lately,0.29103453898601256
-,a bat flew out of the cave,the cricket player swung the bat confidently,0.41537476207651797
-,a bat flew out of the cave,the vampire turned into a bat,0.6046459025990466
-,a bat flew out of the cave,the team is at bat in this inning,0.3838568988859217
-,a bat flew out of the cave,his joke was a bat at my intelligence,0.4392069369529972
-,a bat flew out of the cave,the old house had bats in the attic,0.5473102288139409
-,a bat flew out of the cave,he went to bat for his friend during the argument,0.28450044594894813
-,he hit the baseball with a bat,she didnt bat an eye at the shocking news,0.2733834713441503
-,he hit the baseball with a bat,hes been in a batting slump lately,0.4806463038708343
-,he hit the baseball with a bat,the cricket player swung the bat confidently,0.5569416409049971
-,he hit the baseball with a bat,the vampire turned into a bat,0.3971639478252406
-,he hit the baseball with a bat,the team is at bat in this inning,0.4844062831363314
-,he hit the baseball with a bat,his joke was a bat at my intelligence,0.42059447214153406
-,he hit the baseball with a bat,the old house had bats in the attic,0.346184093820025
-,he hit the baseball with a bat,he went to bat for his friend during the argument,0.37821617492467824
-,she didnt bat an eye at the shocking news,hes been in a batting slump lately,0.1757324818731514
-,she didnt bat an eye at the shocking news,the cricket player swung the bat confidently,0.2586167433904838
-,she didnt bat an eye at the shocking news,the vampire turned into a bat,0.24329253402460604
-,she didnt bat an eye at the shocking news,the team is at bat in this inning,0.16522945847875978
-,she didnt bat an eye at the shocking news,his joke was a bat at my intelligence,0.27504629957252247
-,she didnt bat an eye at the shocking news,the old house had bats in the attic,0.22741445060090112
-,she didnt bat an eye at the shocking news,he went to bat for his friend during the argument,0.2676204713809365
-,hes been in a batting slump lately,the cricket player swung the bat confidently,0.4237165672654355
-,hes been in a batting slump lately,the vampire turned into a bat,0.32002592862458673
-,hes been in a batting slump lately,the team is at bat in this inning,0.45880917109572633
-,hes been in a batting slump lately,his joke was a bat at my intelligence,0.32635431576764495
-,hes been in a batting slump lately,the old house had bats in the attic,0.27591989052994603
-,hes been in a batting slump lately,he went to bat for his friend during the argument,0.33390740737666036
-,the cricket player swung the bat confidently,the vampire turned into a bat,0.3313154701225905
-,the cricket player swung the bat confidently,the team is at bat in this inning,0.43124230758423265
-,the cricket player swung the bat confidently,his joke was a bat at my intelligence,0.38201731759240176
-,the cricket player swung the bat confidently,the old house had bats in the attic,0.31269350468531826
-,the cricket player swung the bat confidently,he went to bat for his friend during the argument,0.34731844841978665
-,the vampire turned into a bat,the team is at bat in this inning,0.2948245374316373
-,the vampire turned into a bat,his joke was a bat at my intelligence,0.4622158511914554
-,the vampire turned into a bat,the old house had bats in the attic,0.5506789051792162
-,the vampire turned into a bat,he went to bat for his friend during the argument,0.27128412614919545
-,the team is at bat in this inning,his joke was a bat at my intelligence,0.29299880527961725
-,the team is at bat in this inning,the old house had bats in the attic,0.31215431999054627
-,the team is at bat in this inning,he went to bat for his friend during the argument,0.29975127622125153
-,his joke was a bat at my intelligence,the old house had bats in the attic,0.3976873479151719
-,his joke was a bat at my intelligence,he went to bat for his friend during the argument,0.3471993956354794
-,the old house had bats in the attic,he went to bat for his friend during the argument,0.25822758637326376
+,a bat flew out of the cave,he hit the baseball with a bat,0.45310684
+,a bat flew out of the cave,she didnt bat an eye at the shocking news,0.237135138
+,a bat flew out of the cave,hes been in a batting slump lately,0.291034539
+,a bat flew out of the cave,the cricket player swung the bat confidently,0.415374762
+,a bat flew out of the cave,the vampire turned into a bat,0.604645903
+,a bat flew out of the cave,the team is at bat in this inning,0.383856899
+,a bat flew out of the cave,his joke was a bat at my intelligence,0.439206937
+,a bat flew out of the cave,the old house had bats in the attic,0.547310229
+,a bat flew out of the cave,he went to bat for his friend during the argument,0.284500446
+,he hit the baseball with a bat,she didnt bat an eye at the shocking news,0.273383471
+,he hit the baseball with a bat,hes been in a batting slump lately,0.480646304
+,he hit the baseball with a bat,the cricket player swung the bat confidently,0.556941641
+,he hit the baseball with a bat,the vampire turned into a bat,0.397163948
+,he hit the baseball with a bat,the team is at bat in this inning,0.484406283
+,he hit the baseball with a bat,his joke was a bat at my intelligence,0.420594472
+,he hit the baseball with a bat,the old house had bats in the attic,0.346184094
+,he hit the baseball with a bat,he went to bat for his friend during the argument,0.378216175
+,she didnt bat an eye at the shocking news,hes been in a batting slump lately,0.175732482
+,she didnt bat an eye at the shocking news,the cricket player swung the bat confidently,0.258616743
+,she didnt bat an eye at the shocking news,the vampire turned into a bat,0.243292534
+,she didnt bat an eye at the shocking news,the team is at bat in this inning,0.165229458
+,she didnt bat an eye at the shocking news,his joke was a bat at my intelligence,0.2750463
+,she didnt bat an eye at the shocking news,the old house had bats in the attic,0.227414451
+,she didnt bat an eye at the shocking news,he went to bat for his friend during the argument,0.267620471
+,hes been in a batting slump lately,the cricket player swung the bat confidently,0.423716567
+,hes been in a batting slump lately,the vampire turned into a bat,0.320025929
+,hes been in a batting slump lately,the team is at bat in this inning,0.458809171
+,hes been in a batting slump lately,his joke was a bat at my intelligence,0.326354316
+,hes been in a batting slump lately,the old house had bats in the attic,0.275919891
+,hes been in a batting slump lately,he went to bat for his friend during the argument,0.333907407
+,the cricket player swung the bat confidently,the vampire turned into a bat,0.33131547
+,the cricket player swung the bat confidently,the team is at bat in this inning,0.431242308
+,the cricket player swung the bat confidently,his joke was a bat at my intelligence,0.382017318
+,the cricket player swung the bat confidently,the old house had bats in the attic,0.312693505
+,the cricket player swung the bat confidently,he went to bat for his friend during the argument,0.347318448
+,the vampire turned into a bat,the team is at bat in this inning,0.294824537
+,the vampire turned into a bat,his joke was a bat at my intelligence,0.462215851
+,the vampire turned into a bat,the old house had bats in the attic,0.550678905
+,the vampire turned into a bat,he went to bat for his friend during the argument,0.271284126
+,the team is at bat in this inning,his joke was a bat at my intelligence,0.292998805
+,the team is at bat in this inning,the old house had bats in the attic,0.31215432
+,the team is at bat in this inning,he went to bat for his friend during the argument,0.299751276
+,his joke was a bat at my intelligence,the old house had bats in the attic,0.397687348
+,his joke was a bat at my intelligence,he went to bat for his friend during the argument,0.347199396
+,the old house had bats in the attic,he went to bat for his friend during the argument,0.258227586
 ,,,
 ,,,
 ,,,
 File: Break.txt,,,
-,i dont want to break my phone,lets take a break before we continue,0.30934462649549294
-,i dont want to break my phone,the police finally broke the case,0.23498335260412043
-,i dont want to break my phone,she broke into tears,0.28867706500425944
-,i dont want to break my phone,the clouds broke revealing the sun,0.22078150976084815
-,i dont want to break my phone,the stock market broke a new record,0.1950911013064784
-,i dont want to break my phone,he broke the silence with a joke,0.23143622272181352
-,i dont want to break my phone,the prisoner broke out of jail,0.27275866341486577
-,i dont want to break my phone,he broke the law and was arrested,0.2737764815843628
-,i dont want to break my phone,the news broke early this morning,0.18203946176788913
-,lets take a break before we continue,the police finally broke the case,0.2865331394372098
-,lets take a break before we continue,she broke into tears,0.2649673009936501
-,lets take a break before we continue,the clouds broke revealing the sun,0.26571549748008616
-,lets take a break before we continue,the stock market broke a new record,0.23379599433135936
-,lets take a break before we continue,he broke the silence with a joke,0.3170042689599414
-,lets take a break before we continue,the prisoner broke out of jail,0.22391979161275055
-,lets take a break before we continue,he broke the law and was arrested,0.17847433078991987
-,lets take a break before we continue,the news broke early this morning,0.23949775530209194
-,the police finally broke the case,she broke into tears,0.3485540645320784
-,the police finally broke the case,the clouds broke revealing the sun,0.34922412241812195
-,the police finally broke the case,the stock market broke a new record,0.3589683163908244
-,the police finally broke the case,he broke the silence with a joke,0.2971577101751949
-,the police finally broke the case,the prisoner broke out of jail,0.43315125288180695
-,the police finally broke the case,he broke the law and was arrested,0.42414679645531556
-,the police finally broke the case,the news broke early this morning,0.4124390369010135
-,she broke into tears,the clouds broke revealing the sun,0.3921927379801207
-,she broke into tears,the stock market broke a new record,0.30665491204139694
-,she broke into tears,he broke the silence with a joke,0.3884286842763909
-,she broke into tears,the prisoner broke out of jail,0.39177960639282094
-,she broke into tears,he broke the law and was arrested,0.34939582389577517
-,she broke into tears,the news broke early this morning,0.3021338320624292
-,the clouds broke revealing the sun,the stock market broke a new record,0.3820677599364126
-,the clouds broke revealing the sun,he broke the silence with a joke,0.3778480860050963
-,the clouds broke revealing the sun,the prisoner broke out of jail,0.34975992773959375
-,the clouds broke revealing the sun,he broke the law and was arrested,0.30855874940004024
-,the clouds broke revealing the sun,the news broke early this morning,0.39319131995351436
-,the stock market broke a new record,he broke the silence with a joke,0.326923433237952
-,the stock market broke a new record,the prisoner broke out of jail,0.35331332181252734
-,the stock market broke a new record,he broke the law and was arrested,0.2935987760314843
-,the stock market broke a new record,the news broke early this morning,0.37470429622145257
-,he broke the silence with a joke,the prisoner broke out of jail,0.349350025328434
-,he broke the silence with a joke,he broke the law and was arrested,0.3617869599693716
-,he broke the silence with a joke,the news broke early this morning,0.3526727270772656
-,the prisoner broke out of jail,he broke the law and was arrested,0.5212743367795467
-,the prisoner broke out of jail,the news broke early this morning,0.33831768980816807
-,he broke the law and was arrested,the news broke early this morning,0.29181681923499747
+,i dont want to break my phone,lets take a break before we continue,0.309344626
+,i dont want to break my phone,the police finally broke the case,0.234983353
+,i dont want to break my phone,she broke into tears,0.288677065
+,i dont want to break my phone,the clouds broke revealing the sun,0.22078151
+,i dont want to break my phone,the stock market broke a new record,0.195091101
+,i dont want to break my phone,he broke the silence with a joke,0.231436223
+,i dont want to break my phone,the prisoner broke out of jail,0.272758663
+,i dont want to break my phone,he broke the law and was arrested,0.273776482
+,i dont want to break my phone,the news broke early this morning,0.182039462
+,lets take a break before we continue,the police finally broke the case,0.286533139
+,lets take a break before we continue,she broke into tears,0.264967301
+,lets take a break before we continue,the clouds broke revealing the sun,0.265715497
+,lets take a break before we continue,the stock market broke a new record,0.233795994
+,lets take a break before we continue,he broke the silence with a joke,0.317004269
+,lets take a break before we continue,the prisoner broke out of jail,0.223919792
+,lets take a break before we continue,he broke the law and was arrested,0.178474331
+,lets take a break before we continue,the news broke early this morning,0.239497755
+,the police finally broke the case,she broke into tears,0.348554065
+,the police finally broke the case,the clouds broke revealing the sun,0.349224122
+,the police finally broke the case,the stock market broke a new record,0.358968316
+,the police finally broke the case,he broke the silence with a joke,0.29715771
+,the police finally broke the case,the prisoner broke out of jail,0.433151253
+,the police finally broke the case,he broke the law and was arrested,0.424146796
+,the police finally broke the case,the news broke early this morning,0.412439037
+,she broke into tears,the clouds broke revealing the sun,0.392192738
+,she broke into tears,the stock market broke a new record,0.306654912
+,she broke into tears,he broke the silence with a joke,0.388428684
+,she broke into tears,the prisoner broke out of jail,0.391779606
+,she broke into tears,he broke the law and was arrested,0.349395824
+,she broke into tears,the news broke early this morning,0.302133832
+,the clouds broke revealing the sun,the stock market broke a new record,0.38206776
+,the clouds broke revealing the sun,he broke the silence with a joke,0.377848086
+,the clouds broke revealing the sun,the prisoner broke out of jail,0.349759928
+,the clouds broke revealing the sun,he broke the law and was arrested,0.308558749
+,the clouds broke revealing the sun,the news broke early this morning,0.39319132
+,the stock market broke a new record,he broke the silence with a joke,0.326923433
+,the stock market broke a new record,the prisoner broke out of jail,0.353313322
+,the stock market broke a new record,he broke the law and was arrested,0.293598776
+,the stock market broke a new record,the news broke early this morning,0.374704296
+,he broke the silence with a joke,the prisoner broke out of jail,0.349350025
+,he broke the silence with a joke,he broke the law and was arrested,0.36178696
+,he broke the silence with a joke,the news broke early this morning,0.352672727
+,the prisoner broke out of jail,he broke the law and was arrested,0.521274337
+,the prisoner broke out of jail,the news broke early this morning,0.33831769
+,he broke the law and was arrested,the news broke early this morning,0.291816819
 ,,,
 ,,,
 ,,,
 File: Drive.txt,,,
-,he drives a sports car,she has a strong drive to succeed,0.42797463455379053
-,he drives a sports car,the software update requires a new hard drive,0.20023856242390198
-,he drives a sports car,we took a long drive along the coast,0.3002309282347399
-,he drives a sports car,he drove the nail into the wood,0.42589739831431417
-,he drives a sports car,the campaign aims to drive change in society,0.20840308016408315
-,he drives a sports car,his constant nagging drives me crazy,0.33235078812231184
-,he drives a sports car,the company is launching a sales drive,0.36216053369104473
-,he drives a sports car,the ball was driven far into the field,0.341705570778401
-,he drives a sports car,the athlete has a competitive drive,0.49878239713011085
-,she has a strong drive to succeed,the software update requires a new hard drive,0.23415759135887698
-,she has a strong drive to succeed,we took a long drive along the coast,0.18737417129223552
-,she has a strong drive to succeed,he drove the nail into the wood,0.3172803906653615
-,she has a strong drive to succeed,the campaign aims to drive change in society,0.2962535528150879
-,she has a strong drive to succeed,his constant nagging drives me crazy,0.3118938640741927
-,she has a strong drive to succeed,the company is launching a sales drive,0.3676765788687548
-,she has a strong drive to succeed,the ball was driven far into the field,0.2618868616738874
-,she has a strong drive to succeed,the athlete has a competitive drive,0.6134308775868089
-,the software update requires a new hard drive,we took a long drive along the coast,0.1584901129875751
-,the software update requires a new hard drive,he drove the nail into the wood,0.24565019496908222
-,the software update requires a new hard drive,the campaign aims to drive change in society,0.1513456809391819
-,the software update requires a new hard drive,his constant nagging drives me crazy,0.21236574880309214
-,the software update requires a new hard drive,the company is launching a sales drive,0.3152406854287419
-,the software update requires a new hard drive,the ball was driven far into the field,0.1536881929747846
-,the software update requires a new hard drive,the athlete has a competitive drive,0.18063010644750233
-,we took a long drive along the coast,he drove the nail into the wood,0.2964918239821399
-,we took a long drive along the coast,the campaign aims to drive change in society,0.14684104267231812
-,we took a long drive along the coast,his constant nagging drives me crazy,0.1625655172184954
-,we took a long drive along the coast,the company is launching a sales drive,0.24658039686444605
-,we took a long drive along the coast,the ball was driven far into the field,0.39278138856597655
-,we took a long drive along the coast,the athlete has a competitive drive,0.14571103478440497
-,he drove the nail into the wood,the campaign aims to drive change in society,0.18295602049549395
-,he drove the nail into the wood,his constant nagging drives me crazy,0.3566530983302365
-,he drove the nail into the wood,the company is launching a sales drive,0.258288047145242
-,he drove the nail into the wood,the ball was driven far into the field,0.391984041990188
-,he drove the nail into the wood,the athlete has a competitive drive,0.29832871648161147
-,the campaign aims to drive change in society,his constant nagging drives me crazy,0.1447974576365389
-,the campaign aims to drive change in society,the company is launching a sales drive,0.42643099004193874
-,the campaign aims to drive change in society,the ball was driven far into the field,0.17215733020675206
-,the campaign aims to drive change in society,the athlete has a competitive drive,0.2746587218791392
-,his constant nagging drives me crazy,the company is launching a sales drive,0.19321566702432008
-,his constant nagging drives me crazy,the ball was driven far into the field,0.14798679851665103
-,his constant nagging drives me crazy,the athlete has a competitive drive,0.2342034180526878
-,the company is launching a sales drive,the ball was driven far into the field,0.2823436142463885
-,the company is launching a sales drive,the athlete has a competitive drive,0.3416781636001049
-,the ball was driven far into the field,the athlete has a competitive drive,0.29446996497842115
+,he drives a sports car,she has a strong drive to succeed,0.427974635
+,he drives a sports car,the software update requires a new hard drive,0.200238562
+,he drives a sports car,we took a long drive along the coast,0.300230928
+,he drives a sports car,he drove the nail into the wood,0.425897398
+,he drives a sports car,the campaign aims to drive change in society,0.20840308
+,he drives a sports car,his constant nagging drives me crazy,0.332350788
+,he drives a sports car,the company is launching a sales drive,0.362160534
+,he drives a sports car,the ball was driven far into the field,0.341705571
+,he drives a sports car,the athlete has a competitive drive,0.498782397
+,she has a strong drive to succeed,the software update requires a new hard drive,0.234157591
+,she has a strong drive to succeed,we took a long drive along the coast,0.187374171
+,she has a strong drive to succeed,he drove the nail into the wood,0.317280391
+,she has a strong drive to succeed,the campaign aims to drive change in society,0.296253553
+,she has a strong drive to succeed,his constant nagging drives me crazy,0.311893864
+,she has a strong drive to succeed,the company is launching a sales drive,0.367676579
+,she has a strong drive to succeed,the ball was driven far into the field,0.261886862
+,she has a strong drive to succeed,the athlete has a competitive drive,0.613430878
+,the software update requires a new hard drive,we took a long drive along the coast,0.158490113
+,the software update requires a new hard drive,he drove the nail into the wood,0.245650195
+,the software update requires a new hard drive,the campaign aims to drive change in society,0.151345681
+,the software update requires a new hard drive,his constant nagging drives me crazy,0.212365749
+,the software update requires a new hard drive,the company is launching a sales drive,0.315240685
+,the software update requires a new hard drive,the ball was driven far into the field,0.153688193
+,the software update requires a new hard drive,the athlete has a competitive drive,0.180630106
+,we took a long drive along the coast,he drove the nail into the wood,0.296491824
+,we took a long drive along the coast,the campaign aims to drive change in society,0.146841043
+,we took a long drive along the coast,his constant nagging drives me crazy,0.162565517
+,we took a long drive along the coast,the company is launching a sales drive,0.246580397
+,we took a long drive along the coast,the ball was driven far into the field,0.392781389
+,we took a long drive along the coast,the athlete has a competitive drive,0.145711035
+,he drove the nail into the wood,the campaign aims to drive change in society,0.18295602
+,he drove the nail into the wood,his constant nagging drives me crazy,0.356653098
+,he drove the nail into the wood,the company is launching a sales drive,0.258288047
+,he drove the nail into the wood,the ball was driven far into the field,0.391984042
+,he drove the nail into the wood,the athlete has a competitive drive,0.298328716
+,the campaign aims to drive change in society,his constant nagging drives me crazy,0.144797458
+,the campaign aims to drive change in society,the company is launching a sales drive,0.42643099
+,the campaign aims to drive change in society,the ball was driven far into the field,0.17215733
+,the campaign aims to drive change in society,the athlete has a competitive drive,0.274658722
+,his constant nagging drives me crazy,the company is launching a sales drive,0.193215667
+,his constant nagging drives me crazy,the ball was driven far into the field,0.147986799
+,his constant nagging drives me crazy,the athlete has a competitive drive,0.234203418
+,the company is launching a sales drive,the ball was driven far into the field,0.282343614
+,the company is launching a sales drive,the athlete has a competitive drive,0.341678164
+,the ball was driven far into the field,the athlete has a competitive drive,0.294469965
 ,,,
 ,,,
 ,,,
 File: Fall.txt,,,
-,the leaves fall in autumn,be careful not to fall on the ice,0.2822982246656337
-,the leaves fall in autumn,the stock prices fell drastically,0.27057516037612034
-,the leaves fall in autumn,he fell in love with her instantly,0.19236693250901993
-,the leaves fall in autumn,the kingdom fell after the war,0.3256991567835478
-,the leaves fall in autumn,the responsibility falls on me,0.27341599356946455
-,the leaves fall in autumn,the temperature fell to freezing,0.3038342690922363
-,the leaves fall in autumn,the noise level falls after midnight,0.30687577138459277
-,the leaves fall in autumn,his words fall on deaf ears,0.27035688573264344
-,the leaves fall in autumn,she fell asleep while reading,0.24037328377338602
-,be careful not to fall on the ice,the stock prices fell drastically,0.17445108904599302
-,be careful not to fall on the ice,he fell in love with her instantly,0.13704871393689166
-,be careful not to fall on the ice,the kingdom fell after the war,0.11578272009662444
-,be careful not to fall on the ice,the responsibility falls on me,0.25389334862336504
-,be careful not to fall on the ice,the temperature fell to freezing,0.3730972611148614
-,be careful not to fall on the ice,the noise level falls after midnight,0.19381257388938025
-,be careful not to fall on the ice,his words fall on deaf ears,0.21893657527881538
-,be careful not to fall on the ice,she fell asleep while reading,0.19129156393611424
-,the stock prices fell drastically,he fell in love with her instantly,0.2046934569744574
-,the stock prices fell drastically,the kingdom fell after the war,0.3407030740628877
-,the stock prices fell drastically,the responsibility falls on me,0.12807467041574996
-,the stock prices fell drastically,the temperature fell to freezing,0.3665982393876148
-,the stock prices fell drastically,the noise level falls after midnight,0.2413003173743628
-,the stock prices fell drastically,his words fall on deaf ears,0.2388407930077653
-,the stock prices fell drastically,she fell asleep while reading,0.20908482989157115
-,he fell in love with her instantly,the kingdom fell after the war,0.21959249850066415
-,he fell in love with her instantly,the responsibility falls on me,0.13864039756497723
-,he fell in love with her instantly,the temperature fell to freezing,0.1886851928253258
-,he fell in love with her instantly,the noise level falls after midnight,0.07772702671559631
-,he fell in love with her instantly,his words fall on deaf ears,0.22723687475750912
-,he fell in love with her instantly,she fell asleep while reading,0.37381072597197046
-,the kingdom fell after the war,the responsibility falls on me,0.17273608568784854
-,the kingdom fell after the war,the temperature fell to freezing,0.25184220947765146
-,the kingdom fell after the war,the noise level falls after midnight,0.22921840654241654
-,the kingdom fell after the war,his words fall on deaf ears,0.28589656436057936
-,the kingdom fell after the war,she fell asleep while reading,0.26859925455736267
-,the responsibility falls on me,the temperature fell to freezing,0.1377818775365412
-,the responsibility falls on me,the noise level falls after midnight,0.16289709705965524
-,the responsibility falls on me,his words fall on deaf ears,0.2605752534162635
-,the responsibility falls on me,she fell asleep while reading,0.17383206757629194
-,the temperature fell to freezing,the noise level falls after midnight,0.32261070030362426
-,the temperature fell to freezing,his words fall on deaf ears,0.20107270633727514
-,the temperature fell to freezing,she fell asleep while reading,0.23715226979183957
-,the noise level falls after midnight,his words fall on deaf ears,0.24112004138078313
-,the noise level falls after midnight,she fell asleep while reading,0.2363675183747752
-,his words fall on deaf ears,she fell asleep while reading,0.25334247910796903
+,the leaves fall in autumn,be careful not to fall on the ice,0.282298225
+,the leaves fall in autumn,the stock prices fell drastically,0.27057516
+,the leaves fall in autumn,he fell in love with her instantly,0.192366933
+,the leaves fall in autumn,the kingdom fell after the war,0.325699157
+,the leaves fall in autumn,the responsibility falls on me,0.273415994
+,the leaves fall in autumn,the temperature fell to freezing,0.303834269
+,the leaves fall in autumn,the noise level falls after midnight,0.306875771
+,the leaves fall in autumn,his words fall on deaf ears,0.270356886
+,the leaves fall in autumn,she fell asleep while reading,0.240373284
+,be careful not to fall on the ice,the stock prices fell drastically,0.174451089
+,be careful not to fall on the ice,he fell in love with her instantly,0.137048714
+,be careful not to fall on the ice,the kingdom fell after the war,0.11578272
+,be careful not to fall on the ice,the responsibility falls on me,0.253893349
+,be careful not to fall on the ice,the temperature fell to freezing,0.373097261
+,be careful not to fall on the ice,the noise level falls after midnight,0.193812574
+,be careful not to fall on the ice,his words fall on deaf ears,0.218936575
+,be careful not to fall on the ice,she fell asleep while reading,0.191291564
+,the stock prices fell drastically,he fell in love with her instantly,0.204693457
+,the stock prices fell drastically,the kingdom fell after the war,0.340703074
+,the stock prices fell drastically,the responsibility falls on me,0.12807467
+,the stock prices fell drastically,the temperature fell to freezing,0.366598239
+,the stock prices fell drastically,the noise level falls after midnight,0.241300317
+,the stock prices fell drastically,his words fall on deaf ears,0.238840793
+,the stock prices fell drastically,she fell asleep while reading,0.20908483
+,he fell in love with her instantly,the kingdom fell after the war,0.219592499
+,he fell in love with her instantly,the responsibility falls on me,0.138640398
+,he fell in love with her instantly,the temperature fell to freezing,0.188685193
+,he fell in love with her instantly,the noise level falls after midnight,0.077727027
+,he fell in love with her instantly,his words fall on deaf ears,0.227236875
+,he fell in love with her instantly,she fell asleep while reading,0.373810726
+,the kingdom fell after the war,the responsibility falls on me,0.172736086
+,the kingdom fell after the war,the temperature fell to freezing,0.251842209
+,the kingdom fell after the war,the noise level falls after midnight,0.229218407
+,the kingdom fell after the war,his words fall on deaf ears,0.285896564
+,the kingdom fell after the war,she fell asleep while reading,0.268599255
+,the responsibility falls on me,the temperature fell to freezing,0.137781878
+,the responsibility falls on me,the noise level falls after midnight,0.162897097
+,the responsibility falls on me,his words fall on deaf ears,0.260575253
+,the responsibility falls on me,she fell asleep while reading,0.173832068
+,the temperature fell to freezing,the noise level falls after midnight,0.3226107
+,the temperature fell to freezing,his words fall on deaf ears,0.201072706
+,the temperature fell to freezing,she fell asleep while reading,0.23715227
+,the noise level falls after midnight,his words fall on deaf ears,0.241120041
+,the noise level falls after midnight,she fell asleep while reading,0.236367518
+,his words fall on deaf ears,she fell asleep while reading,0.253342479
 ,,,
 ,,,
 ,,,
 File: Fine.txt,,,
-,the weather is fine today,he had to pay a parking fine,0.26908808822486174
-,the weather is fine today,she has fine handwriting,0.26786078568991434
-,the weather is fine today,the silk is very fine and smooth,0.3189339217769287
-,the weather is fine today,the teacher fined him for being late,0.2898514334865744
-,the weather is fine today,he is feeling fine now,0.4894084005890107
-,the weather is fine today,the artist worked with fine brushes,0.25376131787164347
-,the weather is fine today,theres a fine line between confidence and arrogance,0.20329459123514848
-,the weather is fine today,they are in fine spirits today,0.5998847978031397
-,the weather is fine today,the flour must be ground into a fine powder,0.20240428027905724
-,he had to pay a parking fine,she has fine handwriting,0.23934255097345092
-,he had to pay a parking fine,the silk is very fine and smooth,0.09701215129951514
-,he had to pay a parking fine,the teacher fined him for being late,0.5342143225710988
-,he had to pay a parking fine,he is feeling fine now,0.3192935559373669
-,he had to pay a parking fine,the artist worked with fine brushes,0.21585007948634063
-,he had to pay a parking fine,theres a fine line between confidence and arrogance,0.14686409635326866
-,he had to pay a parking fine,they are in fine spirits today,0.16158267087931483
-,he had to pay a parking fine,the flour must be ground into a fine powder,0.15599999015490543
-,she has fine handwriting,the silk is very fine and smooth,0.3545188893981591
-,she has fine handwriting,the teacher fined him for being late,0.2645187729122193
-,she has fine handwriting,he is feeling fine now,0.2468705445115024
-,she has fine handwriting,the artist worked with fine brushes,0.4819755597606118
-,she has fine handwriting,theres a fine line between confidence and arrogance,0.1899718097419116
-,she has fine handwriting,they are in fine spirits today,0.24541202172511767
-,she has fine handwriting,the flour must be ground into a fine powder,0.2637237400452583
-,the silk is very fine and smooth,the teacher fined him for being late,0.14165759505059836
-,the silk is very fine and smooth,he is feeling fine now,0.2469973639340678
-,the silk is very fine and smooth,the artist worked with fine brushes,0.386738071399262
-,the silk is very fine and smooth,theres a fine line between confidence and arrogance,0.21949165059081832
-,the silk is very fine and smooth,they are in fine spirits today,0.26993237718446345
-,the silk is very fine and smooth,the flour must be ground into a fine powder,0.33968964672720986
-,the teacher fined him for being late,he is feeling fine now,0.3222748493596837
-,the teacher fined him for being late,the artist worked with fine brushes,0.2390290358571068
-,the teacher fined him for being late,theres a fine line between confidence and arrogance,0.12891699315014063
-,the teacher fined him for being late,they are in fine spirits today,0.20948136354176644
-,the teacher fined him for being late,the flour must be ground into a fine powder,0.17870025872032705
-,he is feeling fine now,the artist worked with fine brushes,0.247788859576605
-,he is feeling fine now,theres a fine line between confidence and arrogance,0.19010768537576114
-,he is feeling fine now,they are in fine spirits today,0.5546052552539111
-,he is feeling fine now,the flour must be ground into a fine powder,0.1676159018624103
-,the artist worked with fine brushes,theres a fine line between confidence and arrogance,0.20181158543383695
-,the artist worked with fine brushes,they are in fine spirits today,0.24449031899051196
-,the artist worked with fine brushes,the flour must be ground into a fine powder,0.28381296806492906
-,theres a fine line between confidence and arrogance,they are in fine spirits today,0.2747250464435163
-,theres a fine line between confidence and arrogance,the flour must be ground into a fine powder,0.16234109362886093
-,they are in fine spirits today,the flour must be ground into a fine powder,0.19370258452015668
+,the weather is fine today,he had to pay a parking fine,0.269088088
+,the weather is fine today,she has fine handwriting,0.267860786
+,the weather is fine today,the silk is very fine and smooth,0.318933922
+,the weather is fine today,the teacher fined him for being late,0.289851433
+,the weather is fine today,he is feeling fine now,0.489408401
+,the weather is fine today,the artist worked with fine brushes,0.253761318
+,the weather is fine today,theres a fine line between confidence and arrogance,0.203294591
+,the weather is fine today,they are in fine spirits today,0.599884798
+,the weather is fine today,the flour must be ground into a fine powder,0.20240428
+,he had to pay a parking fine,she has fine handwriting,0.239342551
+,he had to pay a parking fine,the silk is very fine and smooth,0.097012151
+,he had to pay a parking fine,the teacher fined him for being late,0.534214323
+,he had to pay a parking fine,he is feeling fine now,0.319293556
+,he had to pay a parking fine,the artist worked with fine brushes,0.215850079
+,he had to pay a parking fine,theres a fine line between confidence and arrogance,0.146864096
+,he had to pay a parking fine,they are in fine spirits today,0.161582671
+,he had to pay a parking fine,the flour must be ground into a fine powder,0.15599999
+,she has fine handwriting,the silk is very fine and smooth,0.354518889
+,she has fine handwriting,the teacher fined him for being late,0.264518773
+,she has fine handwriting,he is feeling fine now,0.246870545
+,she has fine handwriting,the artist worked with fine brushes,0.48197556
+,she has fine handwriting,theres a fine line between confidence and arrogance,0.18997181
+,she has fine handwriting,they are in fine spirits today,0.245412022
+,she has fine handwriting,the flour must be ground into a fine powder,0.26372374
+,the silk is very fine and smooth,the teacher fined him for being late,0.141657595
+,the silk is very fine and smooth,he is feeling fine now,0.246997364
+,the silk is very fine and smooth,the artist worked with fine brushes,0.386738071
+,the silk is very fine and smooth,theres a fine line between confidence and arrogance,0.219491651
+,the silk is very fine and smooth,they are in fine spirits today,0.269932377
+,the silk is very fine and smooth,the flour must be ground into a fine powder,0.339689647
+,the teacher fined him for being late,he is feeling fine now,0.322274849
+,the teacher fined him for being late,the artist worked with fine brushes,0.239029036
+,the teacher fined him for being late,theres a fine line between confidence and arrogance,0.128916993
+,the teacher fined him for being late,they are in fine spirits today,0.209481364
+,the teacher fined him for being late,the flour must be ground into a fine powder,0.178700259
+,he is feeling fine now,the artist worked with fine brushes,0.24778886
+,he is feeling fine now,theres a fine line between confidence and arrogance,0.190107685
+,he is feeling fine now,they are in fine spirits today,0.554605255
+,he is feeling fine now,the flour must be ground into a fine powder,0.167615902
+,the artist worked with fine brushes,theres a fine line between confidence and arrogance,0.201811585
+,the artist worked with fine brushes,they are in fine spirits today,0.244490319
+,the artist worked with fine brushes,the flour must be ground into a fine powder,0.283812968
+,theres a fine line between confidence and arrogance,they are in fine spirits today,0.274725046
+,theres a fine line between confidence and arrogance,the flour must be ground into a fine powder,0.162341094
+,they are in fine spirits today,the flour must be ground into a fine powder,0.193702585
 ,,,
 ,,,
 ,,,
 File: Light.txt,,,
-,the room was filled with light,this box is very light to carry,0.34737584534288407
-,the room was filled with light,i prefer a light meal in the evening,0.2966980134034858
-,the room was filled with light,she wore a light blue dress,0.3924738435793606
-,the room was filled with light,he has a light touch when playing the piano,0.34525255148360984
-,the room was filled with light,the situation called for light humor,0.4261268857185573
-,the room was filled with light,please light the candle,0.43426721480351027
-,the room was filled with light,he saw the light and changed his ways,0.37700011317850574
-,the room was filled with light,the traffic light turned red,0.35045119703137945
-,the room was filled with light,she has a light workload today,0.318113480062143
-,this box is very light to carry,i prefer a light meal in the evening,0.2855065354696955
-,this box is very light to carry,she wore a light blue dress,0.2815511890238651
-,this box is very light to carry,he has a light touch when playing the piano,0.33708468430994987
-,this box is very light to carry,the situation called for light humor,0.2692241479313203
-,this box is very light to carry,please light the candle,0.3243284814315976
-,this box is very light to carry,he saw the light and changed his ways,0.15174734838625417
-,this box is very light to carry,the traffic light turned red,0.18380406079750033
-,this box is very light to carry,she has a light workload today,0.3751017673606638
-,i prefer a light meal in the evening,she wore a light blue dress,0.27410417025695455
-,i prefer a light meal in the evening,he has a light touch when playing the piano,0.2774612306944985
-,i prefer a light meal in the evening,the situation called for light humor,0.25357613808073015
-,i prefer a light meal in the evening,please light the candle,0.31698322688651054
-,i prefer a light meal in the evening,he saw the light and changed his ways,0.21629630675308822
-,i prefer a light meal in the evening,the traffic light turned red,0.18503401060013383
-,i prefer a light meal in the evening,she has a light workload today,0.31564852390216597
-,she wore a light blue dress,he has a light touch when playing the piano,0.24313910474398076
-,she wore a light blue dress,the situation called for light humor,0.3014970852577684
-,she wore a light blue dress,please light the candle,0.2572931258108349
-,she wore a light blue dress,he saw the light and changed his ways,0.23507598023731852
-,she wore a light blue dress,the traffic light turned red,0.289204053497829
-,she wore a light blue dress,she has a light workload today,0.40138270334687304
-,he has a light touch when playing the piano,the situation called for light humor,0.29101551613534277
-,he has a light touch when playing the piano,please light the candle,0.26620962801087855
-,he has a light touch when playing the piano,he saw the light and changed his ways,0.2783698760300695
-,he has a light touch when playing the piano,the traffic light turned red,0.14554851169368993
-,he has a light touch when playing the piano,she has a light workload today,0.33211665294925574
-,the situation called for light humor,please light the candle,0.36779074103283105
-,the situation called for light humor,he saw the light and changed his ways,0.30223774935139724
-,the situation called for light humor,the traffic light turned red,0.320732304504464
-,the situation called for light humor,she has a light workload today,0.3214476977724641
-,please light the candle,he saw the light and changed his ways,0.32075462953446804
-,please light the candle,the traffic light turned red,0.37762400316238365
-,please light the candle,she has a light workload today,0.3256887234817695
-,he saw the light and changed his ways,the traffic light turned red,0.33240069054028476
-,he saw the light and changed his ways,she has a light workload today,0.15056385452171867
-,the traffic light turned red,she has a light workload today,0.29439462015693885
+,the room was filled with light,this box is very light to carry,0.347375845
+,the room was filled with light,i prefer a light meal in the evening,0.296698013
+,the room was filled with light,she wore a light blue dress,0.392473844
+,the room was filled with light,he has a light touch when playing the piano,0.345252551
+,the room was filled with light,the situation called for light humor,0.426126886
+,the room was filled with light,please light the candle,0.434267215
+,the room was filled with light,he saw the light and changed his ways,0.377000113
+,the room was filled with light,the traffic light turned red,0.350451197
+,the room was filled with light,she has a light workload today,0.31811348
+,this box is very light to carry,i prefer a light meal in the evening,0.285506535
+,this box is very light to carry,she wore a light blue dress,0.281551189
+,this box is very light to carry,he has a light touch when playing the piano,0.337084684
+,this box is very light to carry,the situation called for light humor,0.269224148
+,this box is very light to carry,please light the candle,0.324328481
+,this box is very light to carry,he saw the light and changed his ways,0.151747348
+,this box is very light to carry,the traffic light turned red,0.183804061
+,this box is very light to carry,she has a light workload today,0.375101767
+,i prefer a light meal in the evening,she wore a light blue dress,0.27410417
+,i prefer a light meal in the evening,he has a light touch when playing the piano,0.277461231
+,i prefer a light meal in the evening,the situation called for light humor,0.253576138
+,i prefer a light meal in the evening,please light the candle,0.316983227
+,i prefer a light meal in the evening,he saw the light and changed his ways,0.216296307
+,i prefer a light meal in the evening,the traffic light turned red,0.185034011
+,i prefer a light meal in the evening,she has a light workload today,0.315648524
+,she wore a light blue dress,he has a light touch when playing the piano,0.243139105
+,she wore a light blue dress,the situation called for light humor,0.301497085
+,she wore a light blue dress,please light the candle,0.257293126
+,she wore a light blue dress,he saw the light and changed his ways,0.23507598
+,she wore a light blue dress,the traffic light turned red,0.289204053
+,she wore a light blue dress,she has a light workload today,0.401382703
+,he has a light touch when playing the piano,the situation called for light humor,0.291015516
+,he has a light touch when playing the piano,please light the candle,0.266209628
+,he has a light touch when playing the piano,he saw the light and changed his ways,0.278369876
+,he has a light touch when playing the piano,the traffic light turned red,0.145548512
+,he has a light touch when playing the piano,she has a light workload today,0.332116653
+,the situation called for light humor,please light the candle,0.367790741
+,the situation called for light humor,he saw the light and changed his ways,0.302237749
+,the situation called for light humor,the traffic light turned red,0.320732305
+,the situation called for light humor,she has a light workload today,0.321447698
+,please light the candle,he saw the light and changed his ways,0.32075463
+,please light the candle,the traffic light turned red,0.377624003
+,please light the candle,she has a light workload today,0.325688723
+,he saw the light and changed his ways,the traffic light turned red,0.332400691
+,he saw the light and changed his ways,she has a light workload today,0.150563855
+,the traffic light turned red,she has a light workload today,0.29439462
 ,,,
 ,,,
 ,,,
 File: Point.txt,,,
-,she made a good point in the argument,he pointed at the painting on the wall,0.30210236038224786
-,she made a good point in the argument,whats the point of this exercise,0.22581128181418694
-,she made a good point in the argument,the knife has a sharp point,0.2816291674802337
-,she made a good point in the argument,we reached the highest point of the mountain,0.16098182243212916
-,she made a good point in the argument,the teacher gave me extra points for my answer,0.35450689156224796
-,she made a good point in the argument,the meeting starts at this point in the schedule,0.1391952161634204
-,she made a good point in the argument,his comment was beside the point,0.492225806329861
-,she made a good point in the argument,i dont see the point in arguing,0.49711656272392063
-,she made a good point in the argument,the graph shows a significant data point,0.2760218124437258
-,he pointed at the painting on the wall,whats the point of this exercise,0.25970275281842636
-,he pointed at the painting on the wall,the knife has a sharp point,0.29065525602200903
-,he pointed at the painting on the wall,we reached the highest point of the mountain,0.2455273587065445
-,he pointed at the painting on the wall,the teacher gave me extra points for my answer,0.3287534022451744
-,he pointed at the painting on the wall,the meeting starts at this point in the schedule,0.181282847760068
-,he pointed at the painting on the wall,his comment was beside the point,0.36309585218502305
-,he pointed at the painting on the wall,i dont see the point in arguing,0.2031581320148268
-,he pointed at the painting on the wall,the graph shows a significant data point,0.2700037571177038
-,whats the point of this exercise,the knife has a sharp point,0.2695081875041684
-,whats the point of this exercise,we reached the highest point of the mountain,0.22868673209022458
-,whats the point of this exercise,the teacher gave me extra points for my answer,0.3089003665494666
-,whats the point of this exercise,the meeting starts at this point in the schedule,0.28631599051737233
-,whats the point of this exercise,his comment was beside the point,0.39070258783573847
-,whats the point of this exercise,i dont see the point in arguing,0.37414580863357694
-,whats the point of this exercise,the graph shows a significant data point,0.31347791377461803
-,the knife has a sharp point,we reached the highest point of the mountain,0.1957803958952246
-,the knife has a sharp point,the teacher gave me extra points for my answer,0.2490104031859602
-,the knife has a sharp point,the meeting starts at this point in the schedule,0.15355998093440293
-,the knife has a sharp point,his comment was beside the point,0.26843235215398337
-,the knife has a sharp point,i dont see the point in arguing,0.22726146347270357
-,the knife has a sharp point,the graph shows a significant data point,0.32147651794674226
-,we reached the highest point of the mountain,the teacher gave me extra points for my answer,0.193771294307877
-,we reached the highest point of the mountain,the meeting starts at this point in the schedule,0.2293492705574873
-,we reached the highest point of the mountain,his comment was beside the point,0.1932947693609696
-,we reached the highest point of the mountain,i dont see the point in arguing,0.13388006644353445
-,we reached the highest point of the mountain,the graph shows a significant data point,0.29244859773504145
-,the teacher gave me extra points for my answer,the meeting starts at this point in the schedule,0.18697573829391817
-,the teacher gave me extra points for my answer,his comment was beside the point,0.354011667140359
-,the teacher gave me extra points for my answer,i dont see the point in arguing,0.20789159101528507
-,the teacher gave me extra points for my answer,the graph shows a significant data point,0.2640478680579166
-,the meeting starts at this point in the schedule,his comment was beside the point,0.20988973941659117
-,the meeting starts at this point in the schedule,i dont see the point in arguing,0.15283116623789036
-,the meeting starts at this point in the schedule,the graph shows a significant data point,0.27762812480395405
-,his comment was beside the point,i dont see the point in arguing,0.430737034864883
-,his comment was beside the point,the graph shows a significant data point,0.312274598404126
-,i dont see the point in arguing,the graph shows a significant data point,0.23607388399564883
+,she made a good point in the argument,he pointed at the painting on the wall,0.30210236
+,she made a good point in the argument,whats the point of this exercise,0.225811282
+,she made a good point in the argument,the knife has a sharp point,0.281629167
+,she made a good point in the argument,we reached the highest point of the mountain,0.160981822
+,she made a good point in the argument,the teacher gave me extra points for my answer,0.354506892
+,she made a good point in the argument,the meeting starts at this point in the schedule,0.139195216
+,she made a good point in the argument,his comment was beside the point,0.492225806
+,she made a good point in the argument,i dont see the point in arguing,0.497116563
+,she made a good point in the argument,the graph shows a significant data point,0.276021812
+,he pointed at the painting on the wall,whats the point of this exercise,0.259702753
+,he pointed at the painting on the wall,the knife has a sharp point,0.290655256
+,he pointed at the painting on the wall,we reached the highest point of the mountain,0.245527359
+,he pointed at the painting on the wall,the teacher gave me extra points for my answer,0.328753402
+,he pointed at the painting on the wall,the meeting starts at this point in the schedule,0.181282848
+,he pointed at the painting on the wall,his comment was beside the point,0.363095852
+,he pointed at the painting on the wall,i dont see the point in arguing,0.203158132
+,he pointed at the painting on the wall,the graph shows a significant data point,0.270003757
+,whats the point of this exercise,the knife has a sharp point,0.269508188
+,whats the point of this exercise,we reached the highest point of the mountain,0.228686732
+,whats the point of this exercise,the teacher gave me extra points for my answer,0.308900367
+,whats the point of this exercise,the meeting starts at this point in the schedule,0.286315991
+,whats the point of this exercise,his comment was beside the point,0.390702588
+,whats the point of this exercise,i dont see the point in arguing,0.374145809
+,whats the point of this exercise,the graph shows a significant data point,0.313477914
+,the knife has a sharp point,we reached the highest point of the mountain,0.195780396
+,the knife has a sharp point,the teacher gave me extra points for my answer,0.249010403
+,the knife has a sharp point,the meeting starts at this point in the schedule,0.153559981
+,the knife has a sharp point,his comment was beside the point,0.268432352
+,the knife has a sharp point,i dont see the point in arguing,0.227261463
+,the knife has a sharp point,the graph shows a significant data point,0.321476518
+,we reached the highest point of the mountain,the teacher gave me extra points for my answer,0.193771294
+,we reached the highest point of the mountain,the meeting starts at this point in the schedule,0.229349271
+,we reached the highest point of the mountain,his comment was beside the point,0.193294769
+,we reached the highest point of the mountain,i dont see the point in arguing,0.133880066
+,we reached the highest point of the mountain,the graph shows a significant data point,0.292448598
+,the teacher gave me extra points for my answer,the meeting starts at this point in the schedule,0.186975738
+,the teacher gave me extra points for my answer,his comment was beside the point,0.354011667
+,the teacher gave me extra points for my answer,i dont see the point in arguing,0.207891591
+,the teacher gave me extra points for my answer,the graph shows a significant data point,0.264047868
+,the meeting starts at this point in the schedule,his comment was beside the point,0.209889739
+,the meeting starts at this point in the schedule,i dont see the point in arguing,0.152831166
+,the meeting starts at this point in the schedule,the graph shows a significant data point,0.277628125
+,his comment was beside the point,i dont see the point in arguing,0.430737035
+,his comment was beside the point,the graph shows a significant data point,0.312274598
+,i dont see the point in arguing,the graph shows a significant data point,0.236073884
 ,,,
 ,,,
 ,,,
 File: Run.txt,,,
-,she runs five miles every morning,the company runs a successful business,0.29942414103835163
-,she runs five miles every morning,the river runs through the valley,0.3097509149697997
-,she runs five miles every morning,the play will run for three months,0.28436792092142044
-,she runs five miles every morning,his nose is running because of the cold,0.30876463831091405
-,she runs five miles every morning,i will run some tests on the machine,0.22765258886299672
-,she runs five miles every morning,the rumor is running through the school,0.275126512535963
-,she runs five miles every morning,he ran his fingers through his hair,0.2528475531993414
-,she runs five miles every morning,the software runs on windows and mac,0.201694265885572
-,she runs five miles every morning,the car ran out of gas,0.24356295846946588
-,the company runs a successful business,the river runs through the valley,0.31699843074929623
-,the company runs a successful business,the play will run for three months,0.2843267600601513
-,the company runs a successful business,his nose is running because of the cold,0.2160967929977319
-,the company runs a successful business,i will run some tests on the machine,0.2556098510196485
-,the company runs a successful business,the rumor is running through the school,0.2738278121268217
-,the company runs a successful business,he ran his fingers through his hair,0.2336855512484339
-,the company runs a successful business,the software runs on windows and mac,0.3116753133127099
-,the company runs a successful business,the car ran out of gas,0.22161606420604274
-,the river runs through the valley,the play will run for three months,0.23209906009428377
-,the river runs through the valley,his nose is running because of the cold,0.2799209245259449
-,the river runs through the valley,i will run some tests on the machine,0.18430090799436036
-,the river runs through the valley,the rumor is running through the school,0.3092487938169241
-,the river runs through the valley,he ran his fingers through his hair,0.2379454382131483
-,the river runs through the valley,the software runs on windows and mac,0.1863904156979035
-,the river runs through the valley,the car ran out of gas,0.24114491447660555
-,the play will run for three months,his nose is running because of the cold,0.20294146370148497
-,the play will run for three months,i will run some tests on the machine,0.27788752035171316
-,the play will run for three months,the rumor is running through the school,0.23903457932590244
-,the play will run for three months,he ran his fingers through his hair,0.19589877402842656
-,the play will run for three months,the software runs on windows and mac,0.21073633947156903
-,the play will run for three months,the car ran out of gas,0.22505047232906072
-,his nose is running because of the cold,i will run some tests on the machine,0.16879129348429292
-,his nose is running because of the cold,the rumor is running through the school,0.30491390536285334
-,his nose is running because of the cold,he ran his fingers through his hair,0.42420313779661095
-,his nose is running because of the cold,the software runs on windows and mac,0.16688000791532095
-,his nose is running because of the cold,the car ran out of gas,0.2485440573020239
-,i will run some tests on the machine,the rumor is running through the school,0.22018902331522258
-,i will run some tests on the machine,he ran his fingers through his hair,0.23114393991723614
-,i will run some tests on the machine,the software runs on windows and mac,0.36488567228731855
-,i will run some tests on the machine,the car ran out of gas,0.18210795523441112
-,the rumor is running through the school,he ran his fingers through his hair,0.26445707546114455
-,the rumor is running through the school,the software runs on windows and mac,0.17604182859042702
-,the rumor is running through the school,the car ran out of gas,0.20709335739817586
-,he ran his fingers through his hair,the software runs on windows and mac,0.1347773657288318
-,he ran his fingers through his hair,the car ran out of gas,0.2684059601502513
-,the software runs on windows and mac,the car ran out of gas,0.14195397455296602
+,she runs five miles every morning,the company runs a successful business,0.299424141
+,she runs five miles every morning,the river runs through the valley,0.309750915
+,she runs five miles every morning,the play will run for three months,0.284367921
+,she runs five miles every morning,his nose is running because of the cold,0.308764638
+,she runs five miles every morning,i will run some tests on the machine,0.227652589
+,she runs five miles every morning,the rumor is running through the school,0.275126513
+,she runs five miles every morning,he ran his fingers through his hair,0.252847553
+,she runs five miles every morning,the software runs on windows and mac,0.201694266
+,she runs five miles every morning,the car ran out of gas,0.243562958
+,the company runs a successful business,the river runs through the valley,0.316998431
+,the company runs a successful business,the play will run for three months,0.28432676
+,the company runs a successful business,his nose is running because of the cold,0.216096793
+,the company runs a successful business,i will run some tests on the machine,0.255609851
+,the company runs a successful business,the rumor is running through the school,0.273827812
+,the company runs a successful business,he ran his fingers through his hair,0.233685551
+,the company runs a successful business,the software runs on windows and mac,0.311675313
+,the company runs a successful business,the car ran out of gas,0.221616064
+,the river runs through the valley,the play will run for three months,0.23209906
+,the river runs through the valley,his nose is running because of the cold,0.279920925
+,the river runs through the valley,i will run some tests on the machine,0.184300908
+,the river runs through the valley,the rumor is running through the school,0.309248794
+,the river runs through the valley,he ran his fingers through his hair,0.237945438
+,the river runs through the valley,the software runs on windows and mac,0.186390416
+,the river runs through the valley,the car ran out of gas,0.241144914
+,the play will run for three months,his nose is running because of the cold,0.202941464
+,the play will run for three months,i will run some tests on the machine,0.27788752
+,the play will run for three months,the rumor is running through the school,0.239034579
+,the play will run for three months,he ran his fingers through his hair,0.195898774
+,the play will run for three months,the software runs on windows and mac,0.210736339
+,the play will run for three months,the car ran out of gas,0.225050472
+,his nose is running because of the cold,i will run some tests on the machine,0.168791293
+,his nose is running because of the cold,the rumor is running through the school,0.304913905
+,his nose is running because of the cold,he ran his fingers through his hair,0.424203138
+,his nose is running because of the cold,the software runs on windows and mac,0.166880008
+,his nose is running because of the cold,the car ran out of gas,0.248544057
+,i will run some tests on the machine,the rumor is running through the school,0.220189023
+,i will run some tests on the machine,he ran his fingers through his hair,0.23114394
+,i will run some tests on the machine,the software runs on windows and mac,0.364885672
+,i will run some tests on the machine,the car ran out of gas,0.182107955
+,the rumor is running through the school,he ran his fingers through his hair,0.264457075
+,the rumor is running through the school,the software runs on windows and mac,0.176041829
+,the rumor is running through the school,the car ran out of gas,0.207093357
+,he ran his fingers through his hair,the software runs on windows and mac,0.134777366
+,he ran his fingers through his hair,the car ran out of gas,0.26840596
+,the software runs on windows and mac,the car ran out of gas,0.141953975
 ,,,
 ,,,
 ,,,
 File: Strike.txt,,,
-,the workers went on strike for higher wages,the baseball player struck the ball,0.2897411445743436
-,the workers went on strike for higher wages,lightning struck the tree,0.21099860395601305
-,the workers went on strike for higher wages,his speech struck a chord with the audience,0.21708696517584272
-,the workers went on strike for higher wages,the clock struck midnight,0.24813839587917075
-,the workers went on strike for higher wages,he struck a deal with the investor,0.24458480534288807
-,the workers went on strike for higher wages,the snake struck its prey,0.2331292264897475
-,the workers went on strike for higher wages,a brilliant idea struck me,0.21255479320094017
-,the workers went on strike for higher wages,the enemy struck first in the battle,0.2606757803296219
-,the workers went on strike for higher wages,the workers fear another economic strike,0.6205638595567964
-,the baseball player struck the ball,lightning struck the tree,0.4195720055584756
-,the baseball player struck the ball,his speech struck a chord with the audience,0.3063939235316489
-,the baseball player struck the ball,the clock struck midnight,0.33817343428007207
-,the baseball player struck the ball,he struck a deal with the investor,0.3516658384277357
-,the baseball player struck the ball,the snake struck its prey,0.36833277171969636
-,the baseball player struck the ball,a brilliant idea struck me,0.31032598067990286
-,the baseball player struck the ball,the enemy struck first in the battle,0.3481952129833553
-,the baseball player struck the ball,the workers fear another economic strike,0.2779819788879823
-,lightning struck the tree,his speech struck a chord with the audience,0.28988327091653066
-,lightning struck the tree,the clock struck midnight,0.4053027859330052
-,lightning struck the tree,he struck a deal with the investor,0.25234369232646586
-,lightning struck the tree,the snake struck its prey,0.4562906918448732
-,lightning struck the tree,a brilliant idea struck me,0.3679502492050927
-,lightning struck the tree,the enemy struck first in the battle,0.36037703934130993
-,lightning struck the tree,the workers fear another economic strike,0.22596247409560208
-,his speech struck a chord with the audience,the clock struck midnight,0.2962360477705426
-,his speech struck a chord with the audience,he struck a deal with the investor,0.32105961335381394
-,his speech struck a chord with the audience,the snake struck its prey,0.30125309659772753
-,his speech struck a chord with the audience,a brilliant idea struck me,0.36391399938859925
-,his speech struck a chord with the audience,the enemy struck first in the battle,0.24030224675030268
-,his speech struck a chord with the audience,the workers fear another economic strike,0.22143186344880433
-,the clock struck midnight,he struck a deal with the investor,0.26932991278689217
-,the clock struck midnight,the snake struck its prey,0.3310720980503296
-,the clock struck midnight,a brilliant idea struck me,0.36596835598225097
-,the clock struck midnight,the enemy struck first in the battle,0.3347775143876574
-,the clock struck midnight,the workers fear another economic strike,0.2588557869034665
-,he struck a deal with the investor,the snake struck its prey,0.3056019629021247
-,he struck a deal with the investor,a brilliant idea struck me,0.2592568874625003
-,he struck a deal with the investor,the enemy struck first in the battle,0.2434981074906355
-,he struck a deal with the investor,the workers fear another economic strike,0.25513294310287976
-,the snake struck its prey,a brilliant idea struck me,0.30582052041328744
-,the snake struck its prey,the enemy struck first in the battle,0.4750218435743723
-,the snake struck its prey,the workers fear another economic strike,0.24576436893510498
-,a brilliant idea struck me,the enemy struck first in the battle,0.26648818918158623
-,a brilliant idea struck me,the workers fear another economic strike,0.19549091540825175
-,the enemy struck first in the battle,the workers fear another economic strike,0.24905979556486801
+,the workers went on strike for higher wages,the baseball player struck the ball,0.289741145
+,the workers went on strike for higher wages,lightning struck the tree,0.210998604
+,the workers went on strike for higher wages,his speech struck a chord with the audience,0.217086965
+,the workers went on strike for higher wages,the clock struck midnight,0.248138396
+,the workers went on strike for higher wages,he struck a deal with the investor,0.244584805
+,the workers went on strike for higher wages,the snake struck its prey,0.233129226
+,the workers went on strike for higher wages,a brilliant idea struck me,0.212554793
+,the workers went on strike for higher wages,the enemy struck first in the battle,0.26067578
+,the workers went on strike for higher wages,the workers fear another economic strike,0.62056386
+,the baseball player struck the ball,lightning struck the tree,0.419572006
+,the baseball player struck the ball,his speech struck a chord with the audience,0.306393924
+,the baseball player struck the ball,the clock struck midnight,0.338173434
+,the baseball player struck the ball,he struck a deal with the investor,0.351665838
+,the baseball player struck the ball,the snake struck its prey,0.368332772
+,the baseball player struck the ball,a brilliant idea struck me,0.310325981
+,the baseball player struck the ball,the enemy struck first in the battle,0.348195213
+,the baseball player struck the ball,the workers fear another economic strike,0.277981979
+,lightning struck the tree,his speech struck a chord with the audience,0.289883271
+,lightning struck the tree,the clock struck midnight,0.405302786
+,lightning struck the tree,he struck a deal with the investor,0.252343692
+,lightning struck the tree,the snake struck its prey,0.456290692
+,lightning struck the tree,a brilliant idea struck me,0.367950249
+,lightning struck the tree,the enemy struck first in the battle,0.360377039
+,lightning struck the tree,the workers fear another economic strike,0.225962474
+,his speech struck a chord with the audience,the clock struck midnight,0.296236048
+,his speech struck a chord with the audience,he struck a deal with the investor,0.321059613
+,his speech struck a chord with the audience,the snake struck its prey,0.301253097
+,his speech struck a chord with the audience,a brilliant idea struck me,0.363913999
+,his speech struck a chord with the audience,the enemy struck first in the battle,0.240302247
+,his speech struck a chord with the audience,the workers fear another economic strike,0.221431863
+,the clock struck midnight,he struck a deal with the investor,0.269329913
+,the clock struck midnight,the snake struck its prey,0.331072098
+,the clock struck midnight,a brilliant idea struck me,0.365968356
+,the clock struck midnight,the enemy struck first in the battle,0.334777514
+,the clock struck midnight,the workers fear another economic strike,0.258855787
+,he struck a deal with the investor,the snake struck its prey,0.305601963
+,he struck a deal with the investor,a brilliant idea struck me,0.259256887
+,he struck a deal with the investor,the enemy struck first in the battle,0.243498107
+,he struck a deal with the investor,the workers fear another economic strike,0.255132943
+,the snake struck its prey,a brilliant idea struck me,0.30582052
+,the snake struck its prey,the enemy struck first in the battle,0.475021844
+,the snake struck its prey,the workers fear another economic strike,0.245764369
+,a brilliant idea struck me,the enemy struck first in the battle,0.266488189
+,a brilliant idea struck me,the workers fear another economic strike,0.195490915
+,the enemy struck first in the battle,the workers fear another economic strike,0.249059796
 ,,,
 ,,,
 ,,,
 File: Watch.txt,,,
-,i love to watch movies at night,he wore a gold watch on his wrist,0.20590756726517825
-,i love to watch movies at night,the police keep a close watch on criminals,0.21686053304061126
-,i love to watch movies at night,she is on night watch at the hospital,0.3788007113633632
-,i love to watch movies at night,watch your step while walking,0.19187812620786088
-,i love to watch movies at night,his watch is five minutes fast,0.2216992967511144
-,i love to watch movies at night,the coastguard is always on watch,0.18161545428838036
-,i love to watch movies at night,the new watch model has gps tracking,0.1415618501991455
-,i love to watch movies at night,i had to watch my spending this month,0.2644728800563555
-,i love to watch movies at night,the coach told him to watch his temper,0.09984968604280996
-,he wore a gold watch on his wrist,the police keep a close watch on criminals,0.2845400881795657
-,he wore a gold watch on his wrist,she is on night watch at the hospital,0.3019454834928487
-,he wore a gold watch on his wrist,watch your step while walking,0.25319792176494677
-,he wore a gold watch on his wrist,his watch is five minutes fast,0.570776123165881
-,he wore a gold watch on his wrist,the coastguard is always on watch,0.28200844959125076
-,he wore a gold watch on his wrist,the new watch model has gps tracking,0.41338123670960336
-,he wore a gold watch on his wrist,i had to watch my spending this month,0.28585570601773774
-,he wore a gold watch on his wrist,the coach told him to watch his temper,0.28663711468091246
-,the police keep a close watch on criminals,she is on night watch at the hospital,0.3623231992126284
-,the police keep a close watch on criminals,watch your step while walking,0.3324449593473596
-,the police keep a close watch on criminals,his watch is five minutes fast,0.23577457716025052
-,the police keep a close watch on criminals,the coastguard is always on watch,0.4641326922718125
-,the police keep a close watch on criminals,the new watch model has gps tracking,0.2815894979453638
-,the police keep a close watch on criminals,i had to watch my spending this month,0.24923713067877323
-,the police keep a close watch on criminals,the coach told him to watch his temper,0.22300427423998667
-,she is on night watch at the hospital,watch your step while walking,0.28416962976020876
-,she is on night watch at the hospital,his watch is five minutes fast,0.3178782583298967
-,she is on night watch at the hospital,the coastguard is always on watch,0.35745375539388047
-,she is on night watch at the hospital,the new watch model has gps tracking,0.22914409399598623
-,she is on night watch at the hospital,i had to watch my spending this month,0.22539064421383487
-,she is on night watch at the hospital,the coach told him to watch his temper,0.15985975135254366
-,watch your step while walking,his watch is five minutes fast,0.24217475419015216
-,watch your step while walking,the coastguard is always on watch,0.32151749984279215
-,watch your step while walking,the new watch model has gps tracking,0.2402705688307709
-,watch your step while walking,i had to watch my spending this month,0.3096875018783348
-,watch your step while walking,the coach told him to watch his temper,0.26982122177440404
-,his watch is five minutes fast,the coastguard is always on watch,0.2529913525744166
-,his watch is five minutes fast,the new watch model has gps tracking,0.3785003568751832
-,his watch is five minutes fast,i had to watch my spending this month,0.29192143239072105
-,his watch is five minutes fast,the coach told him to watch his temper,0.27895719314010237
-,the coastguard is always on watch,the new watch model has gps tracking,0.2822283913890251
-,the coastguard is always on watch,i had to watch my spending this month,0.21077655155748556
-,the coastguard is always on watch,the coach told him to watch his temper,0.22155443608744915
-,the new watch model has gps tracking,i had to watch my spending this month,0.21042967271346036
-,the new watch model has gps tracking,the coach told him to watch his temper,0.133096354390054
-,i had to watch my spending this month,the coach told him to watch his temper,0.27606248584929133
-,,,
-,,,
-,,,
+,i love to watch movies at night,he wore a gold watch on his wrist,0.205907567
+,i love to watch movies at night,the police keep a close watch on criminals,0.216860533
+,i love to watch movies at night,she is on night watch at the hospital,0.378800711
+,i love to watch movies at night,watch your step while walking,0.191878126
+,i love to watch movies at night,his watch is five minutes fast,0.221699297
+,i love to watch movies at night,the coastguard is always on watch,0.181615454
+,i love to watch movies at night,the new watch model has gps tracking,0.14156185
+,i love to watch movies at night,i had to watch my spending this month,0.26447288
+,i love to watch movies at night,the coach told him to watch his temper,0.099849686
+,he wore a gold watch on his wrist,the police keep a close watch on criminals,0.284540088
+,he wore a gold watch on his wrist,she is on night watch at the hospital,0.301945483
+,he wore a gold watch on his wrist,watch your step while walking,0.253197922
+,he wore a gold watch on his wrist,his watch is five minutes fast,0.570776123
+,he wore a gold watch on his wrist,the coastguard is always on watch,0.28200845
+,he wore a gold watch on his wrist,the new watch model has gps tracking,0.413381237
+,he wore a gold watch on his wrist,i had to watch my spending this month,0.285855706
+,he wore a gold watch on his wrist,the coach told him to watch his temper,0.286637115
+,the police keep a close watch on criminals,she is on night watch at the hospital,0.362323199
+,the police keep a close watch on criminals,watch your step while walking,0.332444959
+,the police keep a close watch on criminals,his watch is five minutes fast,0.235774577
+,the police keep a close watch on criminals,the coastguard is always on watch,0.464132692
+,the police keep a close watch on criminals,the new watch model has gps tracking,0.281589498
+,the police keep a close watch on criminals,i had to watch my spending this month,0.249237131
+,the police keep a close watch on criminals,the coach told him to watch his temper,0.223004274
+,she is on night watch at the hospital,watch your step while walking,0.28416963
+,she is on night watch at the hospital,his watch is five minutes fast,0.317878258
+,she is on night watch at the hospital,the coastguard is always on watch,0.357453755
+,she is on night watch at the hospital,the new watch model has gps tracking,0.229144094
+,she is on night watch at the hospital,i had to watch my spending this month,0.225390644
+,she is on night watch at the hospital,the coach told him to watch his temper,0.159859751
+,watch your step while walking,his watch is five minutes fast,0.242174754
+,watch your step while walking,the coastguard is always on watch,0.3215175
+,watch your step while walking,the new watch model has gps tracking,0.240270569
+,watch your step while walking,i had to watch my spending this month,0.309687502
+,watch your step while walking,the coach told him to watch his temper,0.269821222
+,his watch is five minutes fast,the coastguard is always on watch,0.252991353
+,his watch is five minutes fast,the new watch model has gps tracking,0.378500357
+,his watch is five minutes fast,i had to watch my spending this month,0.291921432
+,his watch is five minutes fast,the coach told him to watch his temper,0.278957193
+,the coastguard is always on watch,the new watch model has gps tracking,0.282228391
+,the coastguard is always on watch,i had to watch my spending this month,0.210776552
+,the coastguard is always on watch,the coach told him to watch his temper,0.221554436
+,the new watch model has gps tracking,i had to watch my spending this month,0.210429673
+,the new watch model has gps tracking,the coach told him to watch his temper,0.133096354
+,i had to watch my spending this month,the coach told him to watch his temper,0.276062486
