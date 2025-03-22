@@ -11,7 +11,7 @@ var configurations = new ConfigurationBuilder()
     .Build();
 
 var serviceProvider = new ServiceCollection()
-    .RegisterServices(configurations) 
+    .RegisterServices(configurations)
     .BuildServiceProvider();
 
 var processor = serviceProvider.GetRequiredService<ProcessorAli>();
@@ -22,13 +22,13 @@ await processor.RunAsync();
 ///
 /// For command line
 /// 
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
-    .AddCommandLine(args)
-    .Build();
+//var configuration = new ConfigurationBuilder()
+//    .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
+//    .AddCommandLine(args)
+//    .Build();
 
-var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
-await commandLineHelper.ExecuteCommandAsync(configuration);
+//var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
+//await commandLineHelper.ExecuteCommandAsync(configuration);
 
 ///
 /// For testing
