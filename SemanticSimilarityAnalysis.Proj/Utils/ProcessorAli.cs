@@ -134,6 +134,8 @@ public class ProcessorAli
             // // Display the result
             // Console.WriteLine($"Cosine Similarity using word2vec: {cosineSimilarityVaue}");
 
+            //// Display the result
+            //Console.WriteLine($"Cosine Similarity usning word2vec: {cosineSimilarityVaue}");
         }
         catch (Exception ex)
         {
