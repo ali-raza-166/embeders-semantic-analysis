@@ -36,7 +36,6 @@ namespace SemanticSimilarityAnalysis.Proj
 
         public async Task ExecuteCommandAsync(IConfiguration configuration)
         {
-            // Get the command from the configuration (e.g., command-line arguments)
             var command = configuration["command"];
 
             // If no command is provided, show help and exit
@@ -79,7 +78,6 @@ namespace SemanticSimilarityAnalysis.Proj
         // Method to execute the "words-vs-words" command
         private async Task ExecuteWordsVsWordsAsync(IConfiguration configuration)
         {
-            // Get output file name and directory from configuration, or use defaults
             var outputFileName = configuration["output"] ?? "words_vs_words.csv";
             var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
             var outputPath = Path.Combine(outputDirectory, outputFileName);
@@ -88,7 +86,6 @@ namespace SemanticSimilarityAnalysis.Proj
             var list1 = ProcessInput(configuration["list1"] ?? "", "Please provide the first list of words or a text file path:");
             var list2 = ProcessInput(configuration["list2"] ?? "", "Please provide the second list of words or a text file path:");
 
-            // Ensure both lists contain at least one word before proceeding
             if (list1.Count() == 0 || list2.Count() == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -97,18 +94,14 @@ namespace SemanticSimilarityAnalysis.Proj
                 return;
             }
 
-            // Retrieve required services for analysis and CSV export
             var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
             var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
 
-
-            // Perform the word similarity analysis
             var results = await analysis.CompareWordsVsWords(list1, list2);
 
             // Save the results to a CSV file
             csvHelper.ExportToCsv(results, outputFileName, outputDirectory);
 
-            // Display success message with output file location
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Results saved to {outputPath}");
             Console.ResetColor();
@@ -118,11 +111,15 @@ namespace SemanticSimilarityAnalysis.Proj
         // Method to execute the "words-vs-pdfs" command
         private async Task ExecuteWordsVsPdfsAsync(IConfiguration configuration)
         {
-            // Command line arguments
             var pdfFolder = configuration["pdf-folder"] ?? defaultPdfDir;
             var outputFileName = configuration["output"] ?? "words_vs_pdfs.csv";
             var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
 
+            var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
+            var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
+            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, outputFileName));
+
+            // Prompt for words if they are not provided
             var words = ProcessInput(configuration["words"] ?? "", "Please provide a list of words or a text file path: ");
 
             if (words.Count() == 0)
@@ -133,14 +130,6 @@ namespace SemanticSimilarityAnalysis.Proj
                 return;
             }
 
-            var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-            var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, outputFileName));
-
-            // Prompt for words if they are not provided
-
-
-            // Prompt for pdfFolder if it does not exist
             if (!Directory.Exists(pdfFolder))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -149,7 +138,6 @@ namespace SemanticSimilarityAnalysis.Proj
                 pdfFolder = PromptForDirectory("Enter the PDF folder path:", pdfFolder);
             }
 
-            // Perform the analysis
             var results = await analysis.ComparePdfsvsWords(words, pdfFolder);
 
             // Save the result to a CSV file
@@ -194,11 +182,10 @@ namespace SemanticSimilarityAnalysis.Proj
         /// </note>
         private async Task ExecuteWordsVsDatasetAsync(IConfiguration configuration)
         {
-            // Command line arguments
-            var inputDirectory = configuration["inputDir"] ?? defaultInputCsvDir; // Directory containing the dataset
-            var csvFileName = configuration["dataset"] ?? defaultDataset; // Dataset CSV file
-            var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir; // Directory containing the output
-            var outputFileName = configuration["output"] ?? "dataset_vs_words.csv"; // Output file name
+            var inputDirectory = configuration["inputDir"] ?? defaultInputCsvDir;
+            var csvFileName = configuration["dataset"] ?? defaultDataset;
+            var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
+            var outputFileName = configuration["output"] ?? "dataset_vs_words.csv";
             var processRows = int.TryParse(configuration["rows"], out int rows) ? rows : -1;
 
             var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
@@ -207,7 +194,6 @@ namespace SemanticSimilarityAnalysis.Proj
             var csvFilePath = Path.GetFullPath(Path.Combine(inputDirectory, csvFileName));
             var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, outputFileName));
 
-            // Prompt for csvFileName and inputPath if they are not provided　
             if (!File.Exists(csvFilePath))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -217,7 +203,6 @@ namespace SemanticSimilarityAnalysis.Proj
                 csvFilePath = Path.GetFullPath(Path.Combine(inputDirectory, csvFileName));
             }
 
-            // Read fields
             var fields = csvHelper.ReadCsvFields(csvFilePath);
 
             // Prompt for words if they are not provided
@@ -266,10 +251,8 @@ namespace SemanticSimilarityAnalysis.Proj
             // Define the JSON embeddings file path
             string jsonFileName = $"{Path.GetFileNameWithoutExtension(csvFileName)}_Embeddings.json";
 
-            // Create embeddings
             await analysis.CreateDataSetEmbeddingsAsync(embeddingAttributes, csvFileName, processRows, inputDirectory, defaultJsonDir);
 
-            // Compare
             var result = await analysis.compareDataSetVsWords(jsonFileName, labelAttribute, attributeToCompare, words, defaultJsonDir);
 
             // Save the result to a CSV file
@@ -560,4 +543,4 @@ namespace SemanticSimilarityAnalysis.Proj
         }
     }
 }
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning restore CS8600

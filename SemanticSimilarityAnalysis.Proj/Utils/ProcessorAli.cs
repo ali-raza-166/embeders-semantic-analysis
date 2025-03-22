@@ -27,7 +27,7 @@ public class ProcessorAli
         detector.AddAllLanguages();
         try
         {
-            
+
             //--------------- Creating Embeddings and Storing in a new list. SEE DATA AT THE END OF THIS FILE ----------------------------
             // var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
             // var listofEmbeddingVectors = new List<List<float>>();
@@ -37,8 +37,8 @@ public class ProcessorAli
             //     var vector = vectorValues.Values; // Get the vector for the current embedding
             //     listofEmbeddingVectors.Add(vector);
             // }
-            
-            
+
+
             //--------------- Testing Manual Method for TopK Searching --------------------------------------
             // Console.WriteLine("Results computed by Manual TopK Method");
             // var topKResults =
@@ -56,7 +56,7 @@ public class ProcessorAli
             // await openAiEmbeddingsDimReductionAndPlotting.RunPipelineAsync(inputs); 
             // word2VecEmbeddingsDimReductionAndPlotting.RunPipeline(inputs);
 
-            
+
             //---------------Testing pinecone refactored classes (setup+service) , Plus Multilingual testing------- 
             //After the initial setup, the immediate query's response is not generated. Comment the third line and run the application again.
             //Now the index will be available and query will be answered.
@@ -134,6 +134,8 @@ public class ProcessorAli
             // // Display the result
             // Console.WriteLine($"Cosine Similarity using word2vec: {cosineSimilarityVaue}");
 
+            //// Display the result
+            //Console.WriteLine($"Cosine Similarity usning word2vec: {cosineSimilarityVaue}");
         }
         catch (Exception ex)
         {
@@ -141,7 +143,7 @@ public class ProcessorAli
         }
 
     }
-    
+
     // public List<string> GetMultilingualParagraphs()
     //     {
     //         return new List<string>
@@ -171,9 +173,9 @@ public class ProcessorAli
     //             "新款 MacBook Pro 提供了超薄的设计，兼具轻巧和强大的性能。尽管其外形纤薄，MacBook Pro 依然能应对高负荷任务，性能毫不妥协。键盘也经过重新设计，带来更加安静和舒适的打字体验。凭借更大的触控板和更强的扬声器，MacBook Pro 提供了卓越的工作和娱乐体验。",
     //         };
     // }
-    
+
     // var inputs = new List<string>{"Waiter work at the hospital", "hospital", "Airport", "Cat", "Dog" };
-     
+
     // var inputs = new List<string>
     // {
     //     // Manual 1: Setting up a new email account
