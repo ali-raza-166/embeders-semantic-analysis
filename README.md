@@ -4,6 +4,15 @@ This project introduces a generalized model for semantic similarity analysis usi
 ## Getting started
 To get started, please see <a href="https://github.com/ali-raza-166/embeders-semantic-analysis/blob/main/Documentation/gettingStarted.md">this document.</a>
 
+# Online References
+https://medium.com/researchify/exploring-cosine-similarity-how-sentence-embedding-models-measure-meaning-1b047675ef8a
+
+https://www.baeldung.com/cs/ml-similarities-in-text
+
+https://www.geeksforgeeks.org/cnn-introduction-to-pooling-layer/
+
+https://medium.com/@siladityaghosh/a-deep-dive-into-openais-text-embedding-ada-002-the-power-of-semantic-understanding-7072c0386f83
+
 # References 
 D. Gunawan, C. A. Sembiring, and M. A. Budiman, "The implementation of cosine similarity to calculate text relevance between two documents," in 2nd International Conference on Computing and Applied Informatics 2017, J. Phys.: Conf. Ser., vol. 978, Art. no. 012120, 2018, doi: 10.1088/1742-6596/978/1/012120.
 
