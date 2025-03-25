@@ -41,7 +41,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             // Create the t-SNE object and set the parameters
             var tsne = new TSNE()
             {
-                Perplexity = 0.65, // You can adjust the perplexity
+                Perplexity = 30, // You can adjust the perplexity
                 Theta = 0.5, // You can adjust the theta
                 NumberOfOutputs = targetDimensions // Set the target dimensionality (default is 2)
             };

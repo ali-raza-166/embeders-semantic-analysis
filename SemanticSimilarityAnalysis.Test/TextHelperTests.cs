@@ -61,9 +61,9 @@ namespace Helper.Tests
             var words = _textHelper.CleanAndSplitText(text);
 
             // Assert
-            Assert.IsNotNull(words); // Ensure the result is not null
-            Assert.AreEqual(2, words.Count); // Ensure the correct number of segments is returned
-            CollectionAssert.Contains(words, "hello"); // Ensure the words are cleaned and split correctly
+            Assert.IsNotNull(words);
+            Assert.AreEqual(2, words.Count);
+            CollectionAssert.Contains(words, "hello");
             CollectionAssert.Contains(words, "world this is a test");
         }
         [TestMethod]
@@ -76,7 +76,7 @@ namespace Helper.Tests
             bool result = _textHelper.IsTextFilePath(filePath);
 
             // Assert
-            Assert.IsTrue(result); // Ensure the result is true for a .txt file
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
@@ -93,12 +93,11 @@ namespace Helper.Tests
         }
         private void RetryFileDelete(string filePath, int maxRetries = 5, int delayMs = 100)
         {
-            for (int i = 0; i < maxRetries; i++)
             {
                 try
                 {
                     File.Delete(filePath);
-                    return; // Success
+                    return;
                 }
                 catch (IOException)
                 {

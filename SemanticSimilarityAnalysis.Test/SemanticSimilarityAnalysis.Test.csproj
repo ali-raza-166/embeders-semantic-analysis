@@ -31,10 +31,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="PDFs\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\SemanticSimilarityAnalysis.Proj\SemanticSimilarityAnalysis.Proj.csproj" />
 	</ItemGroup>
 

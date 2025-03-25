@@ -82,6 +82,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Pdf
             return textChunks;
         }
 
+
         /// <summary>
         /// Cleans the extracted text by removing extra spaces, line breaks, and non-printable characters.
         /// </summary>
@@ -103,6 +104,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Pdf
 
             return text;
         }
+
 
         /// <summary>
         /// If the PDF contains clearly separated paragraphs (e.g., separated by double newlines \n\n), 

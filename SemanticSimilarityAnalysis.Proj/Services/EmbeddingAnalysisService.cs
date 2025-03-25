@@ -89,14 +89,11 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                         continue;
                     }
 
-                    // Compute cosine similarity between the two word embeddings
                     double similarity = _similarityCalculator.ComputeCosineSimilarity(embeddings1[i].Values, embeddings2[j].Values);
 
-                    // Add the similarity score to the dictionary
                     similarities.Add(words2[j], similarity);
                 }
 
-                // Create a SimilarityPlotPoint for this row (word from words1)
                 similarityResults.Add(new SimilarityPlotPoint(words1[i], similarities));
             }
             return similarityResults;
@@ -114,7 +111,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             // Dictionary to store results for each file
             var results = new Dictionary<string, List<SimilarityPlotPoint>>();
 
-            // Check if the directory exists
             if (!Directory.Exists(inputDir))
             {
                 throw new DirectoryNotFoundException($"The folder '{inputDir}' does not exist.");
@@ -128,7 +124,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 throw new FileNotFoundException("No text files found in the specified folder.");
             }
 
-            // Process each file
             foreach (var filePath in textFiles)
             {
                 var fileName = Path.GetFileName(filePath);
@@ -170,14 +165,12 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                             similarities[phrases[j]] = similarity;
                         }
 
-                        // Add the similarity results for the current phrase
                         if (similarities.Count > 0)
                         {
                             similarityResults.Add(new SimilarityPlotPoint(phrases[i], similarities));
                         }
                     }
 
-                    // Add the results to the dictionary
                     results[fileName] = similarityResults;
                 }
                 catch (Exception ex)
@@ -224,14 +217,12 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 throw new FileNotFoundException("No PDF files found in the specified folder.");
             }
 
-            // Generate embeddings for all words
             var wordEmbeddings = await _embeddingService.CreateEmbeddingsAsync(words);
 
             foreach (var pdfFile in pdfFiles)
             {
                 try
                 {
-                    // Extract text chunks from the PDF using PdfHelper
                     var textChunks = _pdfHelper.ExtractTextChunks(pdfFile, chunkType);
 
                     if (textChunks.Count == 0)
@@ -240,10 +231,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                         continue;
                     }
 
-                    // Generate embeddings for the PDF text chunks
                     var documentEmbeddings = await _embeddingService.CreateEmbeddingsAsync(textChunks);
 
-                    // Compute the average embedding for the document
                     var documentVector = _embeddingUtils.GetAverageEmbedding(documentEmbeddings);
 
                     // Create a dictionary to store similarity scores for this PDF file
@@ -258,14 +247,11 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                             continue;
                         }
 
-                        // Compute cosine similarity between the word and the document
                         double similarity = _similarityCalculator.ComputeCosineSimilarity(wordEmbeddings[i].Values, documentVector);
 
-                        // Add the similarity score to the dictionary
                         similarities.Add(words[i], similarity);
                     }
 
-                    // Create a SimilarityPlotPoint for this PDF file
                     similarityResults.Add(new SimilarityPlotPoint(Path.GetFileNameWithoutExtension(pdfFile), similarities));
                 }
                 catch (Exception ex)
@@ -376,7 +362,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
         {
             var jsonFilePath = Path.Combine(inputDir, jsonFileName);
 
-            // Check if JSON file exists
             if (!File.Exists(jsonFilePath))
                 throw new FileNotFoundException($"JSON file not found: {jsonFilePath}");
 
@@ -416,7 +401,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                     Console.WriteLine($"Similarity with '{inputKey}': {similarity}");
                 }
 
-                // Create a SimilarityPlotPoint object
                 var similarityPlotPoint = new SimilarityPlotPoint(recordLabel, similarities);
                 similarityResults.Add(similarityPlotPoint);
             }
@@ -453,7 +437,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
                 throw new ArgumentException("The fields list cannot be null or empty.");
             }
 
-            // Construct the dataset file path
             string datasetPath = Path.Combine(inputDir, csvFileName);
             Console.WriteLine($"Extracting records from: {datasetPath}");
 
@@ -483,10 +466,8 @@ namespace SemanticSimilarityAnalysis.Proj.Services
 
                     if (string.IsNullOrWhiteSpace(attributeValue)) continue;
 
-                    // Generate embedding for the attribute value
                     var attributeEmbedding = await _embeddingService.CreateEmbeddingsAsync(new List<string> { attributeValue });
 
-                    // Add the generated attribute embedding to the record
                     record.AddEmbedding(attributeName, new VectorData(attributeEmbedding[0].Values));
                 }
             }
@@ -494,7 +475,6 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             // Ensure the 'Outputs' directory exists
             Directory.CreateDirectory(outputDir);
 
-            // Remove .csv extension from the file name
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(csvFileName);
 
             // Save the embeddings as a JSON file
@@ -505,6 +485,150 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             Console.WriteLine($"Embeddings saved to: {jsonFilePath}");
 
             return records;
+        }
+
+        // --------------------------------------------- Word2Vec Comparison -------------------------------------------
+        /// <summary>
+        /// Compares each word in the first list with each word in the second list,
+        /// calculates their cosine similarity, and exports the results to a CSV file.
+        /// </summary>
+        /// <param name="words1">First list of words.</param>
+        /// <param name="words2">Second list of words.</param>
+        /// <param name="filePath">Path to the Word2Vec model file. Default is "../../../Datasets/glove.6B.300d.txt".</param>
+        /// <param name="outputDir">Directory to save the CSV file. Default is "../../../Outputs/CSV".</param>
+        public void w2VecCompareWordsVsWords(
+            List<string> words1,
+            List<string> words2,
+            string outputFileName = "word2vec_wordsVsWords.csv",
+            string filePath = @"../../../Datasets/glove.6B.300d.txt",
+            string outputDir = "../../../Outputs/CSVs")
+        {
+            Word2VecService word2VecService = new(filePath);
+
+            // Validate input lists
+            if (words1 == null || words2 == null || !words1.Any() || !words2.Any())
+            {
+                throw new ArgumentException("The input word lists cannot be null or empty.");
+            }
+
+            var similarityPlotPoints = new List<SimilarityPlotPoint>();
+
+            // Compare each word in the first list with each word in the second list
+            foreach (var word1 in words1)
+            {
+                var vector1 = word2VecService.GetPhraseVector(word1);
+
+                if (vector1 == null)
+                {
+                    Console.WriteLine($"Word '{word1}' not found in the word vectors.");
+                    continue;
+                }
+
+                var similarities = new Dictionary<string, double>();
+
+                foreach (var word2 in words2)
+                {
+                    var vector2 = word2VecService.GetPhraseVector(word2);
+                    if (vector2 == null)
+                    {
+                        Console.WriteLine($"Word '{word2}' not found in the word vectors.");
+                        continue;
+                    }
+
+                    var cosineSimilarity = new CosineSimilarity().ComputeCosineSimilarity(vector1.ToList(), vector2.ToList());
+                    similarities[word2] = cosineSimilarity;
+                }
+
+                // Create a SimilarityPlotPoint for the current word1
+                var plotPoint = new SimilarityPlotPoint(word1, similarities);
+                similarityPlotPoints.Add(plotPoint);
+            }
+
+            _csvHelper.ExportToCsv(similarityPlotPoints, outputFileName, outputDir);
+        }
+
+
+        /// <summary>
+        /// Compares phrase embeddings with dataset embeddings generated from a CSV file using GloVe embeddings and exports results to a CSV file.
+        /// </summary>
+        /// <param name="inputFileName">Path to the dataset CSV file.</param>
+        /// <param name="labelField">The field in the CSV file to use as labels.</param>
+        /// <param name="embeddingField">The field in the CSV file to generate embeddings from.</param>
+        /// <param name="inputWordsOrPhrases">List of words or phrases to analyze.</param>
+        /// <param name="gloVeFilePath">Path to the GloVe file (glove.6B.300d.txt). Default is "../../../Datasets/glove.6B.300d.txt".</param>
+        /// <param name="outputFileName">Name of the output CSV file. Default is "word2vec_datasetVsWords.csv".</param>
+        /// <param name="outputDir">Directory to save the CSV file. Default is "../../../Outputs/CSVs/".</param>
+        /// <param name="processedRows">Number of rows to process from the CSV file. Default is 20.</param>
+        public void w2VecCompareDatasetVsWords(
+            string labelField,
+            string embeddingField,
+            List<string> inputWordsOrPhrases,
+            string inputFileName,
+            string inputDir = @"../../../Datasets/CSVs/",
+            string gloVeFilePath = @"../../../Datasets/glove.6B.300d.txt",
+            string outputFileName = "word2vec_datasetVsWords.csv",
+            string outputDir = @"../../../Outputs/CSVs/",
+            int processedRows = 20
+        )
+        {
+            var word2VecService = new Word2VecService(gloVeFilePath);
+
+            var filePath = Path.Combine(inputDir, inputFileName);
+
+            // Extract all records from the CSV file
+            var allRecords = _csvHelper.ExtractRecordsFromCsv(new List<string> { labelField, embeddingField }, filePath);
+
+            var datasetRecords = allRecords.Take(processedRows).ToList();
+
+            var inputEmbeddings = new Dictionary<string, float[]>();
+
+            foreach (var input in inputWordsOrPhrases)
+            {
+                var inputVector = word2VecService.GetPhraseVector(input);
+                if (inputVector != null)
+                {
+                    inputEmbeddings[input] = inputVector;
+                }
+                else
+                {
+                    Console.WriteLine($"No valid embeddings found for input: {input}");
+                }
+            }
+
+            // Compare dataset embeddings with input embeddings
+            var similarityResults = new List<SimilarityPlotPoint>();
+
+            foreach (var record in datasetRecords)
+            {
+                var datasetLabel = record.Attributes[labelField];
+                var datasetPhrase = record.Attributes[embeddingField];
+
+                if (string.IsNullOrEmpty(datasetLabel) || string.IsNullOrEmpty(datasetPhrase))
+                    continue;
+
+                // Generate embedding for the dataset phrase
+                var datasetPhraseVector = word2VecService.GetPhraseVector(datasetPhrase);
+
+                if (datasetPhraseVector == null)
+                {
+                    Console.WriteLine($"No valid embeddings found for dataset phrase: {datasetPhrase}");
+                    continue;
+                }
+
+                var similarities = new Dictionary<string, double>();
+                foreach (var input in inputEmbeddings.Keys)
+                {
+                    var inputVector = inputEmbeddings[input];
+                    var similarity = _similarityCalculator.ComputeCosineSimilarity(inputVector.ToList(), datasetPhraseVector.ToList());
+                    similarities[input] = similarity;
+                }
+
+                var similarityPlotPoint = new SimilarityPlotPoint(datasetLabel, similarities);
+                similarityResults.Add(similarityPlotPoint);
+            }
+
+            // Export results to CSV
+            _csvHelper.ExportToCsv(similarityResults, outputFileName, outputDir);
         }
     }
 }
