@@ -13,6 +13,12 @@ https://www.geeksforgeeks.org/cnn-introduction-to-pooling-layer/
 
 https://medium.com/@siladityaghosh/a-deep-dive-into-openais-text-embedding-ada-002-the-power-of-semantic-understanding-7072c0386f83
 
+https://en.wikipedia.org/wiki/Principal_component_analysis
+
+https://code.google.com/archive/p/word2vec/
+
+https://opentsne.readthedocs.io/en/stable/tsne_algorithm.html
+
 # References 
 D. Gunawan, C. A. Sembiring, and M. A. Budiman, "The implementation of cosine similarity to calculate text relevance between two documents," in 2nd International Conference on Computing and Applied Informatics 2017, J. Phys.: Conf. Ser., vol. 978, Art. no. 012120, 2018, doi: 10.1088/1742-6596/978/1/012120.
 
