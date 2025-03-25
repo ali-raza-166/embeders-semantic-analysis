@@ -1,7 +1,7 @@
 using OpenAI.Chat;
 using SemanticSimilarityAnalysis.Proj.Services;
 
-namespace SemanticSimilarityAnalysis.Test;
+namespace Service.Tests;
 
 [TestClass]
 public class OpenAiTextGenerationServiceTests
@@ -43,7 +43,7 @@ public class OpenAiTextGenerationServiceTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException))]
+    [ExpectedException(typeof(ArgumentException))]
     public async Task GenerateTextAsync_ShouldThrowArgumentNullException_WhenApiKeyIsMissing()
     {
         // Arrange
@@ -57,6 +57,7 @@ public class OpenAiTextGenerationServiceTests
 
         // Assert handled by ExpectedException
     }
+
     [TestMethod]
     public async Task GenerateTextAsync_ShouldHandleInvalidQueryGracefully()
     {

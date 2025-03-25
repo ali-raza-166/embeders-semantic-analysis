@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SemanticSimilarityAnalysis.Proj;
 using SemanticSimilarityAnalysis.Proj.Extensions;
-using SemanticSimilarityAnalysis.Proj.Utils;
+using SemanticSimilarityAnalysis.Proj.Helpers.Text;
+using SemanticSimilarityAnalysis.Proj.Services;
 
 var configurations = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -14,10 +14,8 @@ var serviceProvider = new ServiceCollection()
     .RegisterServices(configurations)
     .BuildServiceProvider();
 
-var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-await processor.RunAsync();
-
-
+//var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+//await processor.RunAsync();
 
 ///
 /// For command line
@@ -30,28 +28,75 @@ await processor.RunAsync();
 //var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
 //await commandLineHelper.ExecuteCommandAsync(configuration);
 
-///
-/// For testing
-/// Create output csv from set of phrases
-///
-//var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
-//var csvHelper = serviceProvider.GetRequiredService<CSVHelper>();
+var analysis = serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
 
-////// Call the function to compare all phrases in the folder
-//var results = await analysis.CompareAllPhrasesAsync();
+///
+/// For Word2Vec comparisons
+///
 
-//// Print the results
-//foreach (var fileResult in results)
+var textHelper = serviceProvider.GetRequiredService<TextHelper>();
+
+// Example 1: Compare two lists of words
+//var words1 = textHelper.ExtractWordsFromTextFile("pestle.txt");
+//var words2 = textHelper.ExtractWordsFromTextFile("w_pestle.txt");
+//var words3 = textHelper.ExtractWordsFromTextFile("ML.txt");
+//var words4 = textHelper.ExtractWordsFromTextFile("ML2.txt");
+
+//analysis.w2VecCompareWordsVsWords(
+//    words1: words1,
+//    words2: words2,
+//    outputFileName: "word2vec_wordsVsWords_pestle.csv",
+//    filePath: @"../../../Datasets/glove.6B.300d.txt",
+//    outputDir: "../../../Outputs/CSVs"
+//);
+
+//Console.WriteLine("Word vs Word comparison completed. Results saved to CSV.");
+
+// Example 2: Compare dataset with a list of words/phrases
+var books = textHelper.ExtractWordsFromTextFile("books.txt");
+Console.WriteLine($"books: {books}");
+analysis.w2VecCompareDatasetVsWords(
+    labelField: "title",
+    embeddingField: "description",
+    inputWordsOrPhrases: books,
+    gloVeFilePath: @"../../../Datasets/glove.6B.300d.txt",
+    inputDir: @"../../../Datasets/CSVs",
+    inputFileName: "books.csv",
+    outputDir: @"../../../Outputs/CSVs/",
+    outputFileName: "word2vec_datasetVsWords.csv"
+);
+
+Console.WriteLine("Dataset vs Words comparison completed. Results saved to CSV.");
+
+var movies = textHelper.ExtractWordsFromTextFile("movies.txt");
+analysis.w2VecCompareDatasetVsWords(
+    labelField: "Title",
+    embeddingField: "Overview",
+    inputWordsOrPhrases: movies,
+    gloVeFilePath: @"../../../Datasets/glove.6B.300d.txt",
+    inputDir: @"../../../Datasets/CSVs",
+    inputFileName: "imdb_1000.csv",
+    outputDir: @"../../../Outputs/CSVs/",
+    outputFileName: "word2vec_datasetVsWords(MOVIES).csv"
+);
+
+//Console.WriteLine("Dataset vs Words comparison completed. Results saved to CSV.");
+
+//var categories = textHelper.ExtractWordsFromTextFile("spotify.txt");
+//for (int i = 0; i < categories.Count; i++)
 //{
-//    Console.WriteLine($"File: {fileResult.Key}");
-//    foreach (var plotPoint in fileResult.Value)
-//    {
-//        Console.WriteLine($"  Phrase: {plotPoint.Label}");
-//        foreach (var pair in plotPoint.Similarities)
-//        {
-//            Console.WriteLine($"    Similarity with '{pair.Key}': {pair.Value}");
-//        }
-//    }
+//    Console.WriteLine(categories[i]);
 //}
+//analysis.w2VecCompareDatasetVsWords(
+//    labelField: "title",
+//    embeddingField: "lyrics",
+//    inputWordsOrPhrases: categories,
+//    gloVeFilePath: @"../../../Datasets/glove.6B.300d.txt",
+//    inputDir: @"../../../Datasets/CSVs",
+//    inputFileName: "Lyrics.csv",
+//    outputDir: @"../../../Outputs/CSVs/",
+//    outputFileName: "word2vec_datasetVsWords(LYRICS).csv"
+//);
 
-//csvHelper.ExportAllPhrasesToCsv(results);
+//Console.WriteLine("Dataset vs Words comparison completed. Results saved to CSV.");
+
