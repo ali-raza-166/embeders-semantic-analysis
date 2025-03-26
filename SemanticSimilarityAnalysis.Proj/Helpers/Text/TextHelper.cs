@@ -18,13 +18,11 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Text
             var filePath = Path.Combine(inputDir, fileName);
             //Console.WriteLine(filePath);
 
-            // Check if the file exists
             if (!File.Exists(filePath))
             {
                 throw new FileNotFoundException($"The file '{filePath}' does not exist.");
             }
 
-            // Read the entire file content
             string fileContent = File.ReadAllText(filePath);
 
             // Clean and split the text into words
