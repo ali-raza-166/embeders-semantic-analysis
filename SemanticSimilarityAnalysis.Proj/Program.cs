@@ -3,19 +3,31 @@ using Microsoft.Extensions.DependencyInjection;
 using SemanticSimilarityAnalysis.Proj.Extensions;
 using SemanticSimilarityAnalysis.Proj.Helpers.Text;
 using SemanticSimilarityAnalysis.Proj.Services;
+using SemanticSimilarityAnalysis.Proj.Utils;
 
 var configurations = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables()
     .Build();
+Console.WriteLine($"DEBUG: OpenAI API Key = {configurations["OpenAI:ApiKey"]}");
+Console.WriteLine($"DEBUG: Pinecone API Key = {configurations["Pinecone:ApiKey"]}");
 
 var serviceProvider = new ServiceCollection()
     .RegisterServices(configurations)
     .BuildServiceProvider();
 
-//var processor = serviceProvider.GetRequiredService<ProcessorAli>();
-//await processor.RunAsync();
+try
+{
+    var processor = serviceProvider.GetRequiredService<ProcessorAli>();
+    await processor.RunAsync();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Application error: {ex.Message}");
+}
+
+
 
 ///
 /// For command line
