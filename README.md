@@ -20,24 +20,25 @@ https://code.google.com/archive/p/word2vec/
 https://opentsne.readthedocs.io/en/stable/tsne_algorithm.html
 
 # References 
-D. Gunawan, C. A. Sembiring, and M. A. Budiman, "The implementation of cosine similarity to calculate text relevance between two documents," in 2nd International Conference on Computing and Applied Informatics 2017, J. Phys.: Conf. Ser., vol. 978, Art. no. 012120, 2018, doi: 10.1088/1742-6596/978/1/012120.
 
-V. Ugale and S. Pawar, “PESTLE based event detection and classification,” International Journal of Research in Engineering and Technology (IJRET), vol. 4, no. 5, pp. 611–616, May 2015. [Online]. Available: http://www.ijret.org.
+D. Gunawan, C. A. Sembiring, and M. A. Budiman, “The Implementation of Cosine Similarity to Calculate Text Relevance between Two Documents,” J. Phys. Conf. Ser., vol. 978, no. 1, 2018, doi: 10.1088/1742-6596/978/1/012120.
 
-L. van der Maaten and G. Hinton, “Visualizing data using t-SNE,” Journal of Machine Learning Research, vol. 9, pp. 2579–2605, 2008.
+S. P. Vaishali Ugale, “Pestle Based Event Detection and Classification,” Int. J. Res. Eng. Technol., vol. 04, no. 05, eISSN: 2319-1163, 2015, doi: 10.15623/ijret.2015.0405112.
 
-P. Lewis et al., “Retrieval-augmented generation for knowledge-intensive NLP tasks,” arXiv preprint arXiv:2005.11401v4 [cs.CL], 12 Apr. 2021.
+L. Van Der Maaten and G. Hinton, “Visualizing data using t-SNE,” J. Mach. Learn. Res., vol. 9, pp. 2579–2605, 2008.
 
-A. Vaswani et al., “Attention is all you need,” in Advances in Neural Information Processing Systems (NeurIPS), vol. 30, 2017, pp. 5998–6008. [Online]. Available: https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf.
+P. Lewis et al., “Retrieval-augmented generation for knowledge-intensive NLP tasks,” Adv. Neural Inf. Process. Syst., vol. 2021-April, 2021.
 
-T. G. Dietterich, “Ensemble methods in machine learning,” in Multiple Classifier Systems, J. Kittler and F. Roli, Eds., Lecture Notes in Computer Science, vol. 1857, Springer, 2000, pp. 1–15. [Online]. Available: https://doi.org/10.1007/3-540-45014-9_1.
+A. Vaswani et al., “Attention is all you need,” Adv. Neural Inf. Process. Syst., vol. 2023-August, 2023.
 
-L. van der Maaten, “Accelerating t-SNE using tree-based algorithms,” J. Mach. Learn. Res., vol. 15, pp. 3221–3245, Oct. 2014.  
+T. G. Dietterich, “Ensemble methods in machine learning,” Lect. Notes Comput. Sci., vol. 1857 LNCS, pp. 1–15, 2000, doi: 10.1007/3-540-45014-9_1.
 
-C.-Y. Lin, "ROUGE: A Package for Automatic Evaluation of Summaries," in Text Summarization Branches Out, Barcelona, Spain, 2004.
+L. Van Der Maaten, “Accelerating t-SNE using Tree-Based Algorithms,” J. Mach. Learn. Res., vol. 15, pp. 3221–3245, 2014.
 
-N. Chirkova et al., "Retrieval-Augmented Generation in Multilingual Settings," in Proceedings of the 1st Workshop on Towards Knowledgeable Language Models (KnowLLM 2024), pp. 177–188, Aug. 16, 2024. ©2024 Association for Computational Linguistics. [Online]. Available: https://arxiv.org/abs/2407.01463
+C. Y. Lin, “Rouge: A package for automatic evaluation of summaries,” Proc. Work. text Summ. branches out (WAS 2004), 2004.
 
-word2vec Project, Google Code Archive, 2013. [Online].Available: https://code.google.com/archive/p/word2vec/source
+N. Chirkova et al., “Retrieval-augmented generation in multilingual settings,” no. KnowLLM, pp. 177–188, 2024, [Online]. Available: http://arxiv.org/abs/2407.01463.
 
-J. Xue, Y.-C. Wang, C. Wei, and C.-C. J. Kuo, “Word embedding dimension reduction via weakly-supervised feature selection,” unpublished.
+word2vec Project, Google Code Archive, 2013. [Online].Available: https://code.google.com/archive/p/word2vec/source, unpublished.
+
+J. Xue, Y. C. Wang, C. Wei, and C. C. Jay Kuo, “Word embedding dimension reduction via weakly-supervised feature selection,” APSIPA Transactions on Signal and Information Processing, 2024, doi: 10.1561/116.20240046.
