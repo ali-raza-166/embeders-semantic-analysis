@@ -19,6 +19,13 @@ https://code.google.com/archive/p/word2vec/
 
 https://opentsne.readthedocs.io/en/stable/tsne_algorithm.html
 
+https://www.kaggle.com/datasets/sugataghosh/google-word2vec
+
+https://openai.com/index/new-and-improved-embedding-model/
+
+https://platform.openai.com/docs/guides/embeddings#:~:text=By%20default%2C%20the%20length%20of,%2Dembedding%2D3%2Dlarge%20
+
+
 # References 
 
 D. Gunawan, C. A. Sembiring, and M. A. Budiman, “The Implementation of Cosine Similarity to Calculate Text Relevance between Two Documents,” J. Phys. Conf. Ser., vol. 978, no. 1, 2018, doi: 10.1088/1742-6596/978/1/012120.
