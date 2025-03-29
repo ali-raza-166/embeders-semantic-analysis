@@ -31,16 +31,16 @@ public class ProcessorAli
 
             //--------------- Creating Embeddings for two strings, Storing vectors in a new list, and calculating the cosine similarity between those vectors. ----------------------------
             //SEE DATA AT THE END OF THIS FILE
-            var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
-            var listofEmbeddingVectors = new List<List<float>>();
-            
-            foreach (var vectorValues in embeddings)
-            {
-                var vector = vectorValues.Values; // Get the vector for the current embedding
-                listofEmbeddingVectors.Add(vector);
-            }
-
-            Console.WriteLine(cosineSimService.ComputeCosineSimilarity(listofEmbeddingVectors[0], listofEmbeddingVectors[1]));
+            // var embeddings = await embeddingService.CreateEmbeddingsAsync(inputs);
+            // var listofEmbeddingVectors = new List<List<float>>();
+            //
+            // foreach (var vectorValues in embeddings)
+            // {
+            //     var vector = vectorValues.Values; // Get the vector for the current embedding
+            //     listofEmbeddingVectors.Add(vector);
+            // }
+            //
+            // Console.WriteLine(cosineSimService.ComputeCosineSimilarity(listofEmbeddingVectors[0], listofEmbeddingVectors[1]));
 
 
 
@@ -225,16 +225,16 @@ public class ProcessorAli
     //     "Top Skills Windows Azure .NET Cloud Applications.",
     //     "Publications: 1) Artifficial Intelligence: Ready, Steady Gp Blog DEVELOPERS.DE, 2) Azure Best Practices: Running th code on a memory limit Load Balancers in Microsoft Azure cloud platform. 3) Why the cortical algorithm does need a baby phase?"
     // };
-    // List<string> inputs = new List<string>
-    // {
-    //     "Semantic similarity analysis",
-    //     "Dimensionality reduction technique",
-    //     "Retrieval-augmented generation",
-    //     "Transformer-based NLP models",
-    //     "Legal precedents impact",
-    //     "Intellectual property rights",
-    //     "Data privacy regulations",
-    //     "Contractual obligations digital"
-    // };
+    List<string> inputs = new List<string>
+    {
+        "Semantic similarity analysis",
+        "Dimensionality reduction technique",
+        "Retrieval-augmented generation",
+        "Transformer-based NLP models",
+        "Legal precedents impact",
+        "Intellectual property rights",
+        "Data privacy regulations",
+        "Contractual obligations digital"
+    };
 
 }
