@@ -30,9 +30,9 @@ public static class ServiceRegistrationExtensions
     /// <exception cref="InvalidOperationException">Thrown if the Pinecone API key is not set.</exception>
     public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var apiKey = configuration["OPENAI_API_KEY"]
+        var apiKey = configuration["OpenAI:ApiKey"]
                      ?? throw new ArgumentNullException("OPENAI_API_KEY", "API key is not found.");
-        var pineconeApiKey = configuration["PINECONE_API_KEY"]
+        var pineconeApiKey = configuration["Pinecone:ApiKey"]
                              ?? throw new InvalidOperationException("Pinecone API key is not set.");
         var chatModel = configuration["OpenAI:ChatModel"] ?? "gpt-4o"; 
         var embeddingModel = configuration["OpenAI:EmbeddingModel"] ?? "text-embedding-3-small";
