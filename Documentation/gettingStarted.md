@@ -62,8 +62,18 @@ cd ./SemanticSimilarityAnalysis.Proj/
 dotnet build
 ```
 
+## Two Main Parts of the Project
 
-## Command Line Helper for Semantic Similarity Analysis
-The CommandLineHelper class is a central component of the Semantic Similarity Analysis tool, designed to handle command-line interactions and execute various commands for analyzing semantic similarity. This helper class processes user input, performs the required analysis, and exports results to CSV files. It supports commands for comparing words, PDFs, and datasets, making it a versatile tool for semantic analysis tasks.
+This project consists of two main parts:
 
-[See more in CommandLine.md](./CommandLine.md)
+1. **Command Line Helper for Semantic Similarity Analysis**
+   The CommandLineHelper class is a central component of the Semantic Similarity Analysis tool, designed to handle command-line interactions and execute various commands for analyzing   
+   semantic similarity. This helper class processes user input, performs the required analysis, and exports results to CSV files. It supports commands for comparing words, PDFs, and 
+   datasets, making it a versatile tool for semantic analysis tasks. [See Semantic Similarity Analysis in CommandLine.md](./CommandLine.md)
+
+3. **Retrieval-Augmented Generation (RAG) Implementation**  
+   The second part focuses on the RAG implementation in this project. It covers concepts from general RAG principles to **mRAG** (multi-lingual RAG) and chatbot integration using a 
+   customized dataset. [See more about RAG in DimReductionPipelinesAndRAG.md](./DimReductionPipelinesAndRAG.md)
+
+
+
