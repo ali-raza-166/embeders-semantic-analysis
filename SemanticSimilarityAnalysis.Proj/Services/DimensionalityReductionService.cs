@@ -41,7 +41,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             // Create the t-SNE object and set the parameters
             var tsne = new TSNE()
             {
-                Perplexity = 30, // You can adjust the perplexity
+                Perplexity = 0.65, // You can adjust the perplexity
                 Theta = 0.5, // You can adjust the theta
                 NumberOfOutputs = targetDimensions // Set the target dimensionality (default is 2)
             };
@@ -60,8 +60,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Error during t-SNE transformation", ex);
-            }
+                throw new Exception($"An unexpected error occurred during t-SNE transformation: {ex.Message}", ex);            }
             return ConvertJaggedArrayToMatrix(reducedData);
         }
 
