@@ -60,8 +60,7 @@ namespace SemanticSimilarityAnalysis.Proj.Services
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Error during t-SNE transformation", ex);
-            }
+                throw new Exception($"An unexpected error occurred during t-SNE transformation: {ex.Message}", ex);            }
             return ConvertJaggedArrayToMatrix(reducedData);
         }
 
