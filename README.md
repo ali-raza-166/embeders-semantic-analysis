@@ -25,6 +25,16 @@ https://openai.com/index/new-and-improved-embedding-model/
 
 https://platform.openai.com/docs/guides/embeddings#:~:text=By%20default%2C%20the%20length%20of,%2Dembedding%2D3%2Dlarge%20
 
+https://www.kaggle.com/datasets/sugataghosh/google-word2vec.
+
+https://openai.com/index/new-and-improved-embedding-model/.
+
+https://platform.openai.com/docs/guides/embeddings#:~:text=By%20default%2C%20the%20length%20of,%2Dembedding%2D3%2Dlarge%20
+
+https://knowledge.dataiku.com/latest/gen-ai/rag/concept-rag.html.
+
+
+
 
 # References 
 
