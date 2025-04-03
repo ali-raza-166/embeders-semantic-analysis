@@ -22,6 +22,7 @@
 └── 📂 SemanticSimilarityAnalysis.Test/        (Test project)
 ```
 
+**Figure 1. Solution structure diagram showing the separation of concerns between main project components and test infrastructure.**
 
 ## Installation
 1. Clone the repository
