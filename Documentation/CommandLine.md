@@ -153,6 +153,8 @@ Below is a list of all available options for the commands. These options can be 
 | `--inputDir`        | Directory containing the dataset CSV file.                                      | `"Datasets/CSVs"`       | `wd`                    |
 | `--outputDir`       | Directory to save the output CSV file.                                          | `"Outputs/CSVs"`        | All commands            |
 
+                                        Table: Command-line interface options and their properties
+
 ### Default Values
 
 If you don't provide certain options, the tool will use the following default values:
