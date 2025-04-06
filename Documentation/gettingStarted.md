@@ -49,6 +49,37 @@ SemanticSimilarityAnalysis/SemanticSimilarityAnalysis.Proj/appsettings.json
 }
 ```
 
+### Examples for the Model and Chat Model
+✅ Example 1: Using gpt-4o and text-embedding-3-small
+```
+{
+  "OpenAI": {
+    "Model": "text-embedding-3-small",
+    "ChatModel": "gpt-4o",
+    "ApiKey": "your-openai-api-key"
+  },
+  "Pinecone": {
+    "ApiKey": "your-pinecone-api-key"
+  }
+}
+```
+
+✅ Example 2: Using gpt-3.5-turbo and text-embedding-ada-002
+```
+{
+  "OpenAI": {
+    "Model": "text-embedding-ada-002",
+    "ChatModel": "gpt-3.5-turbo",
+    "ApiKey": "your-openai-api-key
+  },
+  "Pinecone": {
+    "ApiKey": "your-pinecone-api-key"
+  }
+}
+```
+
+[View some embedding models and chat models that can be used for the program in OpenaiModels.md](./OpenaiModels.md)
+
 4. Navigate the project directory
 ```
 cd ./SemanticSimilarityAnalysis.Proj/
