@@ -27,12 +27,12 @@ namespace SemanticSimilarityAnalysis.Proj
         }
 
         // Default values
-        private readonly string defaultPdfDir = "Datasets/PDFs";
-        private readonly string defaultTxtDir = "Datasets/TXTs";
-        private readonly string defaultInputCsvDir = "Datasets/CSVs";
-        private readonly string defaultOutputCsvDir = "Outputs/CSVs";
-        private readonly string defaultJsonDir = "Outputs";
-        private readonly string defaultDataset = "imdb_1000.csv";
+        private readonly string _defaultPdfDir = "Datasets/PDFs";
+        private readonly string _defaultTxtDir = "Datasets/TXTs";
+        private readonly string _defaultInputCsvDir = "Datasets/CSVs";
+        private readonly string _defaultOutputCsvDir = "Outputs/CSVs";
+        private readonly string _defaultJsonDir = "Outputs";
+        private readonly string _defaultDataset = "imdb_1000.csv";
 
         public async Task ExecuteCommandAsync(IConfiguration configuration)
         {
@@ -79,7 +79,7 @@ namespace SemanticSimilarityAnalysis.Proj
         private async Task ExecuteWordsVsWordsAsync(IConfiguration configuration)
         {
             var outputFileName = configuration["output"] ?? "words_vs_words.csv";
-            var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
+            var outputDirectory = configuration["outputDir"] ?? _defaultOutputCsvDir;
             var outputPath = Path.Combine(outputDirectory, outputFileName);
 
             // Process list1 and list2 from command-line arguments
@@ -111,9 +111,9 @@ namespace SemanticSimilarityAnalysis.Proj
         // Method to execute the "words-vs-pdfs" command
         private async Task ExecuteWordsVsPdfsAsync(IConfiguration configuration)
         {
-            var pdfFolder = configuration["pdf-folder"] ?? defaultPdfDir;
+            var pdfFolder = configuration["pdf-folder"] ?? _defaultPdfDir;
             var outputFileName = configuration["output"] ?? "words_vs_pdfs.csv";
-            var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
+            var outputDirectory = configuration["outputDir"] ?? _defaultOutputCsvDir;
 
             var analysis = _serviceProvider.GetRequiredService<EmbeddingAnalysisService>();
             var csvHelper = _serviceProvider.GetRequiredService<CSVHelper>();
@@ -182,9 +182,9 @@ namespace SemanticSimilarityAnalysis.Proj
         /// </note>
         private async Task ExecuteWordsVsDatasetAsync(IConfiguration configuration)
         {
-            var inputDirectory = configuration["inputDir"] ?? defaultInputCsvDir;
-            var csvFileName = configuration["dataset"] ?? defaultDataset;
-            var outputDirectory = configuration["outputDir"] ?? defaultOutputCsvDir;
+            var inputDirectory = configuration["inputDir"] ?? _defaultInputCsvDir;
+            var csvFileName = configuration["dataset"] ?? _defaultDataset;
+            var outputDirectory = configuration["outputDir"] ?? _defaultOutputCsvDir;
             var outputFileName = configuration["output"] ?? "dataset_vs_words.csv";
             var processRows = int.TryParse(configuration["rows"], out int rows) ? rows : -1;
 
@@ -199,7 +199,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Warning: The specified dataset file does not exist.");
                 Console.ResetColor();
-                csvFileName = PromptForFile("Enter the CSV dataset file name:", defaultDataset);
+                csvFileName = PromptForFile("Enter the CSV dataset file name:", _defaultDataset);
                 csvFilePath = Path.GetFullPath(Path.Combine(inputDirectory, csvFileName));
             }
 
@@ -251,9 +251,9 @@ namespace SemanticSimilarityAnalysis.Proj
             // Define the JSON embeddings file path
             string jsonFileName = $"{Path.GetFileNameWithoutExtension(csvFileName)}_Embeddings.json";
 
-            await analysis.CreateDataSetEmbeddingsAsync(embeddingAttributes, csvFileName, processRows, inputDirectory, defaultJsonDir);
+            await analysis.CreateDataSetEmbeddingsAsync(embeddingAttributes, csvFileName, processRows, inputDirectory, _defaultJsonDir);
 
-            var result = await analysis.compareDataSetVsWords(jsonFileName, labelAttribute, attributeToCompare, words, defaultJsonDir);
+            var result = await analysis.compareDataSetVsWords(jsonFileName, labelAttribute, attributeToCompare, words, _defaultJsonDir);
 
             // Save the result to a CSV file
             csvHelper.ExportToCsv(result, outputFileName, outputDirectory);
@@ -322,10 +322,10 @@ namespace SemanticSimilarityAnalysis.Proj
             Console.WriteLine("\nDefault values:");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine($@"
-                --pdf-folder            {defaultPdfDir}
-                --inputDir              {defaultInputCsvDir}
-                --outputDir             {defaultOutputCsvDir}
-                --dataset               {defaultDataset}
+                --pdf-folder            {_defaultPdfDir}
+                --inputDir              {_defaultInputCsvDir}
+                --outputDir             {_defaultOutputCsvDir}
+                --dataset               {_defaultDataset}
             ");
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -387,7 +387,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 {
                     fileName = defaultValue;
                 }
-                if (File.Exists(Path.Combine(defaultInputCsvDir, fileName)))
+                if (File.Exists(Path.Combine(_defaultInputCsvDir, fileName)))
                 {
                     return fileName;
                 }
@@ -485,7 +485,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 Console.WriteLine($"Reading words from file: {input}");
                 try
                 {
-                    return textHelper.ExtractWordsFromTextFile(input, defaultTxtDir);
+                    return textHelper.ExtractWordsFromTextFile(input, _defaultTxtDir);
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -525,7 +525,7 @@ namespace SemanticSimilarityAnalysis.Proj
                 Console.WriteLine($"Reading words from file: {input}");
                 try
                 {
-                    return textHelper.ExtractWordsFromTextFile(input, defaultTxtDir);
+                    return textHelper.ExtractWordsFromTextFile(input, _defaultTxtDir);
                 }
                 catch (FileNotFoundException ex)
                 {

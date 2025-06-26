@@ -12,7 +12,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
     public class CSVHelper
     {
         /// Default number of rows to process when generating embeddings from the dataset
-        private readonly int defaultProcessedRows = 20;
+        private readonly int _defaultProcessedRows = 20;
 
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
                 Directory.CreateDirectory(outputDir);
             }
 
-            // Check if the file exists
+            // Check if the CSV file exists
             if (!File.Exists(csvFilePath))
             {
                 Console.WriteLine($"File '{csvFilePath}' does not exist. Creating new file.");
@@ -301,7 +301,7 @@ namespace SemanticSimilarityAnalysis.Proj.Helpers.Csv
             // Set the default number of rows to 20 if no user input is provided
             if (isDefaultProcessedRows)
             {
-                processedRows = defaultProcessedRows; // Default value
+                processedRows = _defaultProcessedRows; // Default value
                 Console.WriteLine("Using default number of rows: 20.");
             }
             else
