@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SemanticSimilarityAnalysis.Proj;
 using SemanticSimilarityAnalysis.Proj.Extensions;
 using SemanticSimilarityAnalysis.Proj.Utils;
 
@@ -30,10 +31,9 @@ catch (Exception ex)
 ///
 /// For command line
 /// 
-//var configuration = new ConfigurationBuilder()
-//    .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
-//    .AddCommandLine(args)
-//    .Build();
+var configuration = new ConfigurationBuilder()
+   .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path so MAKE SURE you are in [SemanticSimilarityAnalysis.Proj] directory
+   .AddCommandLine(args).Build();
 
-//var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
-//await commandLineHelper.ExecuteCommandAsync(configuration);
+var commandLineHelper = serviceProvider.GetRequiredService<CommandLineHelper>();
+await commandLineHelper.ExecuteCommandAsync(configuration);

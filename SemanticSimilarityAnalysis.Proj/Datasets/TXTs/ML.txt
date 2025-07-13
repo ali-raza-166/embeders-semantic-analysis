@@ -1,1 +1,0 @@
-Iterate, Filter, Label, Generalize, Refine, Circuit, Spectrum, Archive, Threshold, Structure
